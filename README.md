@@ -20,3 +20,7 @@
 7. 第 07 天：整理第一周笔记。
 
 核心原则：先会用，再理解；先看到结果，再补原理。
+
+## Demos
+
+- [01 Hello Triangle](demos/01_hello_triangle/README.md)
