@@ -926,3 +926,35 @@ vector<Mesh> meshes;
 - `Mesh` / `ShaderProgram` 作为资源对象由 Framework 或 Scene 管理。
 
 这样会更像 LearnOpenGL 的 `vector<Mesh>`，也更像 Unity 的 Scene 管理。
+
+### Q: `unique_ptr`、`vector`、`Scene` 这些方式哪个写起来更方便？
+
+A: 对现在这个学习项目来说，最方便的是：**demo 里不直接写智能指针，让 Framework 的 `Scene` 或类似容器统一管理对象**。
+
+几种方式对比：
+
+| 方式 | 写 demo 方便程度 | 生命周期安全 | 像 Unity 吗 | 适合现在吗 |
+|------|------------------|--------------|-------------|------------|
+| 裸指针 `new/delete` | 一开始看似简单 | 差，容易泄漏 | 不像 | 不推荐 |
+| `std::unique_ptr` | 中等，写法偏 C++ | 很安全 | 一般 | 当前可用 |
+| `std::shared_ptr` | 中等，但概念更重 | 安全但生命周期更绕 | 一般 | 暂时不需要 |
+| 直接 `vector<Mesh>` | LearnOpenGL 风格 | 简单直接 | 不太像 GameObject | 适合资源类 |
+| `Scene` 管 `GameObject` | demo 最清爽 | 可以安全 | 最像 Unity | 最推荐 |
+
+理想 demo 写法应该像这样：
+
+```cpp
+auto& left = scene.createGameObject(*triangleMesh);
+left.transform.position = {-0.45f, -0.10f};
+left.transform.scale = {0.55f, 0.55f};
+left.material.color = {1.0f, 0.5f, 0.2f, 1.0f};
+
+auto& right = scene.createGameObject(*triangleMesh);
+right.transform.position = {0.35f, 0.08f};
+right.transform.scale = {0.75f, 1.10f};
+right.material.color = {0.2f, 0.7f, 1.0f, 1.0f};
+```
+
+这样 demo 只关心“场景里有什么对象”，对象具体怎么存、什么时候释放，由 Framework 处理。它比 LearnOpenGL 原始写法更人性化，也比每个 demo 都写 `std::unique_ptr` 更干净。
+
+我的建议：后续 Framework 里加一个 `Scene`，内部先用 `std::vector<std::unique_ptr<GameObject>>` 或类似结构管理对象，但对 demo 暴露引用。这样内部安全，外部好写。
