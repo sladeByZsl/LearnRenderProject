@@ -702,3 +702,50 @@ void onUpdate() override
 ```
 
 `+` 和 `-` 控制方向相反，后面的数字控制转速。shader 文件 [framework_triangle.vert](shaders/framework_triangle.vert) 会根据 `uRotation` 把顶点旋转后再加位置。
+
+### Q: `std::unique_ptr` 是什么？
+
+A: `std::unique_ptr` 是 C++ 的智能指针，用来表示：**这个对象只有一个主人，主人销毁时，对象也自动销毁**。
+
+普通写法如果用 `new`：
+
+```cpp
+auto* object = new lr::GameObject(...);
+// 后面必须记得 delete object;
+```
+
+问题是你必须手动 `delete`，一忘就容易内存泄漏。`std::unique_ptr` 会自动处理这件事：
+
+```cpp
+std::unique_ptr<lr::GameObject> object;
+object = std::make_unique<lr::GameObject>(...);
+```
+
+当 `object` 自己离开作用域，或者你调用：
+
+```cpp
+object.reset();
+```
+
+它拥有的 `GameObject` 就会自动释放。
+
+名字里的 `unique` 表示“独占”。也就是说，同一时间只有这个 `unique_ptr` 拥有这个对象，不能随便复制给另一个 `unique_ptr`。这能避免“两个地方都以为自己该 delete 同一个对象”的问题。
+
+在当前 demo 里：
+
+```cpp
+std::unique_ptr<lr::ShaderProgram> shader;
+std::unique_ptr<lr::Mesh> triangleMesh;
+std::unique_ptr<lr::GameObject> leftTriangle;
+std::unique_ptr<lr::GameObject> rightTriangle;
+```
+
+可以理解成：这个 demo 类拥有这些对象。`onStart()` 里创建它们，`onRender()` 里使用它们，`onShutdown()` 里 `reset()`，保证 OpenGL Context 还活着的时候释放 GPU 相关资源。
+
+和 Unity 对比的话：
+
+- Unity 里很多对象生命周期由引擎管理。
+- C++ 里对象生命周期需要你更明确地管理。
+- `std::unique_ptr` 就像一个“自动负责销毁的独占引用”，让我们不用裸 `new/delete`。
+
+第一阶段可以先记一句：**`unique_ptr` 负责拥有对象，`make_unique` 负责创建对象，`reset` 负责提前释放对象。**
