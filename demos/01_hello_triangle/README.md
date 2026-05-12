@@ -800,3 +800,63 @@ right.transform.position = {0.35f, 0.08f};
 ```
 
 这样 `Scene` 负责保存对象，demo 代码更像 Unity 的 Hierarchy。第一阶段先用 `unique_ptr` 是为了少做一层框架，同时保证对象释放安全；下一步可以把它藏到 `Scene` 里。
+
+### Q: LearnOpenGL 作者是怎么处理对象的？后面章节有类似封装吗？
+
+A: LearnOpenGL 不是一开始就做 Unity 那种 `GameObject / Component / Scene` 系统。它的路线是逐步抽象：
+
+1. **Hello Triangle 阶段**：基本全部写在 `main.cpp` 里。GLFW 初始化、GLAD 初始化、shader 编译、VAO/VBO、渲染循环都直接展开。这样做是为了让读者看清每个 OpenGL 调用。
+
+2. **Shader 阶段**：开始封装 `Shader` 类，把 shader 编译、链接、uniform 设置收起来。这样主程序不用每次都手写 `glCreateShader`、`glCompileShader`、`glLinkProgram`。
+
+3. **Camera 阶段**：引入 `Camera` 类。作者明确说后续章节会一直用 camera，为了避免每章都塞一大段相机逻辑，所以把它抽象成 camera object。
+
+4. **Model Loading 阶段**：开始出现比较接近“对象数据”的 `Mesh` 和 `Model` 类。`Mesh` 里保存 vertices、indices、textures，以及 VAO/VBO/EBO；`Model` 里保存多个 Mesh，并负责从模型文件加载和绘制。
+
+它的 `Mesh` 类大概是这种结构：
+
+```cpp
+class Mesh {
+public:
+    vector<Vertex> vertices;
+    vector<unsigned int> indices;
+    vector<Texture> textures;
+
+    Mesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<Texture> textures);
+    void Draw(Shader &shader);
+
+private:
+    unsigned int VAO, VBO, EBO;
+    void setupMesh();
+};
+```
+
+`Model` 则更像一个容器：
+
+```cpp
+class Model {
+public:
+    Model(char *path);
+    void Draw(Shader &shader);
+
+private:
+    vector<Mesh> meshes;
+    string directory;
+};
+```
+
+也就是说，LearnOpenGL 后面确实会封装，但它封装的是图形学学习需要的层级：
+
+- `Shader`：管理 GPU 程序。
+- `Camera`：管理观察视角。
+- `Mesh`：管理一份可绘制几何数据。
+- `Model`：管理由多个 Mesh 组成的模型资源。
+
+它没有做 Unity 那种完整对象系统：没有 `GameObject`、没有 `Transform` 组件系统、没有 `Scene` 层级管理。我们的 `Framework` 是为了让你作为 Unity 开发者更顺手，所以在 LearnOpenGL 的基础上多加了一层 Unity 风格映射。
+
+参考：
+
+- [LearnOpenGL Hello Triangle](https://learnopengl.com/code_viewer_gh.php?code=src%2F1.getting_started%2F2.1.hello_triangle%2Fhello_triangle.cpp)
+- [LearnOpenGL Camera](https://learnopengl.com/Getting-started/Camera)
+- [LearnOpenGL Mesh](https://learnopengl.com/Model-Loading/Mesh)
+- [LearnOpenGL Model](https://learnopengl.com/Model)
