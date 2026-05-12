@@ -80,3 +80,33 @@ A: GLFW 是一个帮 OpenGL 程序处理“窗口和输入”的轻量库。Open
 - 处理输入和窗口事件，比如按 Esc 退出、窗口尺寸变化、关闭按钮。
 
 可以先把它理解成：**GLFW 负责“开画布和收输入”，OpenGL 负责“往画布上画东西”。**
+
+### Q: `glfwWindowHint` 设置 OpenGL 3.3 Core Profile 是什么意思？
+
+A: 这几行是在创建窗口之前告诉 GLFW：**我希望你帮我创建一个 OpenGL 3.3 Core Profile 的上下文**。OpenGL Context 可以理解成“当前程序使用 OpenGL 的运行环境”；版本和 Profile 会决定哪些 OpenGL 功能可用。
+
+这三行分别是：
+
+```cpp
+glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+```
+
+- `GLFW_CONTEXT_VERSION_MAJOR, 3`：主版本号要 3。
+- `GLFW_CONTEXT_VERSION_MINOR, 3`：次版本号要 3。
+- `GLFW_OPENGL_CORE_PROFILE`：使用 Core Profile，也就是现代 OpenGL 风格。
+
+OpenGL 3.3 Core Profile 的意思是：使用 OpenGL 3.3，并且不要旧式固定管线 API。比如早期 OpenGL 里可以用 `glBegin` / `glEnd` 直接画东西，但 Core Profile 更强调 VAO、VBO、Shader 这一套现代渲染流程。LearnOpenGL 从这里开始，是为了让我们一上来就学现在更常见的写法。
+
+macOS 这段：
+
+```cpp
+#ifdef __APPLE__
+    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+#endif
+```
+
+只在 Apple 平台编译时生效。macOS 创建 OpenGL 3.2 以上 Core Profile 上下文时要求加 `GLFW_OPENGL_FORWARD_COMPAT`，意思是创建一个向前兼容的上下文，不包含已经废弃的旧功能。你可以先把它记成：**在 macOS 上申请现代 OpenGL 上下文时必须加的兼容设置**。
+
+整体顺序也很重要：这些 `glfwWindowHint` 必须写在 `glfwCreateWindow` 之前，因为它们是在“下单前提要求”。窗口创建出来以后，再改这些 hint 就不会影响已经创建好的窗口了。
