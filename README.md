@@ -34,8 +34,8 @@
 
 - [01 Hello Triangle](demos/01_hello_triangle/README.md)
 
-## Unity Style
+## Framework
 
-- [Unity Style Layer](unity_style/README.md)
+- [Framework](demos/Framework/README.md)
 
-后续 demo 默认优先使用 `unity_style/` 里的封装来写：demo 代码关注 `Mesh`、`Transform2D`、`Material`、`GameObject`，底层 VAO/VBO/Shader Program 细节放在封装层里。
+后续 demo 默认优先使用 `demos/Framework/` 里的封装来写：demo 代码关注 `Mesh`、`Transform2D`、`Material`、`GameObject`，底层 VAO/VBO/Shader Program 细节放在封装层里。

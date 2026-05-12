@@ -66,11 +66,11 @@ cmake --build build
 ./build/two_triangles
 ```
 
-运行更接近 Unity 写法的示例：
+运行更接近 Unity 写法的 Framework 示例：
 
 ```bash
 cmake --build build
-./build/unity_style_triangles
+./build/framework_triangles
 ```
 
 ## 今天只需要记住
@@ -539,7 +539,7 @@ TriangleMesh rightMesh(rightTriangle);
 
 ### Q: 能不能写得更像 Unity 一点？
 
-A: 可以。示例 [unity_style_triangles.cpp](src/unity_style_triangles.cpp) 使用根目录 [unity_style](../../unity_style/README.md) 里的封装，把 OpenGL 的 VAO/VBO 藏进 `Mesh`，把位置和缩放放进 `Transform2D`，再用 `GameObject` 组合起来。
+A: 可以。示例 [framework_triangles.cpp](src/framework_triangles.cpp) 使用平级目录 [Framework](../Framework/README.md) 里的封装，把 OpenGL 的 VAO/VBO 藏进 `Mesh`，把位置和缩放放进 `Transform2D`，再用 `GameObject` 组合起来。
 
 使用时就会更像 Unity：
 
@@ -577,20 +577,20 @@ tallTriangle.material.color = {0.2f, 0.7f, 1.0f, 1.0f};
 - Unity 里多个对象可以共用一个 Mesh，这里两个 `GameObject` 也共用同一个 `triangleMesh`。
 - Unity 底层帮你处理 GPU Buffer，这里我们自己在 `Mesh` 里处理 VAO/VBO。
 
-以后新的 demo 会优先采用这种写法：底层 OpenGL 细节放在 `unity_style/`，每个 demo 文件尽量像 Unity 场景脚本一样组织对象。
+以后新的 demo 会优先采用这种写法：底层 OpenGL 细节放在 `demos/Framework/`，每个 demo 文件尽量像 Unity 场景脚本一样组织对象。
 
 ### Q: GLFW 初始化、窗口创建、GLAD 初始化这些能不能也放进基类？
 
-A: 可以。现在 `unity_style/` 里新增了 `lr::Application` 基类。它负责初始化 GLFW、设置 OpenGL 3.3 Core Profile、创建窗口、激活 Context、初始化 GLAD、处理主循环、清屏、Esc 退出和窗口缩放。
+A: 可以。现在 `demos/Framework/` 里有 `lr::Application` 基类。它负责初始化 GLFW、设置 OpenGL 3.3 Core Profile、创建窗口、激活 Context、初始化 GLAD、处理主循环、清屏、Esc 退出和窗口缩放。
 
 demo 代码只需要继承它：
 
 ```cpp
-class UnityStyleTrianglesDemo : public lr::Application
+class FrameworkTrianglesDemo : public lr::Application
 {
 public:
-    UnityStyleTrianglesDemo()
-        : lr::Application({800, 600, "LearnOpenGL - Unity Style Triangles"})
+    FrameworkTrianglesDemo()
+        : lr::Application({800, 600, "LearnOpenGL - Framework Triangles"})
     {
     }
 
@@ -612,7 +612,7 @@ protected:
 ```cpp
 int main()
 {
-    UnityStyleTrianglesDemo app;
+    FrameworkTrianglesDemo app;
     return app.run();
 }
 ```

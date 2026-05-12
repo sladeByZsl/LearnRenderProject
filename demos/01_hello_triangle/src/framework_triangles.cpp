@@ -1,4 +1,4 @@
-#include <UnityStyle.hpp>
+#include <Framework.hpp>
 
 #include <memory>
 
@@ -29,11 +29,11 @@ void main()
 }
 )";
 
-class UnityStyleTrianglesDemo : public lr::Application
+class FrameworkTrianglesDemo : public lr::Application
 {
 public:
-    UnityStyleTrianglesDemo()
-        : lr::Application({800, 600, "LearnOpenGL - Unity Style Triangles"})
+    FrameworkTrianglesDemo()
+        : lr::Application({800, 600, "LearnOpenGL - Framework Triangles"})
     {
     }
 
@@ -84,6 +84,6 @@ private:
 
 int main()
 {
-    UnityStyleTrianglesDemo app;
+    FrameworkTrianglesDemo app;
     return app.run();
 }
