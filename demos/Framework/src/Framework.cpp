@@ -162,6 +162,31 @@ void GameObject::draw(const ShaderProgram& shader) const
     mesh.draw();
 }
 
+GameObject& Scene::createGameObject(const Mesh& mesh)
+{
+    objects.push_back(std::make_unique<GameObject>(mesh));
+    return *objects.back();
+}
+
+GameObject& Scene::createGameObject(const Mesh& mesh, const Vec2& position, const Vec2& scale, const Color& color)
+{
+    objects.push_back(std::make_unique<GameObject>(mesh, position, scale, color));
+    return *objects.back();
+}
+
+void Scene::draw(const ShaderProgram& shader) const
+{
+    for (const auto& object : objects)
+    {
+        object->draw(shader);
+    }
+}
+
+void Scene::clear()
+{
+    objects.clear();
+}
+
 Application::Application(const ApplicationConfig& config)
     : config(config)
 {

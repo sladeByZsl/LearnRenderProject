@@ -27,6 +27,7 @@ triangle.draw(shader);
 - `Material`
 - `ShaderProgram`
 - `GameObject`
+- `Scene`
 
 设计原则：
 
@@ -164,3 +165,29 @@ void onUpdate() override
 ```
 
 `Transform2D::rotation` 使用弧度。正数和负数方向相反，数值越大转得越快。
+
+## Scene
+
+`Scene` 负责保存和绘制多个 `GameObject`。demo 可以拿引用或指针来继续修改对象，但不用自己写 `std::unique_ptr<GameObject>`：
+
+```cpp
+lr::Scene scene;
+
+auto& left = scene.createGameObject(
+    *triangleMesh,
+    {-0.45f, -0.10f},
+    {0.55f, 0.55f},
+    {1.0f, 0.5f, 0.2f, 1.0f}
+);
+
+void onRender() override
+{
+    scene.draw(*shader);
+}
+```
+
+需要在 OpenGL Context 销毁前释放对象时调用：
+
+```cpp
+scene.clear();
+```

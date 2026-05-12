@@ -958,3 +958,40 @@ right.material.color = {0.2f, 0.7f, 1.0f, 1.0f};
 这样 demo 只关心“场景里有什么对象”，对象具体怎么存、什么时候释放，由 Framework 处理。它比 LearnOpenGL 原始写法更人性化，也比每个 demo 都写 `std::unique_ptr` 更干净。
 
 我的建议：后续 Framework 里加一个 `Scene`，内部先用 `std::vector<std::unique_ptr<GameObject>>` 或类似结构管理对象，但对 demo 暴露引用。这样内部安全，外部好写。
+
+### Q: Scene 类已经怎么用了？
+
+A: Framework 现在新增了 `lr::Scene`。它内部管理多个 `GameObject`，demo 代码不用再直接写 `std::unique_ptr<lr::GameObject>`。
+
+[framework_two_triangles.cpp](src/framework_two_triangles.cpp) 现在变成：
+
+```cpp
+leftTriangle = &scene.createGameObject(
+    *triangleMesh,
+    lr::Vec2{-0.45f, -0.10f},
+    lr::Vec2{0.55f, 0.55f},
+    lr::Color{1.0f, 0.5f, 0.2f, 1.0f}
+);
+
+rightTriangle = &scene.createGameObject(
+    *triangleMesh,
+    lr::Vec2{0.35f, 0.08f},
+    lr::Vec2{0.75f, 1.10f},
+    lr::Color{0.2f, 0.7f, 1.0f, 1.0f}
+);
+```
+
+绘制时只需要：
+
+```cpp
+scene.draw(*shader);
+```
+
+旋转时继续改对象的 Transform：
+
+```cpp
+leftTriangle->transform.rotation += deltaTime() * 1.4f;
+rightTriangle->transform.rotation -= deltaTime() * 1.1f;
+```
+
+也就是说，Scene 负责“拥有和遍历对象”，demo 负责“设置对象属性和动画”。这比在 demo 里到处写 `unique_ptr<GameObject>` 更像 Unity 的 Hierarchy。

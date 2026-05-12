@@ -105,6 +105,19 @@ private:
     const Mesh& mesh;
 };
 
+class Scene
+{
+public:
+    GameObject& createGameObject(const Mesh& mesh);
+    GameObject& createGameObject(const Mesh& mesh, const Vec2& position, const Vec2& scale, const Color& color);
+
+    void draw(const ShaderProgram& shader) const;
+    void clear();
+
+private:
+    std::vector<std::unique_ptr<GameObject>> objects;
+};
+
 class Application
 {
 public:

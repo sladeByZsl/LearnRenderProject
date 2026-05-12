@@ -22,14 +22,14 @@ protected:
         shader = loadShader("framework_triangle.vert", "framework_triangle.frag");
         triangleMesh = lr::Mesh::triangle();
 
-        leftTriangle = std::make_unique<lr::GameObject>(
+        leftTriangle = &scene.createGameObject(
             *triangleMesh,
             lr::Vec2{-0.45f, -0.10f},
             lr::Vec2{0.55f, 0.55f},
             lr::Color{1.0f, 0.5f, 0.2f, 1.0f}
         );
 
-        rightTriangle = std::make_unique<lr::GameObject>(
+        rightTriangle = &scene.createGameObject(
             *triangleMesh,
             lr::Vec2{0.35f, 0.08f},
             lr::Vec2{0.75f, 1.10f},
@@ -39,8 +39,7 @@ protected:
 
     void onRender() override
     {
-        leftTriangle->draw(*shader);
-        rightTriangle->draw(*shader);
+        scene.draw(*shader);
     }
 
     void onUpdate() override
@@ -51,8 +50,7 @@ protected:
 
     void onShutdown() override
     {
-        rightTriangle.reset();
-        leftTriangle.reset();
+        scene.clear();
         triangleMesh.reset();
         shader.reset();
     }
@@ -60,8 +58,9 @@ protected:
 private:
     std::unique_ptr<lr::ShaderProgram> shader;
     std::unique_ptr<lr::Mesh> triangleMesh;
-    std::unique_ptr<lr::GameObject> leftTriangle;
-    std::unique_ptr<lr::GameObject> rightTriangle;
+    lr::Scene scene;
+    lr::GameObject* leftTriangle = nullptr;
+    lr::GameObject* rightTriangle = nullptr;
 };
 
 int main()
