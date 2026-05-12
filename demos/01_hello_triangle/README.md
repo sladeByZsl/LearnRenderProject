@@ -180,3 +180,43 @@ glfwMakeContextCurrent(window);
 
 - `glfwCreateWindow`：创建窗口和 OpenGL Context。
 - `glfwMakeContextCurrent`：把这个 Context 激活，告诉当前线程“接下来 OpenGL 都画到这里”。
+
+### Q: GLAD 是什么，为什么要在创建 Context 后初始化？
+
+A: GLAD 是一个 OpenGL 函数加载器。它不负责画图，也不负责创建窗口；它的工作是：**帮 C/C++ 程序找到当前机器、当前显卡驱动、当前 OpenGL Context 里那些 OpenGL 函数的真实地址**。
+
+第一课可以先这样理解：
+
+- `glfwCreateWindow`：把窗口和 OpenGL Context 创建出来。
+- `glfwMakeContextCurrent`：激活这个 Context。
+- `gladLoadGLLoader(...)`：根据当前 Context，把 OpenGL 函数入口找出来。
+- 后面的 `glClearColor`、`glCreateShader`、`glGenBuffers` 等函数才能正常调用。
+
+为什么不能直接调用 OpenGL 函数？因为 OpenGL 很多函数不是普通静态库里固定写死的函数。不同操作系统、不同显卡驱动、不同 OpenGL 版本支持的函数可能不同，程序运行时需要问驱动：“这个函数在哪里？当前环境能不能用？”GLAD 就是帮我们做这件事的工具。
+
+这句代码：
+
+```cpp
+gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)
+```
+
+可以拆成两部分看：
+
+- `glfwGetProcAddress`：GLFW 提供的查询函数，用来向当前 OpenGL Context 查询某个 OpenGL 函数地址。
+- `gladLoadGLLoader(...)`：GLAD 拿着这个查询函数，把它需要的 OpenGL 函数地址一个个加载进来。
+
+为什么必须在 `glfwMakeContextCurrent(window)` 之后？因为 OpenGL 函数地址依赖当前 Context。还没创建并激活 Context 时，GLFW 也不知道应该向哪个 OpenGL 环境查询函数地址。
+
+失败检查也很重要：
+
+```cpp
+if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+{
+    std::cout << "Failed to initialize GLAD" << std::endl;
+    return -1;
+}
+```
+
+如果 GLAD 初始化失败，说明 OpenGL 函数入口没加载好，继续调用 `gl*` 函数很可能崩溃或没有效果，所以直接退出。
+
+可以用一个简单比喻记住：**GLFW 帮你打开画室，OpenGL 是画画能力，GLAD 是把画笔、颜料、工具的位置登记清楚。登记完成以后，你才知道每个工具在哪里，后面才能真正开画。**
