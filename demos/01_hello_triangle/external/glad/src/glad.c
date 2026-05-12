@@ -26,6 +26,9 @@ PFNGLDRAWARRAYSPROC glad_glDrawArrays = 0;
 PFNGLDELETEVERTEXARRAYSPROC glad_glDeleteVertexArrays = 0;
 PFNGLDELETEBUFFERSPROC glad_glDeleteBuffers = 0;
 PFNGLDELETEPROGRAMPROC glad_glDeleteProgram = 0;
+PFNGLGETUNIFORMLOCATIONPROC glad_glGetUniformLocation = 0;
+PFNGLUNIFORM2FPROC glad_glUniform2f = 0;
+PFNGLUNIFORM4FPROC glad_glUniform4f = 0;
 
 int gladLoadGLLoader(GLADloadproc load)
 {
@@ -60,6 +63,9 @@ int gladLoadGLLoader(GLADloadproc load)
     glad_glDeleteVertexArrays = (PFNGLDELETEVERTEXARRAYSPROC)load("glDeleteVertexArrays");
     glad_glDeleteBuffers = (PFNGLDELETEBUFFERSPROC)load("glDeleteBuffers");
     glad_glDeleteProgram = (PFNGLDELETEPROGRAMPROC)load("glDeleteProgram");
+    glad_glGetUniformLocation = (PFNGLGETUNIFORMLOCATIONPROC)load("glGetUniformLocation");
+    glad_glUniform2f = (PFNGLUNIFORM2FPROC)load("glUniform2f");
+    glad_glUniform4f = (PFNGLUNIFORM4FPROC)load("glUniform4f");
 
     return glad_glViewport &&
            glad_glClearColor &&
@@ -86,5 +92,8 @@ int gladLoadGLLoader(GLADloadproc load)
            glad_glDrawArrays &&
            glad_glDeleteVertexArrays &&
            glad_glDeleteBuffers &&
-           glad_glDeleteProgram;
+           glad_glDeleteProgram &&
+           glad_glGetUniformLocation &&
+           glad_glUniform2f &&
+           glad_glUniform4f;
 }

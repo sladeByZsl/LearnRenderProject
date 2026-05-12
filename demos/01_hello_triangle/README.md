@@ -66,6 +66,13 @@ cmake --build build
 ./build/two_triangles
 ```
 
+运行更接近 Unity 写法的示例：
+
+```bash
+cmake --build build
+./build/unity_style_triangles
+```
+
 ## 今天只需要记住
 
 - GLFW：负责创建窗口和处理输入。
@@ -529,3 +536,43 @@ TriangleMesh rightMesh(rightTriangle);
 位置和大小的差异来自顶点坐标本身。比如左边三角形的 x 坐标整体偏负，就会出现在左侧；右边三角形的 x 坐标整体偏正，就会出现在右侧；坐标之间的距离越大，三角形越大。
 
 第一课可以先记住：**如果两个三角形的顶点数据不同，可以创建两个 VBO；如果它们的读取规则也各自保存，就让每个三角形对象有自己的 VAO。**
+
+### Q: 能不能写得更像 Unity 一点？
+
+A: 可以。新示例 [unity_style_triangles.cpp](src/unity_style_triangles.cpp) 做了一层更接近 Unity 思路的封装，把 OpenGL 的 VAO/VBO 藏进 `Mesh`，把位置和缩放放进 `Transform2D`，再用 `GameObject` 组合起来。
+
+使用时就会更像 Unity：
+
+```cpp
+Mesh triangleMesh({
+    {-0.5f, -0.5f, 0.0f},
+    { 0.5f, -0.5f, 0.0f},
+    { 0.0f,  0.5f, 0.0f}
+});
+
+GameObject smallTriangle(triangleMesh);
+smallTriangle.transform.position = {-0.45f, -0.10f};
+smallTriangle.transform.scale = {0.55f, 0.55f};
+smallTriangle.material.color = {1.0f, 0.5f, 0.2f, 1.0f};
+
+GameObject tallTriangle(triangleMesh);
+tallTriangle.transform.position = {0.35f, 0.05f};
+tallTriangle.transform.scale = {0.75f, 1.10f};
+tallTriangle.material.color = {0.2f, 0.7f, 1.0f, 1.0f};
+```
+
+这里的思路是：
+
+- `Mesh`：类似 Unity 的 Mesh，内部负责 VAO/VBO 和顶点数据上传。
+- `Transform2D`：类似 Unity 的 Transform，负责位置和缩放。
+- `Material`：保存颜色。
+- `GameObject`：把 Mesh、Transform、Material 组合起来。
+- `ShaderProgram`：类似材质背后的 shader，负责把 `position`、`scale`、`color` 传给 GPU。
+
+这样就不用每画一个三角形都手写一遍 VAO/VBO。你只需要关心“这个物体用哪个 Mesh、放在哪里、多大、什么颜色”。
+
+不过要注意：这只是学习阶段的薄封装，不是完整引擎。它的价值是让 Unity 开发者更容易建立映射：
+
+- Unity 里改 `transform.position`，这里改 `GameObject::transform.position`。
+- Unity 里多个对象可以共用一个 Mesh，这里两个 `GameObject` 也共用同一个 `triangleMesh`。
+- Unity 底层帮你处理 GPU Buffer，这里我们自己在 `Mesh` 里处理 VAO/VBO。

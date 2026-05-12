@@ -72,6 +72,9 @@ typedef void (APIENTRY *PFNGLDRAWARRAYSPROC)(GLenum mode, GLint first, GLsizei c
 typedef void (APIENTRY *PFNGLDELETEVERTEXARRAYSPROC)(GLsizei n, const GLuint* arrays);
 typedef void (APIENTRY *PFNGLDELETEBUFFERSPROC)(GLsizei n, const GLuint* buffers);
 typedef void (APIENTRY *PFNGLDELETEPROGRAMPROC)(GLuint program);
+typedef GLint (APIENTRY *PFNGLGETUNIFORMLOCATIONPROC)(GLuint program, const GLchar* name);
+typedef void (APIENTRY *PFNGLUNIFORM2FPROC)(GLint location, GLfloat v0, GLfloat v1);
+typedef void (APIENTRY *PFNGLUNIFORM4FPROC)(GLint location, GLfloat v0, GLfloat v1, GLfloat v2, GLfloat v3);
 
 extern PFNGLVIEWPORTPROC glad_glViewport;
 extern PFNGLCLEARCOLORPROC glad_glClearColor;
@@ -99,6 +102,9 @@ extern PFNGLDRAWARRAYSPROC glad_glDrawArrays;
 extern PFNGLDELETEVERTEXARRAYSPROC glad_glDeleteVertexArrays;
 extern PFNGLDELETEBUFFERSPROC glad_glDeleteBuffers;
 extern PFNGLDELETEPROGRAMPROC glad_glDeleteProgram;
+extern PFNGLGETUNIFORMLOCATIONPROC glad_glGetUniformLocation;
+extern PFNGLUNIFORM2FPROC glad_glUniform2f;
+extern PFNGLUNIFORM4FPROC glad_glUniform4f;
 
 #define glViewport glad_glViewport
 #define glClearColor glad_glClearColor
@@ -126,6 +132,9 @@ extern PFNGLDELETEPROGRAMPROC glad_glDeleteProgram;
 #define glDeleteVertexArrays glad_glDeleteVertexArrays
 #define glDeleteBuffers glad_glDeleteBuffers
 #define glDeleteProgram glad_glDeleteProgram
+#define glGetUniformLocation glad_glGetUniformLocation
+#define glUniform2f glad_glUniform2f
+#define glUniform4f glad_glUniform4f
 
 int gladLoadGLLoader(GLADloadproc load);
 

@@ -18,7 +18,11 @@ target_link_libraries(hello_triangle PRIVATE glad glfw OpenGL::GL)
 add_executable(two_triangles src/two_triangles.cpp)
 target_link_libraries(two_triangles PRIVATE glad glfw OpenGL::GL)
 
+add_executable(unity_style_triangles src/unity_style_triangles.cpp)
+target_link_libraries(unity_style_triangles PRIVATE glad glfw OpenGL::GL)
+
 if(APPLE)
     target_compile_definitions(hello_triangle PRIVATE GL_SILENCE_DEPRECATION)
     target_compile_definitions(two_triangles PRIVATE GL_SILENCE_DEPRECATION)
+    target_compile_definitions(unity_style_triangles PRIVATE GL_SILENCE_DEPRECATION)
 endif()
