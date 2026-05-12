@@ -55,7 +55,7 @@ Mesh::Mesh(const std::vector<Vec3>& localVertices)
     : vertices(localVertices)
 {
     // VAO 和 VBO 都是 GPU 端对象，glGen* 向驱动申请一个唯一 ID（句柄）。
-    // 此时仅分配了 ID，显存空间还未真正占用。
+    // 此时仅分配了 ID，GPU 显存空间还未真正占用。
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
 
@@ -69,12 +69,14 @@ Mesh::Mesh(const std::vector<Vec3>& localVertices)
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
 
     // 把 CPU 内存中的顶点数组复制到 GPU 显存。
+    // 执行完这行之后，顶点数据就住在 GPU 显存里了；CPU 那边的 vertices 数组可以随时销毁，
+    // 绘制时 GPU 直接读自己显存里的 VBO，不再需要 CPU 那份数据。
     // 参数说明：
-    //   GL_ARRAY_BUFFER        — 目标插槽（即上面绑定的 VBO）
+    //   GL_ARRAY_BUFFER            — 目标插槽（即上面绑定的 VBO）
     //   vertices.size()*sizeof(Vec3) — 数据总字节数
-    //   vertices.data()        — CPU 端数据指针
-    //   GL_STATIC_DRAW         — 使用提示：数据上传一次、多次绘制，驱动据此优化存储位置
-    //                            （DYNAMIC_DRAW 表示频繁更新，STREAM_DRAW 表示每帧重传）
+    //   vertices.data()            — CPU 端数据指针，驱动从这里复制数据到 GPU 显存
+    //   GL_STATIC_DRAW             — 使用提示：数据上传一次、多次绘制，驱动据此优化显存位置
+    //                                （DYNAMIC_DRAW 表示频繁更新，STREAM_DRAW 表示每帧重传）
     glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vec3), vertices.data(), GL_STATIC_DRAW);
 
     // 告诉 GPU 如何从 VBO 中读取顶点属性，这条信息会被当前绑定的 VAO 记录下来。
