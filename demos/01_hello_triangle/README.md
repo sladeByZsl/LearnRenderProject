@@ -749,3 +749,54 @@ std::unique_ptr<lr::GameObject> rightTriangle;
 - `std::unique_ptr` 就像一个“自动负责销毁的独占引用”，让我们不用裸 `new/delete`。
 
 第一阶段可以先记一句：**`unique_ptr` 负责拥有对象，`make_unique` 负责创建对象，`reset` 负责提前释放对象。**
+
+### Q: 可以不用 `std::unique_ptr` 吗？
+
+A: 可以，但要看对象生命周期怎么管理。
+
+常见选择有几种：
+
+1. 直接作为成员变量
+
+```cpp
+lr::GameObject triangle;
+```
+
+这种最简单，但要求对象创建时就能完整初始化。我们现在的 `GameObject` 需要引用一个已经存在的 `Mesh`，而 `Mesh` 又要等 OpenGL Context 和 GLAD 初始化后才能创建，所以直接做成员变量不太方便。
+
+2. 用裸指针 `new/delete`
+
+```cpp
+auto* triangle = new lr::GameObject(...);
+delete triangle;
+```
+
+能用，但不推荐。你必须自己保证每个 `new` 都对应 `delete`，一忘就泄漏，一重复 delete 就可能崩。
+
+3. 用 `std::shared_ptr`
+
+```cpp
+std::shared_ptr<lr::GameObject> triangle;
+```
+
+它表示“多个地方共同拥有一个对象”。适合资源确实要被多个系统共享的时候，比如一个资源管理器和多个对象共同引用同一份资源。但它比 `unique_ptr` 更重，也容易让对象什么时候销毁变得不直观。
+
+4. 用容器统一管理
+
+```cpp
+std::vector<lr::GameObject> objects;
+```
+
+这很适合后续做 `Scene`。也就是让 `Scene` 拥有所有对象，demo 只向 Scene 里添加对象。这样 demo 文件里就不用写 `unique_ptr` 了。
+
+我更建议后面把 Framework 改成这种风格：
+
+```cpp
+auto& left = scene.createGameObject(*triangleMesh);
+left.transform.position = {-0.45f, -0.10f};
+
+auto& right = scene.createGameObject(*triangleMesh);
+right.transform.position = {0.35f, 0.08f};
+```
+
+这样 `Scene` 负责保存对象，demo 代码更像 Unity 的 Hierarchy。第一阶段先用 `unique_ptr` 是为了少做一层框架，同时保证对象释放安全；下一步可以把它藏到 `Scene` 里。
