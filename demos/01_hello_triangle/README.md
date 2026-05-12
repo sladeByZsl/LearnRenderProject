@@ -73,6 +73,13 @@ cmake --build build
 ./build/framework_triangles
 ```
 
+运行单独的 Framework 两三角形示例：
+
+```bash
+cmake --build build
+./build/framework_two_triangles
+```
+
 这个示例的 shader 拆成了两个文件：
 
 - [framework_triangle.vert](shaders/framework_triangle.vert)：顶点着色器
@@ -654,3 +661,30 @@ smallTriangle = std::make_unique<lr::GameObject>(
 - `Camera`：封装视图和投影矩阵。
 - `Texture2D`：封装图片加载和纹理。
 - `Renderer` 组件：更像 Unity 的 MeshRenderer / SpriteRenderer。
+
+### Q: 能不能单独写一份“用 Framework 画两个三角形”的文件？
+
+A: 可以。新增 [framework_two_triangles.cpp](src/framework_two_triangles.cpp)，它不改原始 `main.cpp`，也不改旧的 `two_triangles.cpp`，而是用 `demos/Framework` 的写法单独实现两个不同位置和大小的三角形。
+
+核心代码更接近 Unity 风格：
+
+```cpp
+shader = loadShader("framework_triangle.vert", "framework_triangle.frag");
+triangleMesh = lr::Mesh::triangle();
+
+leftTriangle = std::make_unique<lr::GameObject>(
+    *triangleMesh,
+    lr::Vec2{-0.45f, -0.10f},
+    lr::Vec2{0.55f, 0.55f},
+    lr::Color{1.0f, 0.5f, 0.2f, 1.0f}
+);
+
+rightTriangle = std::make_unique<lr::GameObject>(
+    *triangleMesh,
+    lr::Vec2{0.35f, 0.08f},
+    lr::Vec2{0.75f, 1.10f},
+    lr::Color{0.2f, 0.7f, 1.0f, 1.0f}
+);
+```
+
+两个三角形共用同一个 `Mesh::triangle()`，差异来自各自的 `position`、`scale` 和 `color`。这就类似 Unity 里多个 GameObject 共用同一个 Mesh，但每个对象有自己的 Transform 和材质颜色。
