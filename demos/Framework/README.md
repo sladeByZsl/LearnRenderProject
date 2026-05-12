@@ -110,3 +110,37 @@ shader = lr::ShaderProgram::fromFiles(
 ```
 
 这样 demo 的 C++ 代码负责场景逻辑，shader 文件负责 GPU 上的顶点和片元逻辑。
+
+如果 demo 继承了 `lr::Application`，优先用更短的写法：
+
+```cpp
+shader = loadShader("demo_name.vert", "demo_name.frag");
+```
+
+shader 目录通过 `ApplicationConfig` 传入。CMake 可以给 demo 注入绝对路径：
+
+```cmake
+target_compile_definitions(my_demo PRIVATE
+    SHADER_DIR="${CMAKE_CURRENT_SOURCE_DIR}/shaders"
+)
+```
+
+## 还能封装什么
+
+当前已经封装掉了：
+
+- 窗口和主循环：`Application`
+- shader 文件加载：`loadShader`
+- 标准三角形 Mesh：`Mesh::triangle`
+- 物体属性组合：`GameObject(mesh, position, scale, color)`
+- VAO/VBO 上传：`Mesh`
+- uniform 传参：`GameObject::draw`
+
+后面可以继续封装：
+
+- `Scene`：统一保存和绘制多个 `GameObject`。
+- `Time`：提供 `deltaTime`，方便做动画。
+- `Input`：提供更像 Unity 的 `getKey` / `getKeyDown`。
+- `Camera2D` / `Camera3D`：把坐标变换和视图矩阵收起来。
+- `Texture2D`：封装图片加载和纹理绑定。
+- `SpriteRenderer` / `MeshRenderer`：让渲染组件更像 Unity。

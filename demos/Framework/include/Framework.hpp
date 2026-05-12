@@ -12,6 +12,7 @@ struct ApplicationConfig
     int width = 800;
     int height = 600;
     const char* title = "LearnRender";
+    const char* shaderDir = "shaders";
     int glMajor = 3;
     int glMinor = 3;
 };
@@ -52,6 +53,7 @@ class Mesh
 {
 public:
     explicit Mesh(const std::vector<Vec3>& localVertices);
+    static std::unique_ptr<Mesh> triangle();
 
     Mesh(const Mesh&) = delete;
     Mesh& operator=(const Mesh&) = delete;
@@ -94,6 +96,7 @@ public:
     Material material;
 
     explicit GameObject(const Mesh& mesh);
+    GameObject(const Mesh& mesh, const Vec2& position, const Vec2& scale, const Color& color);
 
     void draw(const ShaderProgram& shader) const;
 
@@ -119,6 +122,7 @@ protected:
     virtual void onRender() {}
     virtual void onShutdown() {}
 
+    std::unique_ptr<ShaderProgram> loadShader(const char* vertexFile, const char* fragmentFile) const;
     void setClearColor(const Color& color);
     void close();
     void* nativeWindow() const;

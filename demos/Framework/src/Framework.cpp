@@ -61,6 +61,15 @@ void Mesh::draw() const
     glDrawArrays(GL_TRIANGLES, 0, static_cast<int>(vertices.size()));
 }
 
+std::unique_ptr<Mesh> Mesh::triangle()
+{
+    return std::make_unique<Mesh>(std::vector<Vec3>{
+        {-0.5f, -0.5f, 0.0f},
+        { 0.5f, -0.5f, 0.0f},
+        { 0.0f,  0.5f, 0.0f}
+    });
+}
+
 ShaderProgram::ShaderProgram(const char* vertexSource, const char* fragmentSource)
 {
     unsigned int vertexShader = compileShader(GL_VERTEX_SHADER, vertexSource);
@@ -134,6 +143,14 @@ GameObject::GameObject(const Mesh& mesh)
 {
 }
 
+GameObject::GameObject(const Mesh& mesh, const Vec2& position, const Vec2& scale, const Color& color)
+    : mesh(mesh)
+{
+    transform.position = position;
+    transform.scale = scale;
+    material.color = color;
+}
+
 void GameObject::draw(const ShaderProgram& shader) const
 {
     shader.use();
@@ -203,6 +220,18 @@ int Application::run()
     glfwTerminate();
     window = nullptr;
     return 0;
+}
+
+std::unique_ptr<ShaderProgram> Application::loadShader(const char* vertexFile, const char* fragmentFile) const
+{
+    auto shaderPath = [this](const char* fileName) {
+        return std::string(config.shaderDir) + "/" + fileName;
+    };
+
+    return ShaderProgram::fromFiles(
+        shaderPath(vertexFile).c_str(),
+        shaderPath(fragmentFile).c_str()
+    );
 }
 
 void Application::setClearColor(const Color& color)

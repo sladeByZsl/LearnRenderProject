@@ -623,3 +623,34 @@ int main()
 ```
 
 这样以后 demo 文件就不用反复写 `glfwInit()`、`glfwWindowHint(...)`、`glfwCreateWindow(...)`、`gladLoadGLLoader(...)` 这些模板代码了。
+
+### Q: Framework 还能更简单吗，还能封装什么？
+
+A: 可以。现在 Framework 又补了几层更贴近 Unity 的简化：
+
+- `Application::loadShader(...)`：demo 不再自己拼 shader 路径。
+- `Mesh::triangle()`：demo 不再手写标准三角形顶点。
+- `GameObject(mesh, position, scale, color)`：创建物体时直接设置 Transform 和颜色。
+
+所以 [framework_triangles.cpp](src/framework_triangles.cpp) 现在更像：
+
+```cpp
+shader = loadShader("framework_triangle.vert", "framework_triangle.frag");
+triangleMesh = lr::Mesh::triangle();
+
+smallTriangle = std::make_unique<lr::GameObject>(
+    *triangleMesh,
+    lr::Vec2{-0.45f, -0.10f},
+    lr::Vec2{0.55f, 0.55f},
+    lr::Color{1.0f, 0.5f, 0.2f, 1.0f}
+);
+```
+
+后面还可以继续封装：
+
+- `Scene`：统一管理多个 GameObject。
+- `Time`：提供 `deltaTime`。
+- `Input`：封装键盘鼠标输入。
+- `Camera`：封装视图和投影矩阵。
+- `Texture2D`：封装图片加载和纹理。
+- `Renderer` 组件：更像 Unity 的 MeshRenderer / SpriteRenderer。
