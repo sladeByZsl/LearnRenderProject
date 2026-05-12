@@ -688,3 +688,17 @@ rightTriangle = std::make_unique<lr::GameObject>(
 ```
 
 两个三角形共用同一个 `Mesh::triangle()`，差异来自各自的 `position`、`scale` 和 `color`。这就类似 Unity 里多个 GameObject 共用同一个 Mesh，但每个对象有自己的 Transform 和材质颜色。
+
+### Q: 怎么让两个 Framework 三角形一个往左转、一个往右转？
+
+A: Framework 现在给 `Transform2D` 增加了 `rotation`，并在 `Application` 里提供 `deltaTime()`。所以 [framework_two_triangles.cpp](src/framework_two_triangles.cpp) 里只需要在 `onUpdate()` 每帧改旋转值：
+
+```cpp
+void onUpdate() override
+{
+    leftTriangle->transform.rotation += deltaTime() * 1.4f;
+    rightTriangle->transform.rotation -= deltaTime() * 1.1f;
+}
+```
+
+`+` 和 `-` 控制方向相反，后面的数字控制转速。shader 文件 [framework_triangle.vert](shaders/framework_triangle.vert) 会根据 `uRotation` 把顶点旋转后再加位置。

@@ -144,3 +144,23 @@ target_compile_definitions(my_demo PRIVATE
 - `Camera2D` / `Camera3D`：把坐标变换和视图矩阵收起来。
 - `Texture2D`：封装图片加载和纹理绑定。
 - `SpriteRenderer` / `MeshRenderer`：让渲染组件更像 Unity。
+
+## 动画
+
+`Application` 提供：
+
+```cpp
+float deltaTime() const;
+float time() const;
+```
+
+可以在 `onUpdate()` 里做逐帧动画：
+
+```cpp
+void onUpdate() override
+{
+    object->transform.rotation += deltaTime() * 1.2f;
+}
+```
+
+`Transform2D::rotation` 使用弧度。正数和负数方向相反，数值越大转得越快。

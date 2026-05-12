@@ -43,6 +43,12 @@ protected:
         rightTriangle->draw(*shader);
     }
 
+    void onUpdate() override
+    {
+        leftTriangle->transform.rotation += deltaTime() * 1.4f;
+        rightTriangle->transform.rotation -= deltaTime() * 1.1f;
+    }
+
     void onShutdown() override
     {
         rightTriangle.reset();

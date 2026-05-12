@@ -5,6 +5,7 @@
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
 
+#include <cmath>
 #include <fstream>
 #include <iostream>
 #include <sstream>
@@ -156,6 +157,7 @@ void GameObject::draw(const ShaderProgram& shader) const
     shader.use();
     shader.setVec2("uPosition", transform.position);
     shader.setVec2("uScale", transform.scale);
+    shader.setVec2("uRotation", {std::cos(transform.rotation), std::sin(transform.rotation)});
     shader.setColor("uColor", material.color);
     mesh.draw();
 }
@@ -201,8 +203,15 @@ int Application::run()
 
     onStart();
 
+    double previousTime = glfwGetTime();
+
     while (!glfwWindowShouldClose(glfwWindow))
     {
+        double currentTime = glfwGetTime();
+        frameDeltaTime = static_cast<float>(currentTime - previousTime);
+        elapsedTime = static_cast<float>(currentTime);
+        previousTime = currentTime;
+
         processDefaultInput();
         onUpdate();
 
@@ -245,6 +254,16 @@ void Application::close()
     {
         glfwSetWindowShouldClose(static_cast<GLFWwindow*>(window), true);
     }
+}
+
+float Application::deltaTime() const
+{
+    return frameDeltaTime;
+}
+
+float Application::time() const
+{
+    return elapsedTime;
 }
 
 void* Application::nativeWindow() const
