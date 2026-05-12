@@ -130,3 +130,53 @@ A: 因为 OpenGL 的职责边界很窄：它只定义“怎么把图形命令交
 - OpenGL：真正负责渲染命令，比如清屏、传顶点、画三角形。
 
 可以把它想成拍电影：GLFW 负责搭影棚和开机位，GLAD 负责接好设备线路，OpenGL 负责真正把画面拍出来。第一天只要记住一句话就够了：**OpenGL 只管画，不管窗口。**
+
+### Q: `glfwCreateWindow` 和 `glfwMakeContextCurrent` 是做什么的？
+
+A: 这两步是在把“系统窗口”和“OpenGL 渲染环境”接起来。
+
+```cpp
+GLFWwindow* window = glfwCreateWindow(
+    SCR_WIDTH,
+    SCR_HEIGHT,
+    "LearnOpenGL - Hello Triangle",
+    nullptr,
+    nullptr
+);
+```
+
+`glfwCreateWindow` 会创建一个窗口，并根据前面的 `glfwWindowHint` 申请一个 OpenGL Context。返回值 `GLFWwindow* window` 可以理解成这个窗口的句柄，后面 GLFW 需要靠它知道你在操作哪个窗口。
+
+参数含义是：
+
+- `SCR_WIDTH`：窗口宽度。
+- `SCR_HEIGHT`：窗口高度。
+- `"LearnOpenGL - Hello Triangle"`：窗口标题。
+- 第 4 个参数 `nullptr`：不创建全屏窗口。如果传入某个显示器，就可以创建全屏窗口。
+- 第 5 个参数 `nullptr`：不和其他窗口共享 OpenGL 资源。高级用法里可以让多个窗口共享纹理、缓冲等资源。
+
+创建失败时返回 `nullptr`，所以代码要检查：
+
+```cpp
+if (window == nullptr)
+{
+    std::cout << "Failed to create GLFW window" << std::endl;
+    glfwTerminate();
+    return -1;
+}
+```
+
+这表示窗口或 OpenGL Context 没创建成功，程序继续跑也没有意义，所以释放 GLFW 资源并退出。
+
+接着这句很关键：
+
+```cpp
+glfwMakeContextCurrent(window);
+```
+
+它的意思是：**把这个窗口的 OpenGL Context 设为当前线程正在使用的 Context**。OpenGL 的很多函数不是传 `window` 参数的，比如 `glClearColor`、`glDrawArrays` 都没有告诉它要画到哪个窗口；它们默认作用在“当前 Context”上。
+
+所以如果没有调用 `glfwMakeContextCurrent(window)`，后面的 OpenGL 调用就不知道该作用到哪个渲染环境，GLAD 也没法正确加载 OpenGL 函数。第一课可以这样记：
+
+- `glfwCreateWindow`：创建窗口和 OpenGL Context。
+- `glfwMakeContextCurrent`：把这个 Context 激活，告诉当前线程“接下来 OpenGL 都画到这里”。
