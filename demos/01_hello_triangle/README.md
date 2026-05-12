@@ -110,3 +110,23 @@ macOS 这段：
 只在 Apple 平台编译时生效。macOS 创建 OpenGL 3.2 以上 Core Profile 上下文时要求加 `GLFW_OPENGL_FORWARD_COMPAT`，意思是创建一个向前兼容的上下文，不包含已经废弃的旧功能。你可以先把它记成：**在 macOS 上申请现代 OpenGL 上下文时必须加的兼容设置**。
 
 整体顺序也很重要：这些 `glfwWindowHint` 必须写在 `glfwCreateWindow` 之前，因为它们是在“下单前提要求”。窗口创建出来以后，再改这些 hint 就不会影响已经创建好的窗口了。
+
+### Q: OpenGL 为什么连窗口都不管？
+
+A: 因为 OpenGL 的职责边界很窄：它只定义“怎么把图形命令交给 GPU、怎么渲染”，不定义“应用窗口怎么创建”。窗口、鼠标、键盘、菜单栏、全屏、显示器选择这些东西都属于操作系统和窗口系统，不同平台差异很大。
+
+比如：
+
+- Windows 有 Win32 窗口和 WGL。
+- Linux 常见有 X11 / Wayland，以及 GLX / EGL。
+- macOS 有 Cocoa / NSWindow，以及自己的 OpenGL 上下文创建方式。
+
+如果 OpenGL 自己把窗口也管了，它就必须把每个操作系统的应用框架都包进去，API 会变得又大又复杂，也很难保持跨平台稳定。所以 OpenGL 选择只做一件事：**提供渲染接口**。
+
+这也是为什么真实工程通常会有分工：
+
+- GLFW / SDL：创建窗口、处理输入、创建 OpenGL Context。
+- GLAD：加载当前平台上的 OpenGL 函数地址。
+- OpenGL：真正负责渲染命令，比如清屏、传顶点、画三角形。
+
+可以把它想成拍电影：GLFW 负责搭影棚和开机位，GLAD 负责接好设备线路，OpenGL 负责真正把画面拍出来。第一天只要记住一句话就够了：**OpenGL 只管画，不管窗口。**
