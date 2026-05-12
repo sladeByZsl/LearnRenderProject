@@ -1,6 +1,7 @@
 #ifndef LEARN_RENDER_FRAMEWORK_HPP
 #define LEARN_RENDER_FRAMEWORK_HPP
 
+#include <memory>
 #include <vector>
 
 namespace lr
@@ -69,6 +70,7 @@ class ShaderProgram
 {
 public:
     ShaderProgram(const char* vertexSource, const char* fragmentSource);
+    static std::unique_ptr<ShaderProgram> fromFiles(const char* vertexPath, const char* fragmentPath);
 
     ShaderProgram(const ShaderProgram&) = delete;
     ShaderProgram& operator=(const ShaderProgram&) = delete;

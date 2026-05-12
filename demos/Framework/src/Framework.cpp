@@ -5,10 +5,32 @@
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
 
+#include <fstream>
 #include <iostream>
+#include <sstream>
+#include <string>
 
 namespace lr
 {
+
+namespace
+{
+
+std::string readTextFile(const char* path)
+{
+    std::ifstream file(path);
+    if (!file)
+    {
+        std::cout << "Failed to open text file: " << path << std::endl;
+        return {};
+    }
+
+    std::ostringstream stream;
+    stream << file.rdbuf();
+    return stream.str();
+}
+
+} // namespace
 
 Mesh::Mesh(const std::vector<Vec3>& localVertices)
     : vertices(localVertices)
@@ -60,6 +82,13 @@ ShaderProgram::ShaderProgram(const char* vertexSource, const char* fragmentSourc
 
     glDeleteShader(vertexShader);
     glDeleteShader(fragmentShader);
+}
+
+std::unique_ptr<ShaderProgram> ShaderProgram::fromFiles(const char* vertexPath, const char* fragmentPath)
+{
+    std::string vertexSource = readTextFile(vertexPath);
+    std::string fragmentSource = readTextFile(fragmentPath);
+    return std::make_unique<ShaderProgram>(vertexSource.c_str(), fragmentSource.c_str());
 }
 
 ShaderProgram::~ShaderProgram()

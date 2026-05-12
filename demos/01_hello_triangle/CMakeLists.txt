@@ -28,6 +28,9 @@ target_link_libraries(two_triangles PRIVATE glad glfw OpenGL::GL)
 
 add_executable(framework_triangles src/framework_triangles.cpp)
 target_link_libraries(framework_triangles PRIVATE Framework glfw OpenGL::GL)
+target_compile_definitions(framework_triangles PRIVATE
+    SHADER_DIR="${CMAKE_CURRENT_SOURCE_DIR}/shaders"
+)
 
 if(APPLE)
     target_compile_definitions(hello_triangle PRIVATE GL_SILENCE_DEPRECATION)

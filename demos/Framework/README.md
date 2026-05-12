@@ -90,3 +90,23 @@ int main()
 - 窗口尺寸变化时更新 `glViewport`
 
 demo 类只需要关心“创建什么对象、每帧怎么更新、每帧画什么”。
+
+## Shader 文件
+
+demo 的顶点着色器和片元着色器优先拆成独立文件：
+
+```text
+shaders/demo_name.vert
+shaders/demo_name.frag
+```
+
+Framework 提供从文件创建 shader program 的入口：
+
+```cpp
+shader = lr::ShaderProgram::fromFiles(
+    shaderPath("demo_name.vert").c_str(),
+    shaderPath("demo_name.frag").c_str()
+);
+```
+
+这样 demo 的 C++ 代码负责场景逻辑，shader 文件负责 GPU 上的顶点和片元逻辑。

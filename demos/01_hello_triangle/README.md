@@ -73,6 +73,11 @@ cmake --build build
 ./build/framework_triangles
 ```
 
+这个示例的 shader 拆成了两个文件：
+
+- [framework_triangle.vert](shaders/framework_triangle.vert)：顶点着色器
+- [framework_triangle.frag](shaders/framework_triangle.frag)：片元着色器
+
 ## 今天只需要记住
 
 - GLFW：负责创建窗口和处理输入。

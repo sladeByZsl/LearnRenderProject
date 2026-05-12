@@ -1,33 +1,11 @@
 #include <Framework.hpp>
 
 #include <memory>
+#include <string>
 
-const char* vertexShaderSource = R"(
-#version 330 core
-layout (location = 0) in vec3 aPos;
-
-uniform vec2 uPosition;
-uniform vec2 uScale;
-
-void main()
-{
-    vec2 scaled = aPos.xy * uScale;
-    vec2 moved = scaled + uPosition;
-    gl_Position = vec4(moved, aPos.z, 1.0);
-}
-)";
-
-const char* fragmentShaderSource = R"(
-#version 330 core
-out vec4 FragColor;
-
-uniform vec4 uColor;
-
-void main()
-{
-    FragColor = uColor;
-}
-)";
+#ifndef SHADER_DIR
+#define SHADER_DIR "shaders"
+#endif
 
 class FrameworkTrianglesDemo : public lr::Application
 {
@@ -42,7 +20,10 @@ protected:
     {
         setClearColor({0.2f, 0.3f, 0.3f, 1.0f});
 
-        shader = std::make_unique<lr::ShaderProgram>(vertexShaderSource, fragmentShaderSource);
+        shader = lr::ShaderProgram::fromFiles(
+            shaderPath("framework_triangle.vert").c_str(),
+            shaderPath("framework_triangle.frag").c_str()
+        );
 
         triangleMesh = std::make_unique<lr::Mesh>(std::vector<lr::Vec3>{
             {-0.5f, -0.5f, 0.0f},
@@ -76,6 +57,11 @@ protected:
     }
 
 private:
+    static std::string shaderPath(const char* fileName)
+    {
+        return std::string(SHADER_DIR) + "/" + fileName;
+    }
+
     std::unique_ptr<lr::ShaderProgram> shader;
     std::unique_ptr<lr::Mesh> triangleMesh;
     std::unique_ptr<lr::GameObject> smallTriangle;
