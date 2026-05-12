@@ -37,5 +37,8 @@
 ## Framework
 
 - [Framework](demos/Framework/README.md)
+- [Framework Python 绑定](demos/Framework/python_binding/README.md)
 
 后续 demo 默认优先使用 `demos/Framework/` 里的封装来写：demo 代码关注 `Mesh`、`Transform2D`、`Material`、`GameObject`，底层 VAO/VBO/Shader Program 细节放在封装层里。
+
+如果想用 Python 写上层 demo 逻辑，可以先编译 `lr_framework` 绑定模块，再运行 `demos/01_py_demo/` 里的示例。

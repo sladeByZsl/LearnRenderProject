@@ -80,6 +80,16 @@ cmake --build build
 ./build/framework_two_triangles
 ```
 
+运行 Python 版 Framework 示例：
+
+```bash
+cmake --build build
+export PYTHONPATH="$PWD/build/python"
+python3 ../01_py_demo/framework_two_triangles_demo.py
+```
+
+Python 版示例依赖 `lr_framework` 绑定模块。绑定模块的构建、运行、API 概要见 [Framework Python 绑定文档](../Framework/python_binding/README.md)。
+
 这个示例的 shader 拆成了两个文件：
 
 - [framework_triangle.vert](shaders/framework_triangle.vert)：顶点着色器
