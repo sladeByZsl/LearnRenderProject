@@ -860,3 +860,69 @@ private:
 - [LearnOpenGL Camera](https://learnopengl.com/Getting-started/Camera)
 - [LearnOpenGL Mesh](https://learnopengl.com/Model-Loading/Mesh)
 - [LearnOpenGL Model](https://learnopengl.com/Model)
+
+### Q: LearnOpenGL 后面也是用智能指针管理对象吗？
+
+A: 基本不是。LearnOpenGL 后面的封装更偏传统 C++ 教学写法，常见的是：
+
+- 对象直接作为局部变量或成员变量。
+- 容器直接存对象，比如 `vector<Mesh> meshes;`。
+- 函数参数用引用，比如 `Draw(Shader &shader)`。
+- OpenGL 资源用 `unsigned int` 保存 ID，比如 `VAO`、`VBO`、`EBO`、texture id。
+
+比如 Model Loading 章节里的 `Model` 类大概是：
+
+```cpp
+class Model 
+{
+public:
+    Model(char *path);
+    void Draw(Shader &shader);
+
+private:
+    vector<Mesh> meshes;
+    string directory;
+};
+```
+
+`Mesh` 类大概是：
+
+```cpp
+class Mesh {
+public:
+    vector<Vertex> vertices;
+    vector<unsigned int> indices;
+    vector<Texture> textures;
+
+    Mesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<Texture> textures);
+    void Draw(Shader &shader);
+
+private:
+    unsigned int VAO, VBO, EBO;
+    void setupMesh();
+};
+```
+
+也就是说，它没有把 `Mesh` 写成：
+
+```cpp
+std::unique_ptr<Mesh> mesh;
+```
+
+而是直接：
+
+```cpp
+vector<Mesh> meshes;
+```
+
+为什么可以这样？因为 LearnOpenGL 的 `Mesh` / `Model` 示例更像“资源数据类”，没有做复杂的场景对象生命周期管理。`Model` 拥有一个 `vector<Mesh>`，`Mesh` 拥有自己的顶点数据和 OpenGL buffer id，`Draw()` 时传入 shader 引用即可。
+
+我们现在 demo 用 `unique_ptr`，主要是因为对象是在 `onStart()` 里、OpenGL Context 创建之后才初始化，而类成员又需要跨 `onRender()` 多帧使用。它是为了当前 Framework 生命周期方便，不是 LearnOpenGL 的原始写法。
+
+如果要更贴近 LearnOpenGL，后面可以改成：
+
+- `Scene` 里用 `std::vector<GameObject>` 保存对象。
+- demo 不直接写 `unique_ptr`。
+- `Mesh` / `ShaderProgram` 作为资源对象由 Framework 或 Scene 管理。
+
+这样会更像 LearnOpenGL 的 `vector<Mesh>`，也更像 Unity 的 Scene 管理。
