@@ -6,6 +6,15 @@
 namespace lr
 {
 
+struct ApplicationConfig
+{
+    int width = 800;
+    int height = 600;
+    const char* title = "LearnRender";
+    int glMajor = 3;
+    int glMinor = 3;
+};
+
 struct Vec2
 {
     float x = 0.0f;
@@ -88,6 +97,37 @@ public:
 
 private:
     const Mesh& mesh;
+};
+
+class Application
+{
+public:
+    explicit Application(const ApplicationConfig& config = {});
+
+    Application(const Application&) = delete;
+    Application& operator=(const Application&) = delete;
+
+    virtual ~Application() = default;
+
+    int run();
+
+protected:
+    virtual void onStart() {}
+    virtual void onUpdate() {}
+    virtual void onRender() {}
+    virtual void onShutdown() {}
+
+    void setClearColor(const Color& color);
+    void close();
+    void* nativeWindow() const;
+
+private:
+    static void framebufferSizeCallback(void* window, int width, int height);
+    void processDefaultInput();
+
+    ApplicationConfig config;
+    Color clearColor = {0.2f, 0.3f, 0.3f, 1.0f};
+    void* window = nullptr;
 };
 
 } // namespace lr

@@ -1,17 +1,6 @@
-#include <glad/glad.h>
-
-#define GLFW_INCLUDE_NONE
-#include <GLFW/glfw3.h>
-
 #include <UnityStyle.hpp>
 
-#include <iostream>
-
-static const unsigned int SCR_WIDTH = 800;
-static const unsigned int SCR_HEIGHT = 600;
-
-void framebuffer_size_callback(GLFWwindow* window, int width, int height);
-void processInput(GLFWwindow* window);
+#include <memory>
 
 const char* vertexShaderSource = R"(
 #version 330 core
@@ -40,82 +29,61 @@ void main()
 }
 )";
 
-int main()
+class UnityStyleTrianglesDemo : public lr::Application
 {
-    glfwInit();
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-
-#ifdef __APPLE__
-    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-#endif
-
-    GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "LearnOpenGL - Unity Style Triangles", nullptr, nullptr);
-    if (window == nullptr)
+public:
+    UnityStyleTrianglesDemo()
+        : lr::Application({800, 600, "LearnOpenGL - Unity Style Triangles"})
     {
-        std::cout << "Failed to create GLFW window" << std::endl;
-        glfwTerminate();
-        return -1;
     }
 
-    glfwMakeContextCurrent(window);
-    glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
-
-    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+protected:
+    void onStart() override
     {
-        std::cout << "Failed to initialize GLAD" << std::endl;
-        return -1;
-    }
+        setClearColor({0.2f, 0.3f, 0.3f, 1.0f});
 
-    {
-        lr::ShaderProgram shader(vertexShaderSource, fragmentShaderSource);
+        shader = std::make_unique<lr::ShaderProgram>(vertexShaderSource, fragmentShaderSource);
 
-        lr::Mesh triangleMesh({
+        triangleMesh = std::make_unique<lr::Mesh>(std::vector<lr::Vec3>{
             {-0.5f, -0.5f, 0.0f},
             { 0.5f, -0.5f, 0.0f},
             { 0.0f,  0.5f, 0.0f}
         });
 
-        lr::GameObject smallTriangle(triangleMesh);
-        smallTriangle.transform.position = {-0.45f, -0.10f};
-        smallTriangle.transform.scale = {0.55f, 0.55f};
-        smallTriangle.material.color = {1.0f, 0.5f, 0.2f, 1.0f};
+        smallTriangle = std::make_unique<lr::GameObject>(*triangleMesh);
+        smallTriangle->transform.position = {-0.45f, -0.10f};
+        smallTriangle->transform.scale = {0.55f, 0.55f};
+        smallTriangle->material.color = {1.0f, 0.5f, 0.2f, 1.0f};
 
-        lr::GameObject tallTriangle(triangleMesh);
-        tallTriangle.transform.position = {0.35f, 0.05f};
-        tallTriangle.transform.scale = {0.75f, 1.10f};
-        tallTriangle.material.color = {0.2f, 0.7f, 1.0f, 1.0f};
-
-        while (!glfwWindowShouldClose(window))
-        {
-            processInput(window);
-
-            glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-            glClear(GL_COLOR_BUFFER_BIT);
-
-            smallTriangle.draw(shader);
-            tallTriangle.draw(shader);
-
-            glfwSwapBuffers(window);
-            glfwPollEvents();
-        }
+        tallTriangle = std::make_unique<lr::GameObject>(*triangleMesh);
+        tallTriangle->transform.position = {0.35f, 0.05f};
+        tallTriangle->transform.scale = {0.75f, 1.10f};
+        tallTriangle->material.color = {0.2f, 0.7f, 1.0f, 1.0f};
     }
 
-    glfwTerminate();
-    return 0;
-}
-
-void processInput(GLFWwindow* window)
-{
-    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+    void onRender() override
     {
-        glfwSetWindowShouldClose(window, true);
+        smallTriangle->draw(*shader);
+        tallTriangle->draw(*shader);
     }
-}
 
-void framebuffer_size_callback(GLFWwindow* window, int width, int height)
+    void onShutdown() override
+    {
+        tallTriangle.reset();
+        smallTriangle.reset();
+        triangleMesh.reset();
+        shader.reset();
+    }
+
+private:
+    std::unique_ptr<lr::ShaderProgram> shader;
+    std::unique_ptr<lr::Mesh> triangleMesh;
+    std::unique_ptr<lr::GameObject> smallTriangle;
+    std::unique_ptr<lr::GameObject> tallTriangle;
+};
+
+int main()
 {
-    (void)window;
-    glViewport(0, 0, width, height);
+    UnityStyleTrianglesDemo app;
+    return app.run();
 }

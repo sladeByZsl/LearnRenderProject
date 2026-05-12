@@ -578,3 +578,43 @@ tallTriangle.material.color = {0.2f, 0.7f, 1.0f, 1.0f};
 - Unity 底层帮你处理 GPU Buffer，这里我们自己在 `Mesh` 里处理 VAO/VBO。
 
 以后新的 demo 会优先采用这种写法：底层 OpenGL 细节放在 `unity_style/`，每个 demo 文件尽量像 Unity 场景脚本一样组织对象。
+
+### Q: GLFW 初始化、窗口创建、GLAD 初始化这些能不能也放进基类？
+
+A: 可以。现在 `unity_style/` 里新增了 `lr::Application` 基类。它负责初始化 GLFW、设置 OpenGL 3.3 Core Profile、创建窗口、激活 Context、初始化 GLAD、处理主循环、清屏、Esc 退出和窗口缩放。
+
+demo 代码只需要继承它：
+
+```cpp
+class UnityStyleTrianglesDemo : public lr::Application
+{
+public:
+    UnityStyleTrianglesDemo()
+        : lr::Application({800, 600, "LearnOpenGL - Unity Style Triangles"})
+    {
+    }
+
+protected:
+    void onStart() override
+    {
+        // 创建 Mesh / Shader / GameObject。
+    }
+
+    void onRender() override
+    {
+        // 绘制 GameObject。
+    }
+};
+```
+
+最后：
+
+```cpp
+int main()
+{
+    UnityStyleTrianglesDemo app;
+    return app.run();
+}
+```
+
+这样以后 demo 文件就不用反复写 `glfwInit()`、`glfwWindowHint(...)`、`glfwCreateWindow(...)`、`gladLoadGLLoader(...)` 这些模板代码了。

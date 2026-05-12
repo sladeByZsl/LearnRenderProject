@@ -2,6 +2,9 @@
 
 #include <glad/glad.h>
 
+#define GLFW_INCLUDE_NONE
+#include <GLFW/glfw3.h>
+
 #include <iostream>
 
 namespace lr
@@ -109,6 +112,101 @@ void GameObject::draw(const ShaderProgram& shader) const
     shader.setVec2("uScale", transform.scale);
     shader.setColor("uColor", material.color);
     mesh.draw();
+}
+
+Application::Application(const ApplicationConfig& config)
+    : config(config)
+{
+}
+
+int Application::run()
+{
+    glfwInit();
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, config.glMajor);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, config.glMinor);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
+#ifdef __APPLE__
+    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+#endif
+
+    GLFWwindow* glfwWindow = glfwCreateWindow(config.width, config.height, config.title, nullptr, nullptr);
+    if (glfwWindow == nullptr)
+    {
+        std::cout << "Failed to create GLFW window" << std::endl;
+        glfwTerminate();
+        return -1;
+    }
+
+    window = glfwWindow;
+    glfwMakeContextCurrent(glfwWindow);
+    glfwSetWindowUserPointer(glfwWindow, this);
+    glfwSetFramebufferSizeCallback(glfwWindow, [](GLFWwindow* callbackWindow, int width, int height) {
+        framebufferSizeCallback(callbackWindow, width, height);
+    });
+
+    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+    {
+        std::cout << "Failed to initialize GLAD" << std::endl;
+        glfwTerminate();
+        window = nullptr;
+        return -1;
+    }
+
+    onStart();
+
+    while (!glfwWindowShouldClose(glfwWindow))
+    {
+        processDefaultInput();
+        onUpdate();
+
+        glClearColor(clearColor.r, clearColor.g, clearColor.b, clearColor.a);
+        glClear(GL_COLOR_BUFFER_BIT);
+
+        onRender();
+
+        glfwSwapBuffers(glfwWindow);
+        glfwPollEvents();
+    }
+
+    onShutdown();
+
+    glfwTerminate();
+    window = nullptr;
+    return 0;
+}
+
+void Application::setClearColor(const Color& color)
+{
+    clearColor = color;
+}
+
+void Application::close()
+{
+    if (window != nullptr)
+    {
+        glfwSetWindowShouldClose(static_cast<GLFWwindow*>(window), true);
+    }
+}
+
+void* Application::nativeWindow() const
+{
+    return window;
+}
+
+void Application::framebufferSizeCallback(void* window, int width, int height)
+{
+    (void)window;
+    glViewport(0, 0, width, height);
+}
+
+void Application::processDefaultInput()
+{
+    GLFWwindow* glfwWindow = static_cast<GLFWwindow*>(window);
+    if (glfwWindow != nullptr && glfwGetKey(glfwWindow, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+    {
+        glfwSetWindowShouldClose(glfwWindow, true);
+    }
 }
 
 } // namespace lr

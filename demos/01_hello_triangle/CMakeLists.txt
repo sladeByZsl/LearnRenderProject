@@ -18,7 +18,7 @@ add_library(unity_style STATIC
 target_include_directories(unity_style PUBLIC
     ../../unity_style/include
 )
-target_link_libraries(unity_style PUBLIC glad)
+target_link_libraries(unity_style PUBLIC glad glfw OpenGL::GL)
 
 add_executable(hello_triangle src/main.cpp)
 target_link_libraries(hello_triangle PRIVATE glad glfw OpenGL::GL)
