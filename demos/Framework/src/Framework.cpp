@@ -203,7 +203,8 @@ int Application::run()
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 #endif
 
-    GLFWwindow* glfwWindow = glfwCreateWindow(config.width, config.height, config.title, nullptr, nullptr);
+    GLFWwindow* glfwWindow = glfwCreateWindow(
+        config.width, config.height, config.title.c_str(), nullptr, nullptr);
     if (glfwWindow == nullptr)
     {
         std::cout << "Failed to create GLFW window" << std::endl;

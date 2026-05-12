@@ -191,3 +191,7 @@ void onRender() override
 ```cpp
 scene.clear();
 ```
+
+## Python 上层逻辑
+
+若希望用 Python 写 `onStart` / `onUpdate` 等同逻辑，可使用 pybind11 扩展模块 `lr_framework`，说明与示例见 [python_binding/README.md](python_binding/README.md)。

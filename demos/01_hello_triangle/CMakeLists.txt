@@ -20,6 +20,16 @@ target_include_directories(Framework PUBLIC
 )
 target_link_libraries(Framework PUBLIC glad glfw OpenGL::GL)
 
+option(LEARNOGL_BUILD_PYTHON_MODULE "Build lr_framework pybind11 module" ON)
+if(LEARNOGL_BUILD_PYTHON_MODULE)
+    find_package(Python3 3.8 COMPONENTS Interpreter Development.Module QUIET)
+    if(Python3_Development.Module_FOUND)
+        add_subdirectory(../Framework/python_binding ${CMAKE_CURRENT_BINARY_DIR}/lr_framework_py)
+    else()
+        message(STATUS "Python3 Development.Module not found; skipping lr_framework (install python3-dev or use -DLEARNOGL_BUILD_PYTHON_MODULE=OFF)")
+    endif()
+endif()
+
 add_executable(hello_triangle src/main.cpp)
 target_link_libraries(hello_triangle PRIVATE glad glfw OpenGL::GL)
 

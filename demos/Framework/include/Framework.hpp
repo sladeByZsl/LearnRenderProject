@@ -2,6 +2,7 @@
 #define LEARN_RENDER_FRAMEWORK_HPP
 
 #include <memory>
+#include <string>
 #include <vector>
 
 namespace lr
@@ -11,8 +12,8 @@ struct ApplicationConfig
 {
     int width = 800;
     int height = 600;
-    const char* title = "LearnRender";
-    const char* shaderDir = "shaders";
+    std::string title = "LearnRender";
+    std::string shaderDir = "shaders";
     int glMajor = 3;
     int glMinor = 3;
 };
