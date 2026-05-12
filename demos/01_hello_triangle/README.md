@@ -539,7 +539,7 @@ TriangleMesh rightMesh(rightTriangle);
 
 ### Q: 能不能写得更像 Unity 一点？
 
-A: 可以。新示例 [unity_style_triangles.cpp](src/unity_style_triangles.cpp) 做了一层更接近 Unity 思路的封装，把 OpenGL 的 VAO/VBO 藏进 `Mesh`，把位置和缩放放进 `Transform2D`，再用 `GameObject` 组合起来。
+A: 可以。示例 [unity_style_triangles.cpp](src/unity_style_triangles.cpp) 使用根目录 [unity_style](../../unity_style/README.md) 里的封装，把 OpenGL 的 VAO/VBO 藏进 `Mesh`，把位置和缩放放进 `Transform2D`，再用 `GameObject` 组合起来。
 
 使用时就会更像 Unity：
 
@@ -576,3 +576,5 @@ tallTriangle.material.color = {0.2f, 0.7f, 1.0f, 1.0f};
 - Unity 里改 `transform.position`，这里改 `GameObject::transform.position`。
 - Unity 里多个对象可以共用一个 Mesh，这里两个 `GameObject` 也共用同一个 `triangleMesh`。
 - Unity 底层帮你处理 GPU Buffer，这里我们自己在 `Mesh` 里处理 VAO/VBO。
+
+以后新的 demo 会优先采用这种写法：底层 OpenGL 细节放在 `unity_style/`，每个 demo 文件尽量像 Unity 场景脚本一样组织对象。

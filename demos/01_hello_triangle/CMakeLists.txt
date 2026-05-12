@@ -12,6 +12,14 @@ find_package(glfw3 REQUIRED)
 add_library(glad STATIC external/glad/src/glad.c)
 target_include_directories(glad PUBLIC external/glad/include)
 
+add_library(unity_style STATIC
+    ../../unity_style/src/UnityStyle.cpp
+)
+target_include_directories(unity_style PUBLIC
+    ../../unity_style/include
+)
+target_link_libraries(unity_style PUBLIC glad)
+
 add_executable(hello_triangle src/main.cpp)
 target_link_libraries(hello_triangle PRIVATE glad glfw OpenGL::GL)
 
@@ -19,7 +27,7 @@ add_executable(two_triangles src/two_triangles.cpp)
 target_link_libraries(two_triangles PRIVATE glad glfw OpenGL::GL)
 
 add_executable(unity_style_triangles src/unity_style_triangles.cpp)
-target_link_libraries(unity_style_triangles PRIVATE glad glfw OpenGL::GL)
+target_link_libraries(unity_style_triangles PRIVATE unity_style glfw OpenGL::GL)
 
 if(APPLE)
     target_compile_definitions(hello_triangle PRIVATE GL_SILENCE_DEPRECATION)
