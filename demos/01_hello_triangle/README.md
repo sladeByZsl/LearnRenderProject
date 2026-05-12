@@ -59,6 +59,13 @@ cmake --build build
 
 如果一切正常，会出现一个窗口，里面有一个橙色三角形。
 
+运行两个三角形封装示例：
+
+```bash
+cmake --build build
+./build/two_triangles
+```
+
 ## 今天只需要记住
 
 - GLFW：负责创建窗口和处理输入。
@@ -468,3 +475,57 @@ glDrawArrays(GL_TRIANGLES, 0, 3);
 最形象的一句话：
 
 **VBO 是装数字的仓库，VAO 是告诉 GPU 怎么拆这些数字的说明书，bind 是把某个仓库或说明书放到当前操作台。**
+
+### Q: 要画两个大小或位置不同的三角形，VAO/VBO 能封装吗？
+
+A: 可以。新示例 [two_triangles.cpp](src/two_triangles.cpp) 没有改原来的 `main.cpp`，而是单独创建了一个 `TriangleMesh` 类来封装 VAO/VBO。
+
+核心想法是：一个三角形对象自己负责一套 VAO/VBO。
+
+```cpp
+class TriangleMesh
+{
+public:
+    explicit TriangleMesh(const std::array<float, 9>& vertices);
+    void draw() const;
+
+private:
+    unsigned int VAO = 0;
+    unsigned int VBO = 0;
+};
+```
+
+构造函数里做初始化：
+
+- 创建 VAO/VBO。
+- 绑定 VAO。
+- 绑定 VBO。
+- 把传入的顶点数据上传到 GPU。
+- 设置 `glVertexAttribPointer`，告诉 VAO 怎么读 VBO。
+
+绘制时只需要：
+
+```cpp
+leftMesh.draw();
+rightMesh.draw();
+```
+
+每个 `TriangleMesh` 内部会绑定自己的 VAO，然后调用：
+
+```cpp
+glDrawArrays(GL_TRIANGLES, 0, 3);
+```
+
+所以画两个三角形时，只要准备两份不同的顶点数据：
+
+```cpp
+const std::array<float, 9> leftTriangle = { ... };
+const std::array<float, 9> rightTriangle = { ... };
+
+TriangleMesh leftMesh(leftTriangle);
+TriangleMesh rightMesh(rightTriangle);
+```
+
+位置和大小的差异来自顶点坐标本身。比如左边三角形的 x 坐标整体偏负，就会出现在左侧；右边三角形的 x 坐标整体偏正，就会出现在右侧；坐标之间的距离越大，三角形越大。
+
+第一课可以先记住：**如果两个三角形的顶点数据不同，可以创建两个 VBO；如果它们的读取规则也各自保存，就让每个三角形对象有自己的 VAO。**
