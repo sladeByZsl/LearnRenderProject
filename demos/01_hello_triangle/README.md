@@ -338,3 +338,64 @@ glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 - `glBind*`：选中接下来要操作的对象。
 - `glBufferData`：把顶点数据从 CPU 复制到 GPU。
 - `VAO` 记读取规则，`VBO` 存顶点数据本体。
+
+### Q: 怎么整体理解 VAO、VBO 和“绑定”？
+
+A: 可以把 OpenGL 想成一台状态机。很多 OpenGL 函数不会直接把“我要操作哪个对象”写在参数里，而是先用 `glBind*` 选中一个对象，再对当前选中的对象执行后续操作。
+
+`绑定` 就是：**把某个对象设为当前操作对象**。
+
+比如：
+
+```cpp
+glBindBuffer(GL_ARRAY_BUFFER, VBO);
+glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+```
+
+第一句先说：“现在 `GL_ARRAY_BUFFER` 这个插槽里放的是 `VBO`。”  
+第二句再说：“把这份数据上传到当前 `GL_ARRAY_BUFFER` 插槽里的那个 Buffer。”  
+因为前面绑定了 `VBO`，所以数据就进了 `VBO`。
+
+再看 VAO：
+
+```cpp
+glBindVertexArray(VAO);
+```
+
+这句是说：“接下来我配置的顶点读取规则，都记录到这个 `VAO` 里。”
+
+所以后面的配置会被 VAO 记住：
+
+```cpp
+glBindBuffer(GL_ARRAY_BUFFER, VBO);
+glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+glEnableVertexAttribArray(0);
+```
+
+它们合起来的意思是：
+
+- 当前顶点数据来自哪个 VBO。
+- 0 号顶点属性从这个 VBO 里读。
+- 每个顶点属性由 3 个 float 组成。
+- 这 3 个 float 要交给 shader 里的 `layout (location = 0) in vec3 aPos;`。
+- 启用 0 号顶点属性。
+
+于是绘制时只要：
+
+```cpp
+glBindVertexArray(VAO);
+glDrawArrays(GL_TRIANGLES, 0, 3);
+```
+
+OpenGL 就能根据 VAO 里记录的规则，找到 VBO 里的顶点数据，并把它们送进 shader。
+
+一个更稳的心智模型：
+
+- `VBO`：仓库，里面存放原始顶点数据。
+- `VAO`：取货说明书，记录从哪个仓库取、每几个数字是一组、每组数字怎么解释。
+- `glBindBuffer`：选中当前要操作的仓库。
+- `glBindVertexArray`：选中当前要编辑或使用的说明书。
+- `glVertexAttribPointer`：往说明书里写“怎么读仓库里的数据”。
+- `glDrawArrays`：按当前说明书开始绘制。
+
+第一课最重要的一句话：**VBO 解决“数据放哪”，VAO 解决“数据怎么读”，绑定解决“我现在正在操作谁”。**
