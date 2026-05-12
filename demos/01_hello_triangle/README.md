@@ -284,3 +284,57 @@ glDrawArrays(GL_TRIANGLES, 0, 3);
 会告诉 OpenGL：从第 0 个顶点开始，连续取 3 个顶点，并按 `GL_TRIANGLES` 的方式画出来。也就是用这 3 个点组成一个三角形。
 
 顶点顺序本身也有意义。这里是“左下 -> 右下 -> 上方”的逆时针顺序。以后讲背面剔除时会用到：OpenGL 可以根据顶点是顺时针还是逆时针，判断一个三角形的正面和背面。第一课先不用急着理解这个，只要知道：**数组里每 3 个数字是一组坐标，3 组坐标组成 1 个三角形。**
+
+### Q: VBO、VAO、`glBindBuffer`、`glBufferData` 这一段是什么意思？
+
+A: 这一段是在做两件事：**创建 GPU 里的对象**，然后**把 CPU 内存里的顶点数组复制到 GPU**。
+
+先看这几行：
+
+```cpp
+unsigned int VBO;
+unsigned int VAO;
+glGenVertexArrays(1, &VAO);
+glGenBuffers(1, &VBO);
+```
+
+`VBO` 和 `VAO` 都只是一个 `unsigned int` 编号。真正的对象在 OpenGL / GPU 那边，C++ 这里拿到的是“对象 ID”。
+
+- `glGenVertexArrays(1, &VAO)`：生成 1 个 VAO，把编号写到 `VAO` 变量里。
+- `glGenBuffers(1, &VBO)`：生成 1 个 Buffer，把编号写到 `VBO` 变量里。
+
+可以先这样区分：
+
+- `VBO`：Vertex Buffer Object，保存顶点数据本身，比如 `vertices` 里的 `x, y, z`。
+- `VAO`：Vertex Array Object，保存“这些顶点数据应该怎么读取”的配置，比如每个顶点几个 float、从哪里开始读。
+
+接着：
+
+```cpp
+glBindVertexArray(VAO);
+```
+
+意思是：把这个 VAO 设为当前正在配置的 VAO。后面和顶点属性有关的设置，会记录到这个 VAO 里。
+
+再看 VBO：
+
+```cpp
+glBindBuffer(GL_ARRAY_BUFFER, VBO);
+glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+```
+
+`glBindBuffer(GL_ARRAY_BUFFER, VBO)` 的意思是：把 `VBO` 绑定到 `GL_ARRAY_BUFFER` 这个位置上。`GL_ARRAY_BUFFER` 可以理解成 OpenGL 专门接收“顶点数组数据”的插槽。
+
+`glBufferData(...)` 才是真正上传数据：
+
+- `GL_ARRAY_BUFFER`：把数据传到当前绑定的顶点缓冲，也就是刚刚绑定的 `VBO`。
+- `sizeof(vertices)`：要传多少字节。
+- `vertices`：CPU 内存里的顶点数组起始地址。
+- `GL_STATIC_DRAW`：告诉 OpenGL，这份数据上传后大概率不会频繁修改，主要用于绘制。
+
+第一课可以这样记：
+
+- `glGen*`：生成对象 ID。
+- `glBind*`：选中接下来要操作的对象。
+- `glBufferData`：把顶点数据从 CPU 复制到 GPU。
+- `VAO` 记读取规则，`VBO` 存顶点数据本体。
