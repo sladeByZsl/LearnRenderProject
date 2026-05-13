@@ -40,6 +40,7 @@
 ## 复盘
 
 - [学习复盘](notes/recaps/README.md)
+- [旧笔记索引](notes/README.md)
 
 ## Framework
 
