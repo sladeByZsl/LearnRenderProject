@@ -11,6 +11,14 @@
 
 ## 编译运行
 
+以后每个每日 demo 工程都会带一个 `run.sh`，优先用它完成“配置、编译、运行”：
+
+```bash
+./run.sh
+```
+
+也可以手动执行：
+
 ```bash
 cmake -S . -B build
 cmake --build build
