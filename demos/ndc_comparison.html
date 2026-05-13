@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>NDC 坐标系介绍</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #12121c;
+    color: #ddd;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    padding: 48px 32px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  h1 { font-size: 30px; color: #fff; margin-bottom: 6px; }
+  .lead { color: #666; font-size: 14px; margin-bottom: 48px; }
+
+  .apis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; margin-bottom: 56px; }
+
+  .card {
+    border-radius: 14px;
+    padding: 28px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .card.gl  { background: #0b1e35; border: 1.5px solid #1e4d7a; }
+  .card.vk  { background: #1c0b2e; border: 1.5px solid #5a1a7a; }
+  .card.dx  { background: #0b1e0b; border: 1.5px solid #1a5a1a; }
+
+  .card-title { font-size: 22px; font-weight: 700; }
+  .gl .card-title { color: #4f9ef8; }
+  .vk .card-title { color: #b87dd4; }
+  .dx .card-title { color: #5ec45e; }
+
+  .card-sub { font-size: 12px; color: #555; margin-top: -14px; }
+
+  .axis-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .axis-table td { padding: 7px 10px; border-bottom: 1px solid #1e1e30; }
+  .axis-table tr:last-child td { border-bottom: none; }
+  .axis-name { font-weight: 700; font-size: 15px; }
+  .gl  .axis-name { color: #4f9ef8; }
+  .vk  .axis-name { color: #b87dd4; }
+  .dx  .axis-name { color: #5ec45e; }
+  .note-bad  { font-size: 11px; background: #3a1414; color: #e06060; border-radius: 4px; padding: 2px 7px; display: inline-block; margin-top: 3px; }
+  .note-good { font-size: 11px; background: #143a14; color: #5ec45e; border-radius: 4px; padding: 2px 7px; display: inline-block; margin-top: 3px; }
+  .note-info { font-size: 11px; background: #1a1a3a; color: #7090d0; border-radius: 4px; padding: 2px 7px; display: inline-block; margin-top: 3px; }
+
+  /* diff 汇总 */
+  h2 { font-size: 17px; color: #ccc; border-left: 3px solid #444; padding-left: 10px; margin-bottom: 18px; }
+  table.diff { width: 100%; border-collapse: collapse; font-size: 13px; margin-bottom: 48px; }
+  table.diff th { background: #1a1a28; color: #888; padding: 10px 16px; text-align: left; font-weight: 600; }
+  table.diff td { padding: 10px 16px; border-bottom: 1px solid #1e1e2e; vertical-align: top; }
+  table.diff tr:last-child td { border-bottom: none; }
+  table.diff tr:hover td { background: #1a1a28; }
+  .hl-same { color: #5ec45e; }
+  .hl-diff { color: #e06060; font-weight: 600; }
+  .hl-ax   { color: #fff; font-weight: 700; }
+</style>
+</head>
+<body>
+
+<h1>NDC 坐标系介绍</h1>
+<p class="lead">NDC（Normalized Device Coordinates，归一化设备坐标）是顶点着色器输出后、光栅化之前的坐标空间。三套主流图形 API 在这个阶段的坐标系定义不完全相同。</p>
+
+<div class="apis">
+
+  <!-- OpenGL -->
+  <div class="card gl">
+    <div>
+      <div class="card-title">OpenGL</div>
+      <div class="card-sub">也适用于 OpenGL ES / WebGL</div>
+    </div>
+
+    <svg viewBox="-1.4 -1.4 2.8 2.8" width="100%" style="max-width:200px;align-self:center">
+      <!-- 背景格 -->
+      <rect x="-1" y="-1" width="2" height="2" fill="#0d2a45" stroke="#1e4d7a" stroke-width="0.04" rx="0.05"/>
+      <line x1="-1" y1="0" x2="1" y2="0" stroke="#1a3a5c" stroke-width="0.025" stroke-dasharray="0.07,0.05"/>
+      <line x1="0" y1="-1" x2="0" y2="1" stroke="#1a3a5c" stroke-width="0.025" stroke-dasharray="0.07,0.05"/>
+      <!-- X轴 -->
+      <line x1="-1.2" y1="0" x2="1.2" y2="0" stroke="#4f9ef8" stroke-width="0.04"/>
+      <polygon points="1.2,0 1.08,-0.06 1.08,0.06" fill="#4f9ef8"/>
+      <!-- Y轴（朝上） -->
+      <line x1="0" y1="1.2" x2="0" y2="-1.2" stroke="#f76f6f" stroke-width="0.04"/>
+      <polygon points="0,-1.2 -0.06,-1.08 0.06,-1.08" fill="#f76f6f"/>
+      <!-- Z轴（斜出，示意） -->
+      <line x1="0" y1="0" x2="0.6" y2="0.6" stroke="#5ec45e" stroke-width="0.03" stroke-dasharray="0.05,0.04"/>
+      <polygon points="0.6,0.6 0.46,0.54 0.54,0.46" fill="#5ec45e"/>
+      <!-- 轴标签 -->
+      <text x="1.25" y="0.07" font-size="0.16" fill="#4f9ef8" font-weight="bold">+X</text>
+      <text x="-1.35" y="0.07" font-size="0.16" fill="#4f9ef8">-X</text>
+      <text x="0.06" y="-1.24" font-size="0.16" fill="#f76f6f" font-weight="bold">+Y</text>
+      <text x="0.06" y="1.35" font-size="0.16" fill="#f76f6f">-Y</text>
+      <text x="0.62" y="0.72" font-size="0.14" fill="#5ec45e">+Z</text>
+      <!-- 范围标注 -->
+      <text x="-1.35" y="-1.25" font-size="0.12" fill="#444">(-1,+1)</text>
+      <text x="0.72" y="-1.25" font-size="0.12" fill="#444">(+1,+1)</text>
+      <text x="-1.35" y="1.32" font-size="0.12" fill="#444">(-1,-1)</text>
+      <text x="0.72" y="1.32" font-size="0.12" fill="#444">(+1,-1)</text>
+      <!-- 原点 -->
+      <circle cx="0" cy="0" r="0.06" fill="#fff" fill-opacity="0.5"/>
+    </svg>
+
+    <table class="axis-table">
+      <tr>
+        <td><span class="axis-name">X</span></td>
+        <td>-1 左边缘 → +1 右边缘</td>
+      </tr>
+      <tr>
+        <td><span class="axis-name">Y</span></td>
+        <td>-1 下边缘 → +1 上边缘<br><span class="note-good">朝上，符合数学习惯</span></td>
+      </tr>
+      <tr>
+        <td><span class="axis-name">Z</span></td>
+        <td>-1 近裁剪面 → +1 远裁剪面<br><span class="note-bad">范围 [-1,+1]，对称但精度较低</span></td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- Vulkan -->
+  <div class="card vk">
+    <div>
+      <div class="card-title">Vulkan</div>
+      <div class="card-sub">现代低开销图形 API</div>
+    </div>
+
+    <svg viewBox="-1.4 -1.4 2.8 2.8" width="100%" style="max-width:200px;align-self:center">
+      <rect x="-1" y="-1" width="2" height="2" fill="#1a0d2a" stroke="#5a1a7a" stroke-width="0.04" rx="0.05"/>
+      <line x1="-1" y1="0" x2="1" y2="0" stroke="#2e1a40" stroke-width="0.025" stroke-dasharray="0.07,0.05"/>
+      <line x1="0" y1="-1" x2="0" y2="1" stroke="#2e1a40" stroke-width="0.025" stroke-dasharray="0.07,0.05"/>
+      <!-- X轴 -->
+      <line x1="-1.2" y1="0" x2="1.2" y2="0" stroke="#b87dd4" stroke-width="0.04"/>
+      <polygon points="1.2,0 1.08,-0.06 1.08,0.06" fill="#b87dd4"/>
+      <!-- Y轴（朝下！） -->
+      <line x1="0" y1="-1.2" x2="0" y2="1.2" stroke="#f76f6f" stroke-width="0.04"/>
+      <polygon points="0,1.2 -0.06,1.08 0.06,1.08" fill="#f76f6f"/>
+      <!-- Z轴 -->
+      <line x1="0" y1="0" x2="0.6" y2="0.6" stroke="#f0b840" stroke-width="0.03" stroke-dasharray="0.05,0.04"/>
+      <polygon points="0.6,0.6 0.46,0.54 0.54,0.46" fill="#f0b840"/>
+      <!-- 轴标签 -->
+      <text x="1.25" y="0.07" font-size="0.16" fill="#b87dd4" font-weight="bold">+X</text>
+      <text x="-1.35" y="0.07" font-size="0.16" fill="#b87dd4">-X</text>
+      <!-- Y朝下标签 -->
+      <text x="0.06" y="1.35" font-size="0.16" fill="#f76f6f" font-weight="bold">+Y</text>
+      <text x="0.06" y="-1.24" font-size="0.16" fill="#f76f6f">-Y</text>
+      <text x="0.62" y="0.72" font-size="0.14" fill="#f0b840">+Z</text>
+      <!-- 范围标注（Y翻转） -->
+      <text x="-1.35" y="-1.25" font-size="0.12" fill="#444">(-1,-1)</text>
+      <text x="0.72" y="-1.25" font-size="0.12" fill="#444">(+1,-1)</text>
+      <text x="-1.35" y="1.32" font-size="0.12" fill="#444">(-1,+1)</text>
+      <text x="0.72" y="1.32" font-size="0.12" fill="#444">(+1,+1)</text>
+      <!-- 原点 -->
+      <circle cx="0" cy="0" r="0.06" fill="#fff" fill-opacity="0.5"/>
+    </svg>
+
+    <table class="axis-table">
+      <tr>
+        <td><span class="axis-name">X</span></td>
+        <td>-1 左边缘 → +1 右边缘</td>
+      </tr>
+      <tr>
+        <td><span class="axis-name">Y</span></td>
+        <td>-1 上边缘 → +1 下边缘<br><span class="note-bad">朝下！与 OpenGL/DX 相反</span></td>
+      </tr>
+      <tr>
+        <td><span class="axis-name">Z</span></td>
+        <td>0 近裁剪面 → +1 远裁剪面<br><span class="note-good">范围 [0,+1]，近处精度更好</span></td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- DirectX -->
+  <div class="card dx">
+    <div>
+      <div class="card-title">DirectX</div>
+      <div class="card-sub">D3D11 / D3D12，仅限 Windows</div>
+    </div>
+
+    <svg viewBox="-1.4 -1.4 2.8 2.8" width="100%" style="max-width:200px;align-self:center">
+      <rect x="-1" y="-1" width="2" height="2" fill="#0b1e0b" stroke="#1a5a1a" stroke-width="0.04" rx="0.05"/>
+      <line x1="-1" y1="0" x2="1" y2="0" stroke="#1a3a1a" stroke-width="0.025" stroke-dasharray="0.07,0.05"/>
+      <line x1="0" y1="-1" x2="0" y2="1" stroke="#1a3a1a" stroke-width="0.025" stroke-dasharray="0.07,0.05"/>
+      <!-- X轴 -->
+      <line x1="-1.2" y1="0" x2="1.2" y2="0" stroke="#5ec45e" stroke-width="0.04"/>
+      <polygon points="1.2,0 1.08,-0.06 1.08,0.06" fill="#5ec45e"/>
+      <!-- Y轴（朝上，与OpenGL同） -->
+      <line x1="0" y1="1.2" x2="0" y2="-1.2" stroke="#f76f6f" stroke-width="0.04"/>
+      <polygon points="0,-1.2 -0.06,-1.08 0.06,-1.08" fill="#f76f6f"/>
+      <!-- Z轴 -->
+      <line x1="0" y1="0" x2="0.6" y2="0.6" stroke="#f0b840" stroke-width="0.03" stroke-dasharray="0.05,0.04"/>
+      <polygon points="0.6,0.6 0.46,0.54 0.54,0.46" fill="#f0b840"/>
+      <!-- 轴标签 -->
+      <text x="1.25" y="0.07" font-size="0.16" fill="#5ec45e" font-weight="bold">+X</text>
+      <text x="-1.35" y="0.07" font-size="0.16" fill="#5ec45e">-X</text>
+      <text x="0.06" y="-1.24" font-size="0.16" fill="#f76f6f" font-weight="bold">+Y</text>
+      <text x="0.06" y="1.35" font-size="0.16" fill="#f76f6f">-Y</text>
+      <text x="0.62" y="0.72" font-size="0.14" fill="#f0b840">+Z</text>
+      <!-- 范围标注 -->
+      <text x="-1.35" y="-1.25" font-size="0.12" fill="#444">(-1,+1)</text>
+      <text x="0.72" y="-1.25" font-size="0.12" fill="#444">(+1,+1)</text>
+      <text x="-1.35" y="1.32" font-size="0.12" fill="#444">(-1,-1)</text>
+      <text x="0.72" y="1.32" font-size="0.12" fill="#444">(+1,-1)</text>
+      <!-- 原点 -->
+      <circle cx="0" cy="0" r="0.06" fill="#fff" fill-opacity="0.5"/>
+    </svg>
+
+    <table class="axis-table">
+      <tr>
+        <td><span class="axis-name">X</span></td>
+        <td>-1 左边缘 → +1 右边缘</td>
+      </tr>
+      <tr>
+        <td><span class="axis-name">Y</span></td>
+        <td>-1 下边缘 → +1 上边缘<br><span class="note-good">朝上，与 OpenGL 一致</span></td>
+      </tr>
+      <tr>
+        <td><span class="axis-name">Z</span></td>
+        <td>0 近裁剪面 → +1 远裁剪面<br><span class="note-good">范围 [0,+1]，近处精度更好</span></td>
+      </tr>
+    </table>
+  </div>
+
+</div>
+
+<!-- 差异汇总 -->
+<h2>差异汇总</h2>
+<table class="diff">
+  <thead>
+    <tr>
+      <th>轴</th>
+      <th style="color:#4f9ef8">OpenGL</th>
+      <th style="color:#b87dd4">Vulkan</th>
+      <th style="color:#5ec45e">DirectX</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="hl-ax">X</td>
+      <td class="hl-same">-1 左 → +1 右</td>
+      <td class="hl-same">-1 左 → +1 右</td>
+      <td class="hl-same">-1 左 → +1 右</td>
+      <td style="color:#555;font-size:12px">三家完全一致，无差异</td>
+    </tr>
+    <tr>
+      <td class="hl-ax">Y</td>
+      <td class="hl-same">-1 下 → +1 上</td>
+      <td class="hl-diff">-1 上 → +1 下 ⚠</td>
+      <td class="hl-same">-1 下 → +1 上</td>
+      <td style="color:#e06060;font-size:12px">Vulkan Y 轴翻转，同一段代码渲染结果上下颠倒</td>
+    </tr>
+    <tr>
+      <td class="hl-ax">Z</td>
+      <td class="hl-diff">[-1, +1]</td>
+      <td class="hl-same">[0, +1]</td>
+      <td class="hl-same">[0, +1]</td>
+      <td style="color:#e06060;font-size:12px">OpenGL 用对称范围（历史遗留），Vulkan/DX 改为 [0,1] 精度更好</td>
+    </tr>
+  </tbody>
+</table>
+
+<p style="color:#333;font-size:13px;padding:16px;background:#0d0d18;border-radius:8px;border:1px solid #1e1e30">
+  现阶段学 OpenGL 不需要关心跨 API 差异。投影矩阵库（如 glm）会帮你处理 Z 范围的转换；Vulkan 的 Y 轴翻转通常通过扩展 <code style="color:#888">VK_KHR_maintenance1</code> 或在投影矩阵里手动翻转解决。
+</p>
+
+</body>
+</html>
