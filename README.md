@@ -33,6 +33,9 @@
 ## Demos
 
 - [01 Hello Triangle](demos/01_hello_triangle/README.md)
+- [02 Vertex Data](demos/02_vertex_data/README.md)
+
+后续每天开始学习时，默认先创建当天独立 demo 目录和 README。当天 demo 尽量只服务一个核心概念，避免把新知识挤在同一个文件里。
 
 ## 复盘
 
