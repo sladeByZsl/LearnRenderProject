@@ -37,6 +37,8 @@
 
 后续每天开始学习时，默认先创建当天独立 demo 目录、README 和 `run.sh`。当天 demo 尽量只服务一个核心概念，避免把新知识挤在同一个文件里。
 
+`run.sh` 统一遵循：脚本同级放 `build` 目录；首次运行只在 `build` 目录不存在时执行 CMake configure；之后每次都执行 `cmake --build` 做增量编译，再运行目标程序。这样改完代码后再次执行 `./run.sh` 会立即生效。
+
 ## 复盘
 
 - [学习复盘](notes/recaps/README.md)
