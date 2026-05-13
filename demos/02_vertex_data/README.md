@@ -56,6 +56,7 @@ cmake --build build
 ## 补充观察工具
 
 - [NDC 坐标系对比](../ndc_comparison.html)：这是额外观察页面，包含 OpenGL / Vulkan / DirectX 的 NDC 差异。今天只需要先看 OpenGL 那一列，其他 API 后面再回头理解。
+- [平台 NDC 坐标差异速记图](../../notes/recaps/assets/ndc-platform-differences.svg)：修正版图片，适合以后复习 OpenGL / Vulkan / DirectX 的 NDC 差异。
 
 ## Q&A
 

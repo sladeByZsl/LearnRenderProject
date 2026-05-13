@@ -31,3 +31,10 @@
 原计划第 01 天只是跑出三角形。今天实际完成了第一课核心概念梳理、多个 demo、轻量 Framework 雏形和 Python 上层绑定，进度明显超前。
 
 下一步建议放慢一点：第 02 天专注顶点数据、坐标顺序和形状变化，让封装背后的基础概念更稳。
+
+## 图片资产
+
+- [OpenGL 第一周学习路线](assets/opengl-week-01-roadmap.png)
+- [OpenGL Day 01 复盘](assets/opengl-day-01-recap.png)
+- [平台 NDC 坐标差异速记（生成版）](assets/ndc-platform-differences.png)
+- [平台 NDC 坐标差异速记（修正版 SVG）](assets/ndc-platform-differences.svg)
