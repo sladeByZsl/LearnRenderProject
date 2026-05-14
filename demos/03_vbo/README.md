@@ -232,6 +232,58 @@ DirectX: CreateBuffer / Map / Unmap + IASetVertexBuffers(...)
 
 注意不要把 API 名字硬对应成一模一样。OpenGL 是绑定点状态机风格，DirectX 更像显式设置管线阶段资源。但底层目标一致：让 GPU 在绘制时能读到顶点数据。
 
+### Q: RenderDoc 里看起来是先绑定一堆 buffer，然后调用一次 draw 吗？
+
+A: 对，基本可以这么理解，但更准确地说是：**先设置一整套管线状态和资源，最后一次 draw call 使用当前这套状态去绘制**。
+
+你截图里选中的事件是：
+
+```text
+DrawIndexed(48)
+```
+
+它前面有类似这些调用：
+
+```text
+PSSetShaderResources(...)
+PSSetSamplers(...)
+OMSetBlendState(...)
+IASetVertexBuffers(...)
+IASetIndexBuffer(...)
+VSSetShader(...)
+PSSetShader(...)
+VSSetConstantBuffers(...)
+Map(...)
+Unmap(...)
+DrawIndexed(48)
+```
+
+可以这样拆：
+
+- `IASetVertexBuffers`：给 Input Assembler 阶段绑定顶点缓冲，概念上对应 OpenGL 的 VBO。
+- `IASetIndexBuffer`：绑定索引缓冲，概念上对应 OpenGL 的 EBO / IBO。
+- `VSSetShader` / `PSSetShader`：绑定顶点着色器和像素着色器。
+- `VSSetConstantBuffers`：绑定常量缓冲，类似把 uniform 数据给 shader。
+- `PSSetShaderResources`：绑定纹理等 shader resource。
+- `PSSetSamplers`：绑定采样器。
+- `OMSetBlendState`：设置输出合并阶段的混合状态。
+- `Map` / `Unmap`：CPU 更新某个 buffer 的内容。
+- `DrawIndexed(48)`：真正发出绘制命令，用当前设置好的所有状态画 48 个索引。
+
+所以 draw call 可以理解成“按当前配置开画”。在它之前设置的 buffer、shader、texture、blend state 等，都只是把绘制需要的材料和规则准备好；到了 `DrawIndexed`，GPU 才按照这些状态执行一次绘制。
+
+对应到 OpenGL，结构类似：
+
+```cpp
+glUseProgram(shader);
+glBindVertexArray(VAO);
+glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+glBindTexture(GL_TEXTURE_2D, texture);
+glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_INT, 0);
+```
+
+前面几行是设置当前状态，最后一行 `glDrawElements` 才是真正的绘制命令。
+
 ### Q: 在 Windows 上怎么用 RenderDoc 看到我这个程序的各种 buffer？
 
 A: 可以。Windows 是更适合抓这个 OpenGL demo 的环境。RenderDoc 支持 Windows 上的 OpenGL / D3D11 / D3D12 / Vulkan；我们的 demo 是 OpenGL 3.3 Core Profile，适合用 RenderDoc 抓帧。
