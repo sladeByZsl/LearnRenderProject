@@ -8,7 +8,7 @@
 
 ## 2026-05-12：OpenGL Day 01
 
-![OpenGL Day 01 复盘](assets/opengl-day-01-recap.png)
+![OpenGL Day 01 复盘](day01_hello_triangle/opengl-day-01-recap.png)
 
 ### 今日核心知识
 
@@ -32,9 +32,34 @@
 
 下一步建议放慢一点：第 02 天专注顶点数据、坐标顺序和形状变化，让封装背后的基础概念更稳。
 
+## 2026-05-13：OpenGL Day 02
+
+![OpenGL Day 02 复盘](day02_vertex_data/opengl-day-02-ndc-recap.png)
+
+### 今日核心知识
+
+- 一个三角形由 3 个顶点决定。
+- 每个顶点当前写成 `x, y, z` 三个数字。
+- `vertices[]` 里传给 shader 的不是窗口像素坐标，而是 NDC 坐标。
+- OpenGL 第一课里，`x/y` 大致在 `-1` 到 `+1` 范围内：`(-1, -1)` 是左下角，`(0, 0)` 是屏幕中心。
+- 一个点在左下角，不代表整个三角形都在左下角；三角形的位置和形状由三个点一起决定。
+
+### 今日产出
+
+- 建立 [02 Vertex Data](../../demos/02_vertex_data/README.md) 独立工程。
+- 通过改顶点坐标观察三角形形状变化。
+- 明确记住：当前传的是 NDC 坐标，不是像素坐标。
+- 整理了 OpenGL / Vulkan / DirectX 的 NDC 差异图，作为后续跨平台渲染复习资料。
+
+### 和计划对比
+
+原计划第 02 天只理解顶点数据。今天完成了顶点坐标、NDC、坐标边界和平台差异的初步整理，进度略超前。
+
+下一步 Day 03 适合专门学 VBO：把这些顶点数据放进 GPU Buffer。
+
 ## 2026-05-14：OpenGL Day 03
 
-![OpenGL Day 03 复盘](assets/opengl-day-03-vbo-renderdoc-recap.png)
+![OpenGL Day 03 复盘](day03_vbo/opengl-day-03-vbo-renderdoc-recap.png)
 
 ### 今日核心知识
 
@@ -60,8 +85,6 @@
 
 ## 图片资产
 
-- [OpenGL 第一周学习路线](assets/opengl-week-01-roadmap.png)
-- [OpenGL Day 01 复盘](assets/opengl-day-01-recap.png)
-- [平台 NDC 坐标差异速记（生成版）](assets/ndc-platform-differences.png)
-- [平台 NDC 坐标差异速记（修正版 SVG）](assets/ndc-platform-differences.svg)
-- [OpenGL Day 03 VBO 与 RenderDoc 复盘](assets/opengl-day-03-vbo-renderdoc-recap.png)
+- [Day 01：Hello Triangle 复盘资产](day01_hello_triangle/README.md)
+- [Day 02：Vertex Data / NDC 复盘资产](day02_vertex_data/README.md)
+- [Day 03：VBO / RenderDoc 复盘资产](day03_vbo/README.md)

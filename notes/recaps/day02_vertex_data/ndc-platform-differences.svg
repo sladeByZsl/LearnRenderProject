@@ -1,0 +1,108 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900">
+  <rect width="1600" height="900" fill="#0d1018"/>
+  <text x="800" y="80" text-anchor="middle" fill="#f6f7fb" font-size="54" font-family="Arial, 'PingFang SC', sans-serif" font-weight="700">平台 NDC 坐标差异速记</text>
+  <text x="800" y="124" text-anchor="middle" fill="#aeb6c8" font-size="24" font-family="Arial, 'PingFang SC', sans-serif">同样是裁剪后坐标，不同图形 API 的可见范围不完全一样</text>
+
+  <defs>
+    <style>
+      .card-title { font: 700 28px Arial, 'PingFang SC', sans-serif; }
+      .body { font: 22px Arial, 'PingFang SC', sans-serif; fill: #eef2f7; }
+      .muted { font: 18px Arial, 'PingFang SC', sans-serif; fill: #aeb6c8; }
+      .small { font: 16px Arial, 'PingFang SC', sans-serif; fill: #aeb6c8; }
+      .axis { stroke-width: 4; stroke-linecap: round; }
+      .box { fill: none; stroke-width: 4; rx: 8; }
+      .divider { stroke: #2c3446; stroke-width: 2; }
+      .table-head { font: 700 22px Arial, 'PingFang SC', sans-serif; fill: #f6f7fb; }
+      .table-text { font: 20px Arial, 'PingFang SC', sans-serif; fill: #eef2f7; }
+    </style>
+    <marker id="arrow-blue" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#54a1ff"/>
+    </marker>
+    <marker id="arrow-purple" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#c47cff"/>
+    </marker>
+    <marker id="arrow-green" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#62d66f"/>
+    </marker>
+  </defs>
+
+  <!-- OpenGL -->
+  <g transform="translate(70,165)">
+    <rect width="450" height="500" rx="16" fill="#0b2038" stroke="#26629f" stroke-width="3"/>
+    <text x="40" y="55" class="card-title" fill="#54a1ff">OpenGL / OpenGL ES / WebGL</text>
+    <g transform="translate(225,205)">
+      <rect x="-92" y="-92" width="184" height="184" class="box" stroke="#26629f"/>
+      <line x1="-130" y1="0" x2="130" y2="0" class="axis" stroke="#54a1ff" marker-end="url(#arrow-blue)"/>
+      <line x1="0" y1="130" x2="0" y2="-130" class="axis" stroke="#ff7676" marker-end="url(#arrow-blue)"/>
+      <text x="142" y="8" fill="#54a1ff" font-size="22" font-family="Arial">+X</text>
+      <text x="-166" y="8" fill="#54a1ff" font-size="22" font-family="Arial">-X</text>
+      <text x="12" y="-138" fill="#ff7676" font-size="22" font-family="Arial">+Y</text>
+      <text x="12" y="154" fill="#ff7676" font-size="22" font-family="Arial">-Y</text>
+      <text x="-140" y="-110" class="small">(-1,+1)</text>
+      <text x="68" y="-110" class="small">(+1,+1)</text>
+      <text x="-140" y="126" class="small">(-1,-1)</text>
+      <text x="68" y="126" class="small">(+1,-1)</text>
+    </g>
+    <line x1="35" y1="355" x2="415" y2="355" class="divider"/>
+    <text x="45" y="395" class="body" fill="#54a1ff">X</text><text x="105" y="395" class="body">-1 左边界 → +1 右边界</text>
+    <text x="45" y="435" class="body" fill="#54a1ff">Y</text><text x="105" y="435" class="body">-1 下边界 → +1 上边界</text>
+    <text x="45" y="475" class="body" fill="#54a1ff">Z</text><text x="105" y="475" class="body">-1 近裁剪面 → +1 远裁剪面</text>
+  </g>
+
+  <!-- Vulkan -->
+  <g transform="translate(575,165)">
+    <rect width="450" height="500" rx="16" fill="#251032" stroke="#7b35a3" stroke-width="3"/>
+    <text x="40" y="55" class="card-title" fill="#c47cff">Vulkan</text>
+    <g transform="translate(225,205)">
+      <rect x="-92" y="-92" width="184" height="184" class="box" stroke="#7b35a3"/>
+      <line x1="-130" y1="0" x2="130" y2="0" class="axis" stroke="#c47cff" marker-end="url(#arrow-purple)"/>
+      <line x1="0" y1="-130" x2="0" y2="130" class="axis" stroke="#ff7676" marker-end="url(#arrow-purple)"/>
+      <text x="142" y="8" fill="#c47cff" font-size="22" font-family="Arial">+X</text>
+      <text x="-166" y="8" fill="#c47cff" font-size="22" font-family="Arial">-X</text>
+      <text x="12" y="-138" fill="#ff7676" font-size="22" font-family="Arial">-Y</text>
+      <text x="12" y="154" fill="#ff7676" font-size="22" font-family="Arial">+Y</text>
+      <text x="-140" y="-110" class="small">(-1,-1)</text>
+      <text x="68" y="-110" class="small">(+1,-1)</text>
+      <text x="-140" y="126" class="small">(-1,+1)</text>
+      <text x="68" y="126" class="small">(+1,+1)</text>
+    </g>
+    <line x1="35" y1="355" x2="415" y2="355" class="divider"/>
+    <text x="45" y="395" class="body" fill="#c47cff">X</text><text x="105" y="395" class="body">-1 左边界 → +1 右边界</text>
+    <text x="45" y="435" class="body" fill="#c47cff">Y</text><text x="105" y="435" class="body">-1 上边界 → +1 下边界</text>
+    <text x="45" y="475" class="body" fill="#c47cff">Z</text><text x="105" y="475" class="body">0 近裁剪面 → +1 远裁剪面</text>
+  </g>
+
+  <!-- DirectX -->
+  <g transform="translate(1080,165)">
+    <rect width="450" height="500" rx="16" fill="#0c2916" stroke="#257f35" stroke-width="3"/>
+    <text x="40" y="55" class="card-title" fill="#62d66f">DirectX / D3D</text>
+    <g transform="translate(225,205)">
+      <rect x="-92" y="-92" width="184" height="184" class="box" stroke="#257f35"/>
+      <line x1="-130" y1="0" x2="130" y2="0" class="axis" stroke="#62d66f" marker-end="url(#arrow-green)"/>
+      <line x1="0" y1="130" x2="0" y2="-130" class="axis" stroke="#ff7676" marker-end="url(#arrow-green)"/>
+      <text x="142" y="8" fill="#62d66f" font-size="22" font-family="Arial">+X</text>
+      <text x="-166" y="8" fill="#62d66f" font-size="22" font-family="Arial">-X</text>
+      <text x="12" y="-138" fill="#ff7676" font-size="22" font-family="Arial">+Y</text>
+      <text x="12" y="154" fill="#ff7676" font-size="22" font-family="Arial">-Y</text>
+      <text x="-140" y="-110" class="small">(-1,+1)</text>
+      <text x="68" y="-110" class="small">(+1,+1)</text>
+      <text x="-140" y="126" class="small">(-1,-1)</text>
+      <text x="68" y="126" class="small">(+1,-1)</text>
+    </g>
+    <line x1="35" y1="355" x2="415" y2="355" class="divider"/>
+    <text x="45" y="395" class="body" fill="#62d66f">X</text><text x="105" y="395" class="body">-1 左边界 → +1 右边界</text>
+    <text x="45" y="435" class="body" fill="#62d66f">Y</text><text x="105" y="435" class="body">-1 下边界 → +1 上边界</text>
+    <text x="45" y="475" class="body" fill="#62d66f">Z</text><text x="105" y="475" class="body">0 近裁剪面 → +1 远裁剪面</text>
+  </g>
+
+  <g transform="translate(90,705)">
+    <rect width="1420" height="120" rx="14" fill="#121827" stroke="#30394f" stroke-width="2"/>
+    <text x="30" y="42" class="table-head">差异汇总</text>
+    <text x="30" y="82" class="table-text">X：三者一致，都是 -1 左边界 → +1 右边界</text>
+    <text x="510" y="82" class="table-text">Y：Vulkan 常见视口下与 OpenGL / DirectX 相反</text>
+    <text x="1020" y="82" class="table-text">Z：OpenGL 是 [-1,+1]，Vulkan / DirectX 是 [0,+1]</text>
+  </g>
+
+  <rect x="330" y="845" width="940" height="34" rx="17" fill="#151b2a" stroke="#2d3548"/>
+  <text x="800" y="869" text-anchor="middle" fill="#ffdf7a" font-size="22" font-family="Arial, 'PingFang SC', sans-serif" font-weight="700">今天只需要记住：vertices[] 里先传的是 NDC 坐标，不是像素坐标。</text>
+</svg>
