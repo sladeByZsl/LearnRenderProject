@@ -69,3 +69,23 @@ glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 可以把它想成 Unity Inspector 里先选中一个对象，然后你改 Transform 面板，改动就会作用到当前选中的对象上。OpenGL 的 `bind` 就像“选中对象”，后续调用就会作用到被选中的对象上。
 
 这种设计的好处是 API 形式比较统一；坏处是代码阅读时要记住“当前绑定的是谁”。所以学习 OpenGL 时，经常要顺着 `glBind*` 往下看，确认后面的 `gl*` 调用到底在改哪个对象。
+
+### Q: 可以同时绑定两个 `GL_ARRAY_BUFFER` 吗？
+
+A: 不能。`GL_ARRAY_BUFFER` 是一个绑定点，同一时刻只能有一个 VBO 绑定在这个位置上。
+
+比如：
+
+```cpp
+glBindBuffer(GL_ARRAY_BUFFER, VBO1);
+glBufferData(GL_ARRAY_BUFFER, sizeof(vertices1), vertices1, GL_STATIC_DRAW);
+
+glBindBuffer(GL_ARRAY_BUFFER, VBO2);
+glBufferData(GL_ARRAY_BUFFER, sizeof(vertices2), vertices2, GL_STATIC_DRAW);
+```
+
+第二次 `glBindBuffer` 会把当前 `GL_ARRAY_BUFFER` 从 `VBO1` 切换成 `VBO2`。这不代表 `VBO1` 被删除，也不代表它的数据没了；只是“当前选中对象”换成了 `VBO2`。
+
+可以理解成：你可以有很多个 VBO 仓库，但 `GL_ARRAY_BUFFER` 这个操作台一次只能摆一个仓库。你要改哪个仓库，就先把哪个仓库搬到操作台上。
+
+后面会遇到一个更重要的点：`glVertexAttribPointer` 会把“当前绑定的 `GL_ARRAY_BUFFER`”记录进 VAO。也就是说，配置顶点属性时，绑定的是哪个 VBO，VAO 就会记住那个 VBO。这个留到 VAO 那天再细拆。
