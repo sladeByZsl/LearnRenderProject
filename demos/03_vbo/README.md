@@ -89,3 +89,36 @@ glBufferData(GL_ARRAY_BUFFER, sizeof(vertices2), vertices2, GL_STATIC_DRAW);
 可以理解成：你可以有很多个 VBO 仓库，但 `GL_ARRAY_BUFFER` 这个操作台一次只能摆一个仓库。你要改哪个仓库，就先把哪个仓库搬到操作台上。
 
 后面会遇到一个更重要的点：`glVertexAttribPointer` 会把“当前绑定的 `GL_ARRAY_BUFFER`”记录进 VAO。也就是说，配置顶点属性时，绑定的是哪个 VBO，VAO 就会记住那个 VBO。这个留到 VAO 那天再细拆。
+
+### Q: “绑定点”是什么？
+
+A: 绑定点可以理解成 OpenGL 里预先规定好的“操作入口”或“插槽”。你不能随便对一个 GPU 对象调用所有操作，而是要先把对象绑定到某个对应的绑定点上，再通过这个绑定点操作它。
+
+比如：
+
+```cpp
+glBindBuffer(GL_ARRAY_BUFFER, VBO);
+glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+```
+
+这里 `GL_ARRAY_BUFFER` 就是绑定点。它的含义是：当前要操作的是“顶点数组缓冲区”。`VBO` 是具体对象，`GL_ARRAY_BUFFER` 是 OpenGL 提供的操作位置。
+
+可以用这个模型记：
+
+```text
+具体对象：VBO1、VBO2、VBO3
+绑定点：GL_ARRAY_BUFFER
+当前状态：GL_ARRAY_BUFFER -> VBO2
+后续操作：glBufferData(GL_ARRAY_BUFFER, ...) 实际改的是 VBO2
+```
+
+绑定点不是对象本身，而是对象被接到 OpenGL 管线上的位置。换句话说：**对象负责存数据，绑定点负责告诉 OpenGL 当前要按哪种用途操作这个对象。**
+
+后面还会看到很多类似绑定点：
+
+- `GL_ARRAY_BUFFER`：绑定 VBO，表示顶点属性数据。
+- `GL_ELEMENT_ARRAY_BUFFER`：绑定 EBO，表示索引数据。
+- `GL_TEXTURE_2D`：绑定 2D 纹理。
+- `GL_FRAMEBUFFER`：绑定帧缓冲。
+
+所以现在先记一句话：**绑定点是 OpenGL 的操作插槽，绑定对象以后，后续 API 通过这个插槽找到真正要操作的对象。**
