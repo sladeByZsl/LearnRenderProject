@@ -231,3 +231,59 @@ DirectX: CreateBuffer / Map / Unmap + IASetVertexBuffers(...)
 ```
 
 注意不要把 API 名字硬对应成一模一样。OpenGL 是绑定点状态机风格，DirectX 更像显式设置管线阶段资源。但底层目标一致：让 GPU 在绘制时能读到顶点数据。
+
+### Q: 在 Windows 上怎么用 RenderDoc 看到我这个程序的各种 buffer？
+
+A: 可以。Windows 是更适合抓这个 OpenGL demo 的环境。RenderDoc 支持 Windows 上的 OpenGL / D3D11 / D3D12 / Vulkan；我们的 demo 是 OpenGL 3.3 Core Profile，适合用 RenderDoc 抓帧。
+
+推荐流程：
+
+1. 在 Windows 上准备工程。
+
+   ```powershell
+   git clone git@github.com:sladeByZsl/LearnRenderProject.git
+   cd LearnRenderProject\demos\03_vbo
+   ```
+
+   需要提前装好 CMake、Visual Studio Build Tools 或 Visual Studio、GLFW。GLFW 可以用 vcpkg、MSYS2 或手动安装，只要 `find_package(glfw3 REQUIRED)` 能找到即可。
+
+2. 先确认程序能独立跑起来。
+
+   ```powershell
+   cmake -S . -B build
+   cmake --build build --config Release
+   .\build\Release\vbo.exe
+   ```
+
+   如果生成器不是 Visual Studio，exe 路径可能是：
+
+   ```powershell
+   .\build\vbo.exe
+   ```
+
+3. 打开 RenderDoc，进 `Launch Application`。
+
+   - `Executable Path` 选择 `vbo.exe`。
+   - `Working Directory` 选择 `demos\03_vbo` 或 `vbo.exe` 所在目录。
+   - 点击 `Launch`。
+
+4. 程序窗口出现后，在 RenderDoc 里点 `Capture Frame(s) Immediately`，或者按 RenderDoc 覆盖层提示的快捷键抓一帧。
+
+5. 双击打开 capture，看这几个位置：
+
+   - `Event Browser`：选中 `glDrawArrays` 那个 draw call。
+   - `Pipeline State`：看当前绑定的 shader、VAO、vertex input / attributes。
+   - `Mesh Viewer`：看顶点输入数据，应该能看到类似 `-0.65, -0.45, 0.0` 这些坐标。
+   - `Resource Inspector` 或 buffer 相关视图：看 buffer 对象本身。
+
+你截图时优先截这三张：
+
+- 选中 `glDrawArrays` 的 `Event Browser`。
+- `Pipeline State` 里 vertex input / buffer / attributes 的位置。
+- `Mesh Viewer` 里顶点表格。
+
+这样我就能帮你把 RenderDoc 里的 buffer、attribute、draw call，和代码里的 `VBO`、`glVertexAttribPointer`、`glDrawArrays` 一一对上。
+
+参考：
+
+- [RenderDoc GitHub - API Support](https://github.com/baldurk/renderdoc#api-support)
