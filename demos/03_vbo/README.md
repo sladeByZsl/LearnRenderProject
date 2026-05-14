@@ -326,6 +326,35 @@ DrawIndexed(48)   按当前状态真正画一次
 - `glUniform*`：更新 shader 参数，不算 draw call。
 - `glDrawArrays` / `glDrawElements`：真正绘制，算 draw call。
 
+### Q: 为什么 RenderDoc 里会有那么多次 `Map` / `Unmap`？
+
+A: 因为一帧里不只画一个东西，也不只更新一份数据。Unity 在渲染 UI、文字、图片、材质参数、相机参数时，可能会频繁更新不同的 GPU buffer，所以 RenderDoc 里会看到很多次 `Map` / `Unmap`。
+
+常见原因：
+
+- **更新常量 buffer**：每个 draw 可能有不同的矩阵、颜色、裁剪区域、材质参数。
+- **更新动态顶点/索引 buffer**：UI、文字、动态图形经常每帧重新生成一批顶点和索引。
+- **分批绘制不同元素**：不同纹理、不同材质、不同裁剪状态，可能需要拆成多个批次。
+- **引擎内部复用大 buffer**：Unity 可能用一块动态 buffer 反复 `Map`、写入一段数据、`Unmap`，再给后面的 draw 使用。
+
+从你截图看，很多事件是 `GUITexture.Draw`，这通常意味着当前帧里有很多 UI/GUI 相关绘制。UI 系统经常会更新小块数据，所以 `Map` / `Unmap` 数量会比较多。
+
+可以这样理解：
+
+```text
+Map / Unmap 很多：说明 CPU 正在频繁准备或更新 GPU 要用的数据
+Draw / DrawIndexed 很多：说明 GPU 收到了很多次绘制命令
+```
+
+这两者相关，但不是同一件事。`Map` / `Unmap` 多，不一定等于 draw call 多；draw call 数量还是要看 `Draw*` 事件。
+
+后面做性能分析时，通常会同时关注：
+
+- draw call 数量是否太多；
+- buffer 更新是否太频繁；
+- 是否存在很多小批次；
+- 是否能通过 batching / instancing / 合并 UI 来减少状态切换和资源更新。
+
 ### Q: 在 Windows 上怎么用 RenderDoc 看到我这个程序的各种 buffer？
 
 A: 可以。Windows 是更适合抓这个 OpenGL demo 的环境。RenderDoc 支持 Windows 上的 OpenGL / D3D11 / D3D12 / Vulkan；我们的 demo 是 OpenGL 3.3 Core Profile，适合用 RenderDoc 抓帧。
