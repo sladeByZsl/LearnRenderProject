@@ -355,6 +355,44 @@ Draw / DrawIndexed 很多：说明 GPU 收到了很多次绘制命令
 - 是否存在很多小批次；
 - 是否能通过 batching / instancing / 合并 UI 来减少状态切换和资源更新。
 
+### Q: `Map` / `Unmap` 对应到 Unity 里是什么概念？是合批吗？
+
+A: `Map` / `Unmap` 不是合批本身。它更接近 Unity 底层渲染模块在做“把 CPU 侧准备好的数据写进 GPU buffer”。
+
+可以分层理解：
+
+```text
+Unity 上层概念：
+GameObject / Mesh / Canvas / Text / Image / Material
+
+Unity 渲染整理：
+合批、排序、裁剪、生成顶点/索引、准备材质参数
+
+图形 API 层：
+Map / Unmap / SetVertexBuffer / SetConstantBuffer / DrawIndexed
+```
+
+**合批**解决的是：能不能把多个对象整理成更少的 draw call。比如多个 UI Image 使用同一个材质和纹理，Unity 可能把它们合成一批，最后用一次或更少次数的 `DrawIndexed` 画。
+
+**Map / Unmap**解决的是：数据怎么从 CPU 写进 GPU buffer。合批之后生成出来的一大段顶点/索引数据，仍然可能需要通过 `Map / Unmap` 上传到动态 buffer。
+
+所以关系是：
+
+```text
+合批：决定怎么把多个东西组织成批次
+Map / Unmap：把某个批次需要的数据写进 GPU buffer
+DrawIndexed：让 GPU 按当前数据和状态真正画出来
+```
+
+在 Unity 里你可以粗略对应成：
+
+- UI 合批 / Mesh 合批：上层批次组织策略。
+- `Mesh` 顶点数据、UI 生成的顶点数据、材质参数：CPU 准备的数据。
+- `Map / Unmap`：底层把这些数据更新到 GPU buffer。
+- `DrawIndexed`：最终的绘制命令。
+
+所以如果看到很多 `Map / Unmap`，不一定说明“没有合批”。它可能只是说明 Unity 正在频繁更新动态数据，尤其是 UI、文字、粒子、动态网格、常量 buffer 这类内容。判断合批效果，还是要看最终 `Draw*` 数量、材质/纹理切换、Canvas 拆分、SRP Batcher/Instancing 状态等。
+
 ### Q: 在 Windows 上怎么用 RenderDoc 看到我这个程序的各种 buffer？
 
 A: 可以。Windows 是更适合抓这个 OpenGL demo 的环境。RenderDoc 支持 Windows 上的 OpenGL / D3D11 / D3D12 / Vulkan；我们的 demo 是 OpenGL 3.3 Core Profile，适合用 RenderDoc 抓帧。
