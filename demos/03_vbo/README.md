@@ -122,3 +122,36 @@ glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 - `GL_FRAMEBUFFER`：绑定帧缓冲。
 
 所以现在先记一句话：**绑定点是 OpenGL 的操作插槽，绑定对象以后，后续 API 通过这个插槽找到真正要操作的对象。**
+
+### Q: 我能看到 OpenGL 的当前状态吗？
+
+A: 能看到一部分，但 OpenGL 没有一个统一的“打印全部当前状态”按钮。通常有两种方式：
+
+第一种是用 `glGet*` 查询某个具体状态。例如想知道当前 `GL_ARRAY_BUFFER` 绑定的是哪个 VBO，可以这样查：
+
+```cpp
+int currentArrayBuffer = 0;
+glGetIntegerv(GL_ARRAY_BUFFER_BINDING, &currentArrayBuffer);
+std::cout << "Current GL_ARRAY_BUFFER = " << currentArrayBuffer << std::endl;
+```
+
+如果前面执行过：
+
+```cpp
+glBindBuffer(GL_ARRAY_BUFFER, VBO);
+```
+
+那么 `currentArrayBuffer` 打印出来的值通常就会等于 `VBO` 的 ID。
+
+常见查询例子：
+
+```cpp
+GL_ARRAY_BUFFER_BINDING          // 当前 GL_ARRAY_BUFFER 绑定的 VBO
+GL_VERTEX_ARRAY_BINDING          // 当前绑定的 VAO
+GL_CURRENT_PROGRAM               // 当前使用的 shader program
+GL_VIEWPORT                      // 当前 viewport
+```
+
+第二种是用图形调试工具，比如 RenderDoc、Xcode GPU Frame Capture。这类工具可以抓一帧，看到 draw call 当时绑定了哪些 buffer、shader、texture、uniform，比自己到处写 `glGet*` 更适合排查复杂渲染问题。
+
+学习阶段可以先记：**可以查，但要按状态项一个一个查；真正工程调试通常会用图形调试器看整帧状态。**
