@@ -155,3 +155,16 @@ GL_VIEWPORT                      // 当前 viewport
 第二种是用图形调试工具，比如 RenderDoc、Xcode GPU Frame Capture。这类工具可以抓一帧，看到 draw call 当时绑定了哪些 buffer、shader、texture、uniform，比自己到处写 `glGet*` 更适合排查复杂渲染问题。
 
 学习阶段可以先记：**可以查，但要按状态项一个一个查；真正工程调试通常会用图形调试器看整帧状态。**
+
+### Q: 我这个工程能抓 GPU 帧吗？
+
+A: 当前工程是 macOS + GLFW + OpenGL。结论要分情况：
+
+- 在当前 macOS 环境下，不建议把“抓完整 GPU 帧”作为今天的学习目标。Apple 已经弃用 OpenGL，Xcode 的现代 GPU Frame Capture 主要面向 Metal；当前这种 GLFW/OpenGL 小工程，用 Xcode 抓帧不一定稳定、入口也不一定可用。
+- RenderDoc 很适合学习图形调试，但官方支持主要是 Windows / Linux / Android。它支持 OpenGL 3.2 - 4.6 Core Profile；如果以后把这个工程放到 Windows 或 Linux 上跑，当前 OpenGL 3.3 Core Profile demo 就很适合用 RenderDoc 抓帧。
+- 现在最实用的做法，是先在代码里用 `glGet*` 查询关键状态，比如当前 VBO、VAO、shader program。等后面想系统学习图形调试时，再专门安排一天用 RenderDoc 或 Xcode GPU 工具。
+
+参考：
+
+- [RenderDoc README - API Support](https://github.com/baldurk/renderdoc#api-support)
+- [Apple Developer - Capturing a Metal workload in Xcode](https://developer.apple.com/documentation/metal/frame_capture_debugging_tools/capturing_a_frame_using_a_breakpoint)
