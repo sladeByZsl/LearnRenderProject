@@ -284,6 +284,48 @@ glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_INT, 0);
 
 前面几行是设置当前状态，最后一行 `glDrawElements` 才是真正的绘制命令。
 
+### Q: 前面很多次 `Map` / `Unmap` 算 draw call 吗？
+
+A: 不算。`Map` / `Unmap` 是资源更新调用，不是绘制调用。
+
+在 DirectX 里：
+
+- `Map(buffer)`：CPU 取得一段 buffer 的可写/可读访问权。
+- CPU 写入数据：比如更新顶点、索引、常量 buffer。
+- `Unmap(buffer)`：CPU 写完了，把访问权还给 GPU/驱动。
+
+这一步只是“准备数据”，还没有让 GPU 画东西。真正算 draw call 的是：
+
+```text
+Draw(...)
+DrawIndexed(...)
+DrawInstanced(...)
+DrawIndexedInstanced(...)
+```
+
+你截图里如果看到：
+
+```text
+Map(ConstantBuffer-...)
+Unmap(ConstantBuffer-...)
+DrawIndexed(48)
+```
+
+那可以理解成：
+
+```text
+Map / Unmap       更新 shader 要用的参数
+DrawIndexed(48)   按当前状态真正画一次
+```
+
+所以统计 draw call 数量时，不数 `Map` / `Unmap`，只数 `Draw*` 这类绘制命令。
+
+对应到 OpenGL：
+
+- `glBufferData` / `glBufferSubData`：更新 buffer 数据，不算 draw call。
+- `glUniform*`：更新 shader 参数，不算 draw call。
+- `glDrawArrays` / `glDrawElements`：真正绘制，算 draw call。
+
 ### Q: 在 Windows 上怎么用 RenderDoc 看到我这个程序的各种 buffer？
 
 A: 可以。Windows 是更适合抓这个 OpenGL demo 的环境。RenderDoc 支持 Windows 上的 OpenGL / D3D11 / D3D12 / Vulkan；我们的 demo 是 OpenGL 3.3 Core Profile，适合用 RenderDoc 抓帧。
