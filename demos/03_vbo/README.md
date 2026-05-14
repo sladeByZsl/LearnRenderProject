@@ -168,3 +168,66 @@ A: 当前工程是 macOS + GLFW + OpenGL。结论要分情况：
 
 - [RenderDoc README - API Support](https://github.com/baldurk/renderdoc#api-support)
 - [Apple Developer - Capturing a Metal workload in Xcode](https://developer.apple.com/documentation/metal/frame_capture_debugging_tools/capturing_a_frame_using_a_breakpoint)
+
+### Q: 那 Xcode 呢？这个工程能用 Xcode 抓吗？
+
+A: Xcode 要分成两种用途看：
+
+第一，**用 Xcode 编译、运行、断点调试 C++ 代码是可以的**。这个工程是 CMake 工程，可以生成 Xcode 工程：
+
+```bash
+cd /Users/zsl/Documents/work/learnOpenGL/demos/03_vbo
+cmake -S . -B build-xcode -G Xcode
+```
+
+然后打开：
+
+```bash
+open build-xcode/vbo.xcodeproj
+```
+
+这适合看 C++ 变量、打断点、单步执行，例如观察 `VBO` 的整数 ID、`vertices[]` 数组内容。
+
+第二，**用 Xcode GPU Frame Capture 抓当前这个 macOS GLFW/OpenGL 工程，不建议作为主要方案**。Apple 当前文档里的 Xcode GPU Frame Capture 主要围绕 Metal；文档也明确提到 GPU Frame Capture 选项捕获的是 Metal 或 OpenGL ES API usage，而 macOS 桌面 OpenGL 已经从 macOS 10.14 开始被弃用。
+
+所以现在最实用的结论是：
+
+- C++ 代码调试：可以用 Xcode。
+- OpenGL 状态学习：先用 `glGet*`。
+- 完整 GPU 帧调试：以后优先在 Windows / Linux 上用 RenderDoc，或者等学 Metal 时用 Xcode GPU Frame Capture。
+
+参考：
+
+- [Apple Developer - Capturing a Metal workload in Xcode](https://developer.apple.com/documentation/metal/frame_capture_debugging_tools/capturing_a_frame_using_a_breakpoint)
+- [Apple Developer - About OpenGL for OS X](https://developer.apple.com/opengl/)
+
+### Q: 我在台式机上用 RenderDoc 抓 Unity，能和现在学的 VBO 对上吗？
+
+A: 能对上，而且这是很好的观察方式。你截图里是 RenderDoc 抓到的 Unity D3D11 帧，左边是 draw call 列表，中间和右边是资源状态。
+
+其中看到类似：
+
+```text
+D3D11Device::CreateBuffer(..., D3D11_BIND_VERTEX_BUFFER)
+Buffer-1-1048576
+Map(Buffer-...)
+Unmap(Buffer-...)
+GUITexture.Draw
+```
+
+可以这样对应：
+
+- `D3D11_BIND_VERTEX_BUFFER`：DirectX 里的顶点缓冲用途，概念上对应 OpenGL 的 VBO。
+- `Buffer-*`：GPU 资源对象，类似 OpenGL 里的某个 VBO ID。
+- `Map / Unmap`：CPU 临时写入 GPU buffer 的方式，概念上接近“把 CPU 数据传给 GPU buffer”，但 DirectX 的 API 形式和 OpenGL 的 `glBufferData` 不一样。
+- `GUITexture.Draw` / `DrawIndexed`：一次绘制调用，对应 OpenGL 里的 `glDrawArrays` / `glDrawElements`。
+
+所以今天的 VBO 概念可以迁移过去：
+
+```text
+OpenGL:  glBindBuffer(GL_ARRAY_BUFFER, VBO) + glBufferData(...)
+DirectX: CreateBuffer / Map / Unmap + IASetVertexBuffers(...)
+共同点：都是把顶点数据放到 GPU buffer，draw call 再读取它
+```
+
+注意不要把 API 名字硬对应成一模一样。OpenGL 是绑定点状态机风格，DirectX 更像显式设置管线阶段资源。但底层目标一致：让 GPU 在绘制时能读到顶点数据。
