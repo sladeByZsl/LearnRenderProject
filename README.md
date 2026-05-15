@@ -35,6 +35,7 @@
 - [01 Hello Triangle](demos/01_hello_triangle/README.md)
 - [02 Vertex Data](demos/02_vertex_data/README.md)
 - [03 VBO](demos/03_vbo/README.md)
+- [04 VAO](demos/04_vao/README.md)
 
 后续每天开始学习时，默认先创建当天独立 demo 目录、README 和 `run.sh`。当天 demo 尽量只服务一个核心概念，避免把新知识挤在同一个文件里。
 
