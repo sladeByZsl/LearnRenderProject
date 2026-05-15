@@ -19,8 +19,11 @@ case "${1:-basic}" in
     color)
         "$BUILD_DIR/vao_color_attributes"
         ;;
+    split)
+        "$BUILD_DIR/vao_split_buffers"
+        ;;
     *)
-        echo "Usage: ./run.sh [basic|color]"
+        echo "Usage: ./run.sh [basic|color|split]"
         exit 1
         ;;
 esac

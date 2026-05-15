@@ -18,7 +18,11 @@ target_link_libraries(vao PRIVATE glad glfw OpenGL::GL)
 add_executable(vao_color_attributes src/vao_color_attributes.cpp)
 target_link_libraries(vao_color_attributes PRIVATE glad glfw OpenGL::GL)
 
+add_executable(vao_split_buffers src/vao_split_buffers.cpp)
+target_link_libraries(vao_split_buffers PRIVATE glad glfw OpenGL::GL)
+
 if(APPLE)
     target_compile_definitions(vao PRIVATE GL_SILENCE_DEPRECATION)
     target_compile_definitions(vao_color_attributes PRIVATE GL_SILENCE_DEPRECATION)
+    target_compile_definitions(vao_split_buffers PRIVATE GL_SILENCE_DEPRECATION)
 endif()

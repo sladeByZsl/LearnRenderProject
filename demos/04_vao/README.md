@@ -21,6 +21,12 @@
 ./run.sh color
 ```
 
+加餐 demo 2：一个 VAO 记录两个属性，但位置和颜色来自两个不同 VBO：
+
+```bash
+./run.sh split
+```
+
 也可以手动执行：
 
 ```bash
@@ -28,6 +34,7 @@ cmake -S . -B build
 cmake --build build
 ./build/vao
 ./build/vao_color_attributes
+./build/vao_split_buffers
 ```
 
 ## 今天只需要记住
@@ -75,6 +82,44 @@ glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * s
 ```
 
 这能提前看到一个更真实的顶点格式：一个顶点不只有位置，也可以有颜色、UV、法线等属性。今天只需要理解位置和颜色两个属性即可。
+
+## 加餐 2：一个 VAO 记录多个 VBO
+
+继续跑：
+
+```bash
+./run.sh split
+```
+
+这个 demo 把位置和颜色分成两个数组、两个 VBO：
+
+```cpp
+float positions[] = { ... };
+float colors[] = { ... };
+```
+
+配置时：
+
+```cpp
+// location = 0 来自 positionVBO
+glBindBuffer(GL_ARRAY_BUFFER, positionVBO);
+glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+
+// location = 1 来自 colorVBO
+glBindBuffer(GL_ARRAY_BUFFER, colorVBO);
+glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+```
+
+重点是：`GL_ARRAY_BUFFER` 同一时刻还是只能绑定一个 VBO，但每次调用 `glVertexAttribPointer` 时，当前绑定的是哪个 VBO，VAO 就会把哪个 VBO 记录到对应 attribute 上。
+
+所以 VAO 可以记录：
+
+```text
+location 0 -> positionVBO
+location 1 -> colorVBO
+```
+
+这比前一个 `color` demo 更进一步：VAO 不只是记录多个属性，也能记录这些属性来自不同 VBO。
 
 ## Q&A
 
@@ -131,3 +176,20 @@ A: 不是。VAO 可以记录多个顶点属性。比如加餐 demo 里：
 ```
 
 所以 VAO 更准确的理解是：**记录一组顶点属性读取规则**。
+
+### Q: VAO 能记录多个 VBO 吗？
+
+A: 能。严格说，VAO 记录的是“每个 attribute 应该从哪个 VBO、按什么格式读取”。所以不同 attribute 可以来自同一个 VBO，也可以来自不同 VBO。
+
+两种常见组织方式：
+
+```text
+交错数据 Interleaved：
+一个 VBO: x y z r g b | x y z r g b | ...
+
+分离数据 Separate:
+positionVBO: x y z | x y z | ...
+colorVBO:    r g b | r g b | ...
+```
+
+两种都可以。今天不判断哪种一定更好，只要记住：**VAO 记录 attribute 到 VBO 的对应关系**。
