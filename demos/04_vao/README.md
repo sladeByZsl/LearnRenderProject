@@ -15,12 +15,19 @@
 ./run.sh
 ```
 
+加餐 demo：一个 VAO 记录两个属性，位置 + 颜色：
+
+```bash
+./run.sh color
+```
+
 也可以手动执行：
 
 ```bash
 cmake -S . -B build
 cmake --build build
 ./build/vao
+./build/vao_color_attributes
 ```
 
 ## 今天只需要记住
@@ -39,6 +46,35 @@ cmake --build build
 3. 运行 `./run.sh`，观察两个三角形分别来自两个 VAO。
 
 最小完成标准：能说出 **VAO 不是顶点数据本身，而是 VBO 的读取说明书**。
+
+## 加餐：一个 VAO 记录多个属性
+
+如果觉得基础 demo 太少，可以跑：
+
+```bash
+./run.sh color
+```
+
+这个 demo 里每个顶点有 6 个 float：
+
+```cpp
+// position             // color
+-0.65f, -0.45f, 0.0f,   1.0f, 0.25f, 0.20f,
+ 0.65f, -0.45f, 0.0f,   0.25f, 0.95f, 0.35f,
+ 0.0f,   0.65f, 0.0f,   0.25f, 0.55f, 1.0f
+```
+
+VAO 会记录两条读取规则：
+
+```cpp
+// location = 0：读位置，从偏移 0 开始
+glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
+
+// location = 1：读颜色，从偏移 3 * sizeof(float) 开始
+glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+```
+
+这能提前看到一个更真实的顶点格式：一个顶点不只有位置，也可以有颜色、UV、法线等属性。今天只需要理解位置和颜色两个属性即可。
 
 ## Q&A
 
@@ -78,3 +114,20 @@ glDrawArrays(GL_TRIANGLES, 0, 3);
 ```
 
 如果两个三角形都能画出来，说明每个 VAO 都带着自己的顶点读取配置。
+
+### Q: VAO 只能记录一个属性吗？
+
+A: 不是。VAO 可以记录多个顶点属性。比如加餐 demo 里：
+
+- `location = 0`：位置 `aPos`。
+- `location = 1`：颜色 `aColor`。
+
+它们都来自同一个 VBO，但 offset 不同：
+
+```text
+一个顶点：x y z r g b
+位置属性：从 x 开始读 3 个 float
+颜色属性：从 r 开始读 3 个 float
+```
+
+所以 VAO 更准确的理解是：**记录一组顶点属性读取规则**。

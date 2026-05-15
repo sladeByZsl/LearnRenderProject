@@ -15,6 +15,10 @@ target_include_directories(glad PUBLIC ../01_hello_triangle/external/glad/includ
 add_executable(vao src/main.cpp)
 target_link_libraries(vao PRIVATE glad glfw OpenGL::GL)
 
+add_executable(vao_color_attributes src/vao_color_attributes.cpp)
+target_link_libraries(vao_color_attributes PRIVATE glad glfw OpenGL::GL)
+
 if(APPLE)
     target_compile_definitions(vao PRIVATE GL_SILENCE_DEPRECATION)
+    target_compile_definitions(vao_color_attributes PRIVATE GL_SILENCE_DEPRECATION)
 endif()

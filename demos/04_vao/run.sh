@@ -12,4 +12,15 @@ fi
 # 每次都 build，CMake 自动增量编译；有代码改动时，下次 run.sh 会立即生效
 cmake --build "$BUILD_DIR" -j "$(sysctl -n hw.logicalcpu)"
 
-"$BUILD_DIR/vao"
+case "${1:-basic}" in
+    basic)
+        "$BUILD_DIR/vao"
+        ;;
+    color)
+        "$BUILD_DIR/vao_color_attributes"
+        ;;
+    *)
+        echo "Usage: ./run.sh [basic|color]"
+        exit 1
+        ;;
+esac
