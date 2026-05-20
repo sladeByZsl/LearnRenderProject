@@ -37,6 +37,7 @@
 - [03 VBO](demos/03_vbo/README.md)
 - [04 VAO](demos/04_vao/README.md)
 - [05 Shader Attributes](demos/05_shader_attributes/README.md)
+- [06 Uniform](demos/06_uniform/README.md)
 
 后续每天开始学习时，默认先创建当天独立 demo 目录、README 和 `run.sh`。当天 demo 尽量只服务一个核心概念，避免把新知识挤在同一个文件里。
 
