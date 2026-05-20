@@ -71,3 +71,75 @@ attribute 1 -> aColor
 A: 因为三个顶点各自有颜色。Vertex shader 把每个顶点的颜色输出给后续阶段，光栅化阶段会在三角形内部自动插值，fragment shader 收到的是插值后的颜色。
 
 今天可以先不深究插值算法，只记一句：**顶点有不同颜色，三角形内部会自动过渡出渐变**。
+
+### Q: `glVertexAttribPointer` 和 `vertices[]` 是怎么对应的？
+
+A: 当前 `vertices[]` 里，一个顶点占 6 个 `float`：
+
+```text
+x y z r g b
+```
+
+前三个是位置，后三个是颜色：
+
+```cpp
+float vertices[] = {
+    // position             // color
+    -0.65f, -0.45f, 0.0f,   1.0f, 0.20f, 0.15f,
+     0.65f, -0.45f, 0.0f,   0.15f, 0.95f, 0.35f,
+     0.0f,   0.65f, 0.0f,   0.20f, 0.45f, 1.0f
+};
+```
+
+所以 `stride` 是：
+
+```cpp
+const int stride = 6 * sizeof(float);
+```
+
+第一条属性：
+
+```cpp
+glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, stride, (void*)0);
+glEnableVertexAttribArray(0);
+```
+
+表示：
+
+```text
+attribute 0
+每次读 3 个 float
+从每个顶点的开头读
+读到的是 x y z
+对应 shader 的 aPos
+```
+
+第二条属性：
+
+```cpp
+glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, stride, (void*)(3 * sizeof(float)));
+glEnableVertexAttribArray(1);
+```
+
+表示：
+
+```text
+attribute 1
+每次读 3 个 float
+先跳过前 3 个 float
+读到的是 r g b
+对应 shader 的 aColor
+```
+
+可以画成：
+
+```text
+| x | y | z | r | g | b |
+|--- position ---|--- color ---|
+^                ^
+offset 0         offset 3 * sizeof(float)
+
+stride = 6 * sizeof(float)
+```
+
+今天这节课最重要的结论是：**VBO 保存数字，VAO 保存怎么分段读这些数字，Shader 通过 `location` 接收读出来的属性。**
