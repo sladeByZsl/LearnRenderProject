@@ -47,6 +47,7 @@
 
 - [学习复盘](notes/recaps/README.md)
 - [旧笔记索引](notes/README.md)
+- [学习 TODO](notes/learning_todo.md)
 
 ## Framework
 
