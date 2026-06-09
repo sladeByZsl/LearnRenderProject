@@ -9,7 +9,17 @@
 - 每天只写 3-5 句话学习笔记。
 - 每 7 天把本周笔记整理成 1 篇公众号文章。
 
-整体路线：
+当前路线：PBR-first 加速路线。
+
+你决定直接从 PBR 原理开始。后续不再等完整 Camera / Depth / Lighting 路线走完，而是：
+
+```text
+PBR 主线先走
+-> Unity 里做材质球和 shader 效果观察
+-> 遇到 Camera / Depth / Normal / IBL 等依赖时再补
+```
+
+原完整路线仍作为补课地图：
 
 1. 第 1 周：OpenGL 基础管线，理解 VAO / VBO / Shader / Draw Call。
 2. 第 2 周：Texture / UV，理解图片如何变成 fragment shader 的颜色。
@@ -61,7 +71,11 @@
 
 ### Q: 什么时候能学到 PBR？
 
-A: 按当前节奏，PBR 建议在第 55-65 天左右开始。先完成 Camera / MVP、Depth、基础光照、Material、小场景和 Cubemap / Environment Map，再进入 PBR 会更稳。过早学 PBR 容易变成背公式；晚一点进入，才能把 `albedo / metallic / roughness / ao` 和真实渲染管线对应起来。
+A: 当前已经切到 PBR-first，加速开始。原本第 55-65 天是保守路线；现在改为直接学 PBR 原理，前置知识按需补。第一阶段先学 `albedo / metallic / roughness / ao` 和能量守恒直觉，再看 Cook-Torrance 的 F / D / G 结构。
+
+### Q: 直接学 PBR 会不会太跳？
+
+A: 可以跳，但学习方式要调整：先不推完整公式，先在 Unity 里用材质球观察参数变化。公式部分只先回答“这个模块解决什么问题”，例如 Fresnel 管视角相关反射，NDF 管微表面朝向分布，Geometry 管微表面遮挡。
 
 ### Q: Shader 效果实战在哪里写？
 

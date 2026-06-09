@@ -19,8 +19,8 @@
   <rect class="bg" width="1800" height="1200"/>
 
   <rect class="root" x="640" y="500" width="520" height="160" rx="34"/>
-  <text x="690" y="570" class="title">Unity 开发者从 0 补图形学</text>
-  <text x="715" y="615" class="small">OpenGL 理解底层，Unity 写 Shader 效果</text>
+  <text x="755" y="570" class="title">PBR-first 学习路线</text>
+  <text x="715" y="615" class="small">PBR 主线先走，缺前置概念就现场补</text>
 
   <path class="line" d="M 640 555 C 520 520, 420 400, 350 260"/>
   <path class="line" d="M 640 600 C 500 630, 400 750, 330 900"/>
@@ -31,59 +31,59 @@
 
   <g transform="translate(80,130)">
     <rect class="branch1" width="520" height="260" rx="24"/>
-    <text x="30" y="52" class="nodeTitle">第 1-3 周：基础已建立</text>
-    <text x="30" y="92" class="text">OpenGL 基础管线：VAO / VBO / EBO / Draw Call</text>
-    <text x="30" y="128" class="text">Shader 数据入口：attribute / uniform</text>
-    <text x="30" y="164" class="text">Texture / UV：图片上传、Sampler、Wrapping</text>
-    <text x="30" y="200" class="text">Transform：Translate / Rotate / Scale</text>
-    <text x="30" y="236" class="text">核心对应：Mesh + Material + Transform 的底层直觉</text>
+    <text x="30" y="52" class="nodeTitle">已有基础</text>
+    <text x="30" y="92" class="text">VAO / VBO / EBO / Draw Call</text>
+    <text x="30" y="128" class="text">Shader attribute / uniform</text>
+    <text x="30" y="164" class="text">Texture / UV / Sampler</text>
+    <text x="30" y="200" class="text">Transform / Model Matrix</text>
+    <text x="30" y="236" class="text">RenderDoc 初步观察</text>
   </g>
 
   <g transform="translate(80,790)">
     <rect class="branch2" width="520" height="270" rx="24"/>
-    <text x="30" y="52" class="nodeTitle">第 4-5 周：Camera + Depth</text>
-    <text x="30" y="92" class="text">OpenGL：Model / View / Projection</text>
-    <text x="30" y="128" class="text">OpenGL：Depth Test / Z-Buffer / near-far</text>
-    <text x="30" y="164" class="text">Unity Shader：UV 滚动 / UV 扭曲 / Mask</text>
-    <text x="30" y="200" class="text">Unity Shader：Outline / Highlight / 深度观察</text>
-    <text x="30" y="236" class="text">成果：能用 Camera 看 3D cube，并理解前后遮挡</text>
+    <text x="30" y="52" class="nodeTitle">PBR 参数直觉</text>
+    <text x="30" y="92" class="text">Albedo：物体本色，不含光照</text>
+    <text x="30" y="128" class="text">Metallic：金属 / 非金属分界</text>
+    <text x="30" y="164" class="text">Roughness：高光宽窄和反射清晰度</text>
+    <text x="30" y="200" class="text">AO：环境遮蔽，缝隙角落更暗</text>
+    <text x="30" y="236" class="text">Unity：材质球参数矩阵</text>
   </g>
 
   <g transform="translate(620,70)">
     <rect class="branch3" width="560" height="250" rx="24"/>
-    <text x="30" y="52" class="nodeTitle">第 6-7 周：Lighting + Material</text>
-    <text x="30" y="92" class="text">OpenGL：Normal / Ambient / Diffuse / Specular</text>
-    <text x="30" y="128" class="text">OpenGL：多个 Object / Material / Texture / Light</text>
-    <text x="30" y="164" class="text">Unity Shader：Rim Light / Toon Ramp / MatCap</text>
-    <text x="30" y="200" class="text">Unity Shader：Normal Map / Emission / Dissolve / Flow</text>
-    <text x="30" y="226" class="small">成果：一个小场景 + 一组可见材质效果</text>
+    <text x="30" y="52" class="nodeTitle">PBR 光照结构</text>
+    <text x="30" y="92" class="text">最终颜色不是单一高光，而是 diffuse + specular</text>
+    <text x="30" y="128" class="text">Diffuse：非金属漫反射</text>
+    <text x="30" y="164" class="text">Specular：高光和反射</text>
+    <text x="30" y="200" class="text">Energy Conservation：能量不凭空增加</text>
+    <text x="30" y="226" class="small">BRDF：描述入射光如何被表面反射</text>
   </g>
 
   <g transform="translate(1230,110)">
     <rect class="branch4" width="500" height="260" rx="24"/>
-    <text x="30" y="52" class="nodeTitle">第 8-9 周：PBR 入口</text>
-    <text x="30" y="92" class="text">先补：Cubemap / Environment Map / Reflection</text>
-    <text x="30" y="128" class="text">再看：Albedo / Metallic / Roughness / AO</text>
-    <text x="30" y="164" class="text">OpenGL：最小 Cook-Torrance PBR shader</text>
-    <text x="30" y="200" class="text">Unity Shader：Fresnel / Water / Glass</text>
-    <text x="30" y="236" class="text">判断：第 55-65 天进入比较稳</text>
+    <text x="30" y="52" class="nodeTitle">Cook-Torrance 结构</text>
+    <text x="30" y="92" class="text">F / Fresnel：擦边角反射更强</text>
+    <text x="30" y="128" class="text">D / NDF：微表面法线分布</text>
+    <text x="30" y="164" class="text">G / Geometry：微表面遮挡</text>
+    <text x="30" y="200" class="text">先看职责，不推公式</text>
+    <text x="30" y="236" class="text">再用 Unity 材质观察变化</text>
   </g>
 
   <g transform="translate(1210,800)">
     <rect class="branch5" width="520" height="270" rx="24"/>
-    <text x="30" y="52" class="nodeTitle">PBR 以后：现代渲染效果</text>
-    <text x="30" y="92" class="text">IBL / Shadow / HDR / Tone Mapping</text>
-    <text x="30" y="128" class="text">Post Processing / Deferred Rendering</text>
-    <text x="30" y="164" class="text">Transparent / Blending / Sorting</text>
-    <text x="30" y="200" class="text">Unity Shader：Bloom / Blur / Edge / Shield / Fire</text>
-    <text x="30" y="236" class="text">调试：RenderDoc / Frame Debugger / Overdraw</text>
+    <text x="30" y="52" class="nodeTitle">Unity PBR 实战</text>
+    <text x="30" y="92" class="text">材质球参数矩阵</text>
+    <text x="30" y="128" class="text">Fresnel / Water / Glass</text>
+    <text x="30" y="164" class="text">Metallic / Roughness 对照</text>
+    <text x="30" y="200" class="text">截图和 Q&amp;A 进入复盘</text>
+    <text x="30" y="236" class="text">之后接 Bloom / Outline / Shield / Fire</text>
   </g>
 
   <g transform="translate(620,910)">
     <rect class="branch6" width="560" height="210" rx="24"/>
-    <text x="30" y="52" class="nodeTitle">最终对照：回到 Unity URP / HDRP</text>
-    <text x="30" y="92" class="text">看懂：Pass / RenderFeature / DepthOnly / ShadowCaster</text>
-    <text x="30" y="128" class="text">看懂：Shader Graph 生成代码、材质属性、渲染队列</text>
-    <text x="30" y="164" class="text">目标：能从项目效果反推底层数据、状态、shader、pass</text>
+    <text x="30" y="52" class="nodeTitle">按需补课</text>
+    <text x="30" y="92" class="text">Camera / MVP、Depth / ZBuffer</text>
+    <text x="30" y="128" class="text">Normal / Lighting、Cubemap / Environment Map</text>
+    <text x="30" y="164" class="text">IBL、Shadow、HDR、Post Processing、URP / HDRP</text>
   </g>
 </svg>

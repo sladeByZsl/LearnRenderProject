@@ -17,7 +17,25 @@
 
 ## 阶段计划
 
-从第 4 周开始采用双线：
+当前采用 PBR-first 加速路线：
+
+- 直接从 PBR 原理开始。
+- Camera、Depth、Lighting、Cubemap 作为按需补课，不再作为硬前置。
+- Shader 效果实战继续在 Unity 里写。
+
+PBR-first 主线：
+
+| 阶段 | 主题 | 最小产出 |
+|------|------|----------|
+| PBR 01 | PBR 解决什么问题 | 能解释为什么传统 Blinn-Phong 不够统一 |
+| PBR 02 | Albedo / Metallic / Roughness / AO | Unity 做材质球参数矩阵 |
+| PBR 03 | Diffuse / Specular / 能量守恒 | 能解释金属和非金属反射差异 |
+| PBR 04 | Cook-Torrance 结构 | 只看 F / D / G 各自职责 |
+| PBR 05 | Fresnel | Unity 做擦边反射观察 |
+| PBR 06 | IBL / Environment | 金属球反射 skybox |
+| PBR 07 | PBR 周总结 | 一张 PBR 参数和公式结构脑图 |
+
+原完整路线保留为补课地图：
 
 - OpenGL 线：理解底层管线、状态、矩阵、光照、材质。
 - Unity Shader 线：Shader 效果实战都在 Unity 里写，方便沉淀成项目可复用效果。
@@ -48,12 +66,12 @@
 
 ## PBR 时间判断
 
-PBR 合理开始点：第 55-65 天左右。
+当前判断：现在直接开始。
 
-原因：PBR 依赖 `Camera / Depth / Normal / Lighting / Material / Texture / Environment Map`。这些上下文不够时，PBR 很容易变成背公式。
+原本的第 55-65 天是保守路线。现在切到 PBR-first 后，依赖项按需补：`Camera / Depth / Normal / Lighting / Material / Texture / Environment Map`。
 
 ## 一句话版本
 
 ```text
-OpenGL 负责拆底层，Unity 负责写 Shader 效果；先把 Mesh / Texture / Transform / Camera / Light / Material 走通，再进入 PBR 和现代渲染效果。
+直接进入 PBR 原理；OpenGL 负责拆底层，Unity 负责写 Shader 效果，缺哪个前置概念就当场补哪个。
 ```

@@ -2,79 +2,64 @@
 
 ```mermaid
 mindmap
-  root((Unity 开发者从 0 补图形学))
+  root((PBR-first 学习路线))
     学习策略
       每天 1 个核心概念
       每天 1 小时最小闭环
       每 7 天周总结
-      OpenGL 理解底层
+      直接进入 PBR 原理
       Unity 写 Shader 效果
-    第 1-3 周 已完成基础
-      OpenGL 基础管线
+      缺前置再补
+    已有基础
+      OpenGL 管线初步
         GLFW / Context
         VAO / VBO / EBO
         Shader attribute / uniform
         Draw Call
-      Texture / UV
-        图片上传
-        sampler2D
-        Wrapping / Filtering
       Transform
-        Translate
-        Rotate
-        Scale
         Model Matrix
         Local -> World
-    第 4 周 Camera / MVP
-      OpenGL
-        Model
-        View
-        Projection
-        3D Cube
-      Unity Shader
-        UV 滚动
-        UV 扭曲
-        Mask
-    第 5 周 Depth / 3D
-      OpenGL
-        Depth Test
-        Z-Buffer
-        near / far
-      Unity Shader
-        Outline
-        Highlight
-        深度观察
-    第 6 周 Lighting
-      OpenGL
-        Normal
-        Ambient
-        Diffuse
-        Specular
-      Unity Shader
-        Rim Light
-        Toon Ramp
-        MatCap
-    第 7 周 Material / 小场景
-      OpenGL
-        多 Object
-        多 Material
-        RenderDoc
-      Unity Shader
-        Normal Map
-        Emission
-        Dissolve
-        Flow Map
-    第 8-9 周 PBR 入口
-      OpenGL
-        Cubemap
-        Environment Map
-        Metallic
-        Roughness
-        Cook-Torrance
-      Unity Shader
-        Fresnel
-        Water
-        Glass
+      Texture / UV
+    PBR 参数直觉
+      Albedo
+        物体本色
+        不含光照
+      Metallic
+        金属 / 非金属
+        影响 diffuse 和 specular 分配
+      Roughness
+        微表面粗糙度
+        控制高光宽窄
+      AO
+        环境遮蔽
+        角落和缝隙更暗
+    PBR 光照结构
+      Diffuse
+        非金属漫反射
+      Specular
+        高光和反射
+      Energy Conservation
+        能量不凭空增加
+      BRDF
+        描述入射光如何反射
+    Cook-Torrance
+      F Fresnel
+        视角越擦边反射越强
+      D NDF
+        微表面法线分布
+      G Geometry
+        微表面遮挡
+    Unity 实战
+      材质球参数矩阵
+      Fresnel
+      Water
+      Glass
+      Metallic / Roughness 对照
+    按需补课
+      Camera / MVP
+      Depth / ZBuffer
+      Normal / Lighting
+      Cubemap / Environment Map
     PBR 以后
       IBL
       Shadow

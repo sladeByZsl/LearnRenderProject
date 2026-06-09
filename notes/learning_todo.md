@@ -4,8 +4,8 @@
 
 ## 当前状态
 
-- 当前阶段：第三周收口，准备进入 Camera / MVP。
-- 当前任务：第 21 天，整理 Transform / Model Matrix。
+- 当前阶段：PBR-first 加速路线。
+- 当前任务：直接进入 PBR 原理，从材质参数和能量直觉开始。
 - 当前原则：按计划继续推进；每天先简短总结上一天，如果上一天可能没做就直接说明，然后继续给当天新任务。
 
 ## 每日固定流程
@@ -27,18 +27,20 @@ OpenGL 线：理解底层渲染管线、数据、状态、矩阵、光照。
 Unity Shader 线：把可见效果实战写在 Unity 里，沉淀成项目能复用的 shader demo。
 ```
 
-OpenGL 主线：
+当前改为 PBR-first 加速路线。前面的 Camera、Depth、Lighting、Cubemap 不再作为硬性前置，而是遇到 PBR 需要时再补。
+
+PBR-first 主线：
 
 ```text
-OpenGL 基础管线
--> Texture / UV
--> Transform / Model Matrix
--> Camera / View / Projection
--> Depth / 3D 空间
--> Lighting
--> Material / 小场景
--> Cubemap / Environment
--> PBR
+PBR 解决什么问题
+-> Albedo / Metallic / Roughness / AO
+-> 能量守恒直觉
+-> Diffuse / Specular 分工
+-> BRDF 是什么
+-> Cook-Torrance 结构
+-> Fresnel / NDF / Geometry
+-> IBL / Environment
+-> Unity PBR Shader 实战
 ```
 
 Unity Shader 实战线：
@@ -53,6 +55,75 @@ UV 动画 / 遮罩
 ```
 
 ## 阶段计划
+
+### PBR-first 加速计划
+
+目标：直接从 PBR 原理开始，不等完整 Camera / Lighting 路线学完。
+
+核心策略：
+
+```text
+先建立 PBR 材质参数直觉
+-> 再看公式模块分别解决什么问题
+-> Unity 里做调参和效果观察
+-> OpenGL / RenderDoc 用来理解底层数据和状态
+```
+
+第一阶段：PBR 参数直觉
+
+```text
+albedo：物体本色，不包含光照
+metallic：金属和非金属的分界
+roughness：表面微观粗糙度，决定高光宽窄和反射清晰度
+ao：环境遮蔽，近似缝隙和角落里环境光更弱
+```
+
+最小产出：Unity 里做一组材质球，横轴 roughness，纵轴 metallic，观察画面差异。
+
+第二阶段：PBR 光照结构
+
+```text
+最终颜色 = diffuse + specular
+diffuse 负责非金属的漫反射
+specular 负责高光和反射
+金属通常没有明显 diffuse，本色更多体现在 specular 里
+```
+
+最小产出：用同一盏灯观察金属球、塑料球、粗糙球、光滑球。
+
+第三阶段：Cook-Torrance 只看结构
+
+```text
+F: Fresnel，视角越擦边反射越强
+D: NDF，微表面法线有多少朝向半程向量
+G: Geometry，微表面之间的遮挡和自遮蔽
+```
+
+最小产出：能说清 Cook-Torrance 三个模块各自管什么，不要求推导公式。
+
+第四阶段：IBL / 环境光照
+
+```text
+直接光：来自灯
+间接光：来自环境
+diffuse IBL：模糊环境光
+specular IBL：按 roughness 采样不同模糊程度的环境反射
+```
+
+最小产出：一个金属球在 skybox 下有环境反射，并能通过 roughness 改变反射清晰度。
+
+第五阶段：Unity PBR Shader 实战
+
+```text
+Fresnel
+Clear Coat 初印象
+Water
+Glass
+Anisotropy 初印象
+材质调参卡片
+```
+
+最小产出：一组 Unity PBR 材质 demo 和对应截图。
 
 ### 第 1 周：最小渲染管线
 
@@ -159,9 +230,9 @@ RenderDoc 观察 draw call
 
 Unity Shader 实战：Normal Map、Emission、Dissolve、Flow Map、Detail Texture。
 
-### 第 8-9 周：PBR 合理入口
+### 原第 8-9 周：PBR 合理入口
 
-目标：在基础光照和材质上下文足够以后，再进入 PBR。
+原计划是在基础光照和材质上下文足够以后再进入 PBR。现在改为 PBR-first，这一阶段提前执行。
 
 ```text
 cubemap / environment map
@@ -208,7 +279,9 @@ Glass
 
 ## PBR 时间判断
 
-PBR 建议在第 55-65 天左右开始。原因是它依赖这些前置概念：
+当前决定：直接开始 PBR 原理。
+
+原本建议第 55-65 天开始，是为了降低公式和前置概念压力。现在采用加速路线后，前置概念按需补：
 
 ```text
 MVP / Camera
@@ -220,7 +293,7 @@ Texture 采样
 Cubemap / Environment Map
 ```
 
-过早学 PBR 容易变成背公式；先把场景、光照、材质和环境贴图走通，理解会稳很多。
+执行原则：PBR 主线先走，遇到看不懂的依赖再补，不把补课变成前置门槛。
 
 PBR 之后继续学：
 
@@ -243,11 +316,10 @@ PBR 之后继续学：
 第 07 天：OpenGL 基础管线总结
 第 14 天：Texture / UV 总结
 第 21 天：Transform / Model Matrix 总结
-第 28 天：Camera / MVP 总结
-第 35 天：Depth / 3D 总结
-第 42 天：Lighting 总结
-第 49 天：Material / 小场景总结
-第 56 天：PBR 预备总结
+第 28 天：PBR 参数直觉总结
+第 35 天：Cook-Torrance 结构总结
+第 42 天：IBL / Environment 总结
+第 49 天：Unity PBR Shader 实战总结
 ```
 
 ## 自动提醒规则
