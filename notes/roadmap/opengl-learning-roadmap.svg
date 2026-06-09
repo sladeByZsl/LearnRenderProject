@@ -29,7 +29,7 @@
 
   <rect class="bg" width="1600" height="1050"/>
   <text x="80" y="88" class="title">Unity 开发者从 0 补图形学：整体学习路线</text>
-  <text x="80" y="130" class="subtitle">目标：先把 Unity 熟悉概念拆到底层，再进入 PBR，而不是直接背公式。</text>
+  <text x="80" y="130" class="subtitle">目标：OpenGL 理解底层，Unity 写 Shader 效果；先拆熟悉概念，再进入 PBR。</text>
 
   <line x1="165" y1="254" x2="1435" y2="254" class="line"/>
   <polygon points="1448,254 1426,242 1426,266" class="arrow"/>
@@ -53,7 +53,7 @@
     <text x="24" y="116" class="week-range">Camera / MVP</text>
     <text x="24" y="154" class="body">Model: local -> world</text>
     <text x="24" y="184" class="body">View: world -> camera</text>
-    <text x="24" y="214" class="body">Projection: camera -> clip</text>
+    <text x="24" y="214" class="body">Unity: UV 滚动 / 扭曲 / Mask</text>
   </g>
 
   <g transform="translate(790,180)">
@@ -64,7 +64,7 @@
     <text x="24" y="116" class="week-range">Depth / 3D 空间</text>
     <text x="24" y="154" class="body">Depth Test / Z-Buffer</text>
     <text x="24" y="184" class="body">多个物体前后遮挡</text>
-    <text x="24" y="214" class="body">理解 near / far 精度</text>
+    <text x="24" y="214" class="body">Unity: Outline / Highlight</text>
   </g>
 
   <g transform="translate(1145,180)">
@@ -74,8 +74,8 @@
     <text x="24" y="84" class="week-title">第 6 周</text>
     <text x="24" y="116" class="week-range">Lighting 入门</text>
     <text x="24" y="154" class="body">Normal / Light Direction</text>
-    <text x="24" y="184" class="body">Ambient / Diffuse</text>
-    <text x="24" y="214" class="body">Specular / Blinn-Phong</text>
+    <text x="24" y="184" class="body">Ambient / Diffuse / Specular</text>
+    <text x="24" y="214" class="body">Unity: Rim / Toon / MatCap</text>
   </g>
 
   <g transform="translate(255,500)">
@@ -83,8 +83,8 @@
     <rect class="chipMat" x="28" y="24" width="92" height="30" rx="15"/>
     <text x="52" y="45" class="tag">整合</text>
     <text x="28" y="90" class="week-title">第 7 周：Material / 小场景</text>
-    <text x="28" y="128" class="body">Albedo / Specular / Normal Map 入门</text>
-    <text x="28" y="160" class="body">多个 Object + Material + Light</text>
+    <text x="28" y="128" class="body">多个 Object + Material + Light</text>
+    <text x="28" y="160" class="body">Unity: NormalMap / Dissolve / Flow</text>
     <text x="28" y="192" class="body">RenderDoc 观察 draw call / texture / uniform</text>
   </g>
 
@@ -95,7 +95,7 @@
     <text x="28" y="90" class="week-title">第 8-9 周：PBR 合理入口</text>
     <text x="28" y="128" class="body">先补 Cubemap / Environment Map / Reflection</text>
     <text x="28" y="160" class="body">再看 Metallic / Roughness / AO / Energy Conservation</text>
-    <text x="28" y="192" class="body">最后跑最小 Cook-Torrance PBR shader</text>
+    <text x="28" y="192" class="body">Unity: Fresnel / Water / Glass</text>
   </g>
 
   <line x1="685" y1="610" x2="760" y2="610" class="line"/>
@@ -104,8 +104,8 @@
   <g transform="translate(80,805)">
     <rect x="0" y="0" width="1440" height="185" rx="24" fill="#151a24" stroke="#30394a" stroke-width="2"/>
     <text x="32" y="48" class="week-title">一个月后的合理成果</text>
-    <text x="32" y="88" class="body">能写一个简单 3D 场景：Camera 看多个带贴图和基础光照的物体，并能用 RenderDoc 看懂一次 draw call。</text>
-    <text x="32" y="124" class="body">能把 Unity 的 Mesh / Material / Texture / Transform / Camera / Light 对应到底层 OpenGL 概念。</text>
-    <text x="32" y="156" class="small">路线判断：PBR 不建议过早开始。第 55-65 天进入比较稳，先要有 Camera、Depth、Normal、Lighting、Material、Environment Map 的上下文。</text>
+    <text x="32" y="88" class="body">OpenGL：能写一个简单 3D 场景，并能用 RenderDoc 看懂一次 draw call。</text>
+    <text x="32" y="124" class="body">Unity：每周沉淀 1-2 个 Shader 效果，例如 UV、Rim、Toon、Dissolve、Fresnel。</text>
+    <text x="32" y="156" class="small">路线判断：PBR 第 55-65 天进入比较稳；Shader 效果实战从第 4 周开始在 Unity 中并行推进。</text>
   </g>
 </svg>

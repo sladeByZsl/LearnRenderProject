@@ -18,7 +18,16 @@
 
 ## 整体路线
 
-目标不是把 LearnOpenGL 每一页硬啃完，而是按 Unity 开发者最容易建立迁移关系的顺序推进：
+目标不是把 LearnOpenGL 每一页硬啃完，而是按 Unity 开发者最容易建立迁移关系的顺序推进。
+
+从第 4 周开始使用“双线计划”：
+
+```text
+OpenGL 线：理解底层渲染管线、数据、状态、矩阵、光照。
+Unity Shader 线：把可见效果实战写在 Unity 里，沉淀成项目能复用的 shader demo。
+```
+
+OpenGL 主线：
 
 ```text
 OpenGL 基础管线
@@ -30,6 +39,17 @@ OpenGL 基础管线
 -> Material / 小场景
 -> Cubemap / Environment
 -> PBR
+```
+
+Unity Shader 实战线：
+
+```text
+UV 动画 / 遮罩
+-> Rim Light / Toon / MatCap
+-> Normal Map / Dissolve / Flow
+-> Fresnel / Water / Glass
+-> Bloom / Outline / Fullscreen Effect
+-> Shield / Fire / Transparent Effect
 ```
 
 ## 阶段计划
@@ -90,6 +110,8 @@ projection: camera -> clip / NDC
 
 最小产出：画一个 3D cube，用 camera 观察它。
 
+Unity Shader 实战：UV 滚动、UV 扭曲、圆形遮罩。重点对应 Unity 里的 `_Time`、Tiling / Offset、Mask。
+
 ### 第 5 周：Depth / 3D 空间
 
 目标：理解多个 3D 物体为什么能正确前后遮挡。
@@ -102,6 +124,8 @@ near / far
 ```
 
 最小产出：多个 cube 在不同深度位置显示，并能解释谁挡住谁。
+
+Unity Shader 实战：边缘高亮、简单 Outline、深度相关观察。重点先建立“屏幕上的遮挡和深度有关”的直觉。
 
 ### 第 6 周：Lighting 入门
 
@@ -118,6 +142,8 @@ Blinn-Phong
 
 最小产出：一个 cube 在光照下随角度变化出现明暗。
 
+Unity Shader 实战：Lambert、Half-Lambert、Blinn-Phong、Rim Light、Toon Ramp、MatCap。
+
 ### 第 7 周：Material / 小场景整合
 
 目标：把 Mesh、Texture、Shader、Transform、Camera、Light 放到一个小场景里。
@@ -130,6 +156,8 @@ RenderDoc 观察 draw call
 ```
 
 最小产出：一个简单 3D 场景，可以用 RenderDoc 看懂一次 draw call 里的 buffer、texture、uniform。
+
+Unity Shader 实战：Normal Map、Emission、Dissolve、Flow Map、Detail Texture。
 
 ### 第 8-9 周：PBR 合理入口
 
@@ -147,6 +175,37 @@ Cook-Torrance 最小结构
 
 最小产出：跑通一个最小 PBR shader，先理解参数和画面变化，不急着推完整公式。
 
+Unity Shader 实战：Metallic / Roughness 调参球、Fresnel、简单水面、简单玻璃。
+
+### PBR 之后：现代渲染效果线
+
+目标：从“会写一个材质模型”进入“理解现代渲染器怎么组织画面”。
+
+```text
+IBL / Environment
+-> Shadow
+-> HDR / Tone Mapping
+-> Post Processing
+-> Deferred Rendering
+-> Transparent / Blending
+-> Performance / RenderDoc / Unity Frame Debugger
+-> URP / HDRP 对照
+```
+
+Unity Shader 实战继续放在 Unity 项目里写：
+
+```text
+Bloom
+Outline
+Fullscreen Blur
+Edge Detection
+Shield
+Fire
+Water
+Glass
+大量物体 Instancing
+```
+
 ## PBR 时间判断
 
 PBR 建议在第 55-65 天左右开始。原因是它依赖这些前置概念：
@@ -162,6 +221,19 @@ Cubemap / Environment Map
 ```
 
 过早学 PBR 容易变成背公式；先把场景、光照、材质和环境贴图走通，理解会稳很多。
+
+PBR 之后继续学：
+
+```text
+第 10 周：IBL / 环境光照
+第 11 周：Shadow / 阴影
+第 12 周：HDR / Tone Mapping / Gamma
+第 13 周：Post Processing / 后处理
+第 14 周：Deferred Rendering / 延迟渲染
+第 15 周：Transparent / Blending / 排序
+第 16 周：性能、Instancing、RenderDoc / Unity Frame Debugger
+第 17 周以后：URP / HDRP 源码和实际项目对照
+```
 
 ## 周总结节奏
 
@@ -187,3 +259,5 @@ Cubemap / Environment Map
 - 如果当天是第 7 天、第 14 天这类节点，优先做周总结。
 - 每个新 demo 默认包含 `README.md`、`CMakeLists.txt`、`run.sh`、`src/main.cpp`。
 - 复盘图片、截图、卡片按课程放到 `notes/recaps/dayXX_*` 目录。
+- OpenGL demo 继续放在 `demos/NN_topic`。
+- Shader 效果实战默认在 Unity 里写；本仓库只记录计划、复盘、截图和必要的 shader 笔记，除非后续创建独立 Unity 工程目录。
