@@ -1,0 +1,111 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1050" viewBox="0 0 1600 1050">
+  <defs>
+    <style>
+      .bg { fill: #10131a; }
+      .title { fill: #f4f7fb; font: 700 44px "PingFang SC", "Microsoft YaHei", Arial, sans-serif; }
+      .subtitle { fill: #aeb8c8; font: 24px "PingFang SC", "Microsoft YaHei", Arial, sans-serif; }
+      .week-title { fill: #ffffff; font: 700 25px "PingFang SC", "Microsoft YaHei", Arial, sans-serif; }
+      .week-range { fill: #d9e3f0; font: 18px "PingFang SC", "Microsoft YaHei", Arial, sans-serif; }
+      .body { fill: #dfe7f3; font: 19px "PingFang SC", "Microsoft YaHei", Arial, sans-serif; }
+      .small { fill: #aeb8c8; font: 17px "PingFang SC", "Microsoft YaHei", Arial, sans-serif; }
+      .tag { fill: #10131a; font: 700 16px "PingFang SC", "Microsoft YaHei", Arial, sans-serif; }
+      .line { stroke: #566174; stroke-width: 4; stroke-linecap: round; }
+      .arrow { fill: #566174; }
+      .card { stroke-width: 2.5; rx: 22; }
+      .done { fill: #13251f; stroke: #2fbf71; }
+      .now { fill: #202131; stroke: #8f7cff; }
+      .next1 { fill: #162233; stroke: #4ea4ff; }
+      .next2 { fill: #2a2115; stroke: #f3a742; }
+      .next3 { fill: #2a1720; stroke: #ff6b8a; }
+      .pbr { fill: #172521; stroke: #47d6a3; }
+      .chipDone { fill: #2fbf71; }
+      .chipNow { fill: #8f7cff; }
+      .chipNext { fill: #4ea4ff; }
+      .chipLight { fill: #f3a742; }
+      .chipMat { fill: #ff6b8a; }
+      .chipPbr { fill: #47d6a3; }
+    </style>
+  </defs>
+
+  <rect class="bg" width="1600" height="1050"/>
+  <text x="80" y="88" class="title">Unity 开发者从 0 补图形学：整体学习路线</text>
+  <text x="80" y="130" class="subtitle">目标：先把 Unity 熟悉概念拆到底层，再进入 PBR，而不是直接背公式。</text>
+
+  <line x1="165" y1="254" x2="1435" y2="254" class="line"/>
+  <polygon points="1448,254 1426,242 1426,266" class="arrow"/>
+
+  <g transform="translate(80,180)">
+    <rect class="card done" x="0" y="0" width="320" height="235"/>
+    <rect class="chipDone" x="24" y="22" width="82" height="30" rx="15"/>
+    <text x="44" y="43" class="tag">已完成</text>
+    <text x="24" y="84" class="week-title">第 1-3 周</text>
+    <text x="24" y="116" class="week-range">OpenGL 基础骨架</text>
+    <text x="24" y="154" class="body">Mesh / VAO / VBO / EBO</text>
+    <text x="24" y="184" class="body">Shader attribute / uniform</text>
+    <text x="24" y="214" class="body">Texture / UV / Model Matrix</text>
+  </g>
+
+  <g transform="translate(435,180)">
+    <rect class="card now" x="0" y="0" width="320" height="235"/>
+    <rect class="chipNow" x="24" y="22" width="82" height="30" rx="15"/>
+    <text x="44" y="43" class="tag">现在</text>
+    <text x="24" y="84" class="week-title">第 4 周</text>
+    <text x="24" y="116" class="week-range">Camera / MVP</text>
+    <text x="24" y="154" class="body">Model: local -> world</text>
+    <text x="24" y="184" class="body">View: world -> camera</text>
+    <text x="24" y="214" class="body">Projection: camera -> clip</text>
+  </g>
+
+  <g transform="translate(790,180)">
+    <rect class="card next1" x="0" y="0" width="320" height="235"/>
+    <rect class="chipNext" x="24" y="22" width="82" height="30" rx="15"/>
+    <text x="44" y="43" class="tag">下一步</text>
+    <text x="24" y="84" class="week-title">第 5 周</text>
+    <text x="24" y="116" class="week-range">Depth / 3D 空间</text>
+    <text x="24" y="154" class="body">Depth Test / Z-Buffer</text>
+    <text x="24" y="184" class="body">多个物体前后遮挡</text>
+    <text x="24" y="214" class="body">理解 near / far 精度</text>
+  </g>
+
+  <g transform="translate(1145,180)">
+    <rect class="card next2" x="0" y="0" width="320" height="235"/>
+    <rect class="chipLight" x="24" y="22" width="82" height="30" rx="15"/>
+    <text x="44" y="43" class="tag">光照</text>
+    <text x="24" y="84" class="week-title">第 6 周</text>
+    <text x="24" y="116" class="week-range">Lighting 入门</text>
+    <text x="24" y="154" class="body">Normal / Light Direction</text>
+    <text x="24" y="184" class="body">Ambient / Diffuse</text>
+    <text x="24" y="214" class="body">Specular / Blinn-Phong</text>
+  </g>
+
+  <g transform="translate(255,500)">
+    <rect class="card next3" x="0" y="0" width="430" height="220"/>
+    <rect class="chipMat" x="28" y="24" width="92" height="30" rx="15"/>
+    <text x="52" y="45" class="tag">整合</text>
+    <text x="28" y="90" class="week-title">第 7 周：Material / 小场景</text>
+    <text x="28" y="128" class="body">Albedo / Specular / Normal Map 入门</text>
+    <text x="28" y="160" class="body">多个 Object + Material + Light</text>
+    <text x="28" y="192" class="body">RenderDoc 观察 draw call / texture / uniform</text>
+  </g>
+
+  <g transform="translate(760,500)">
+    <rect class="card pbr" x="0" y="0" width="585" height="220"/>
+    <rect class="chipPbr" x="28" y="24" width="92" height="30" rx="15"/>
+    <text x="58" y="45" class="tag">PBR</text>
+    <text x="28" y="90" class="week-title">第 8-9 周：PBR 合理入口</text>
+    <text x="28" y="128" class="body">先补 Cubemap / Environment Map / Reflection</text>
+    <text x="28" y="160" class="body">再看 Metallic / Roughness / AO / Energy Conservation</text>
+    <text x="28" y="192" class="body">最后跑最小 Cook-Torrance PBR shader</text>
+  </g>
+
+  <line x1="685" y1="610" x2="760" y2="610" class="line"/>
+  <polygon points="774,610 752,598 752,622" class="arrow"/>
+
+  <g transform="translate(80,805)">
+    <rect x="0" y="0" width="1440" height="185" rx="24" fill="#151a24" stroke="#30394a" stroke-width="2"/>
+    <text x="32" y="48" class="week-title">一个月后的合理成果</text>
+    <text x="32" y="88" class="body">能写一个简单 3D 场景：Camera 看多个带贴图和基础光照的物体，并能用 RenderDoc 看懂一次 draw call。</text>
+    <text x="32" y="124" class="body">能把 Unity 的 Mesh / Material / Texture / Transform / Camera / Light 对应到底层 OpenGL 概念。</text>
+    <text x="32" y="156" class="small">路线判断：PBR 不建议过早开始。第 55-65 天进入比较稳，先要有 Camera、Depth、Normal、Lighting、Material、Environment Map 的上下文。</text>
+  </g>
+</svg>
