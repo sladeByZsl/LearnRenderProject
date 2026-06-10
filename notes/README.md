@@ -7,6 +7,7 @@
 ## 学习路线图
 
 - [OpenGL 整体学习路线图](roadmap/README.md)
+- [PBR 学习资源路线](pbr_resources.md)
 
 ## 旧笔记索引
 
