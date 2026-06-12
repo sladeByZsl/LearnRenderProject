@@ -57,6 +57,10 @@
 - `02_hoffman_physics_math_slides.pdf`
 - `02_hoffman_physics_math_notes.pdf`
 
+中文费曼笔记：
+
+- `feynman_notes/02_light_surface_interaction.md`
+
 只看：
 
 - 反射、折射、吸收、散射相关的小节。
