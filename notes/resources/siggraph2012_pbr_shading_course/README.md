@@ -33,6 +33,8 @@ This folder stores the complete public course materials downloaded from Self Sha
 
 ## Suggested Reading Order
 
+For a more detailed step-by-step plan, see [READING_PLAN.md](./READING_PLAN.md).
+
 1. Start with `01_hill_importance_slides.pdf`.
    Only skim the motivation: why old shading models were hard to author consistently.
 
