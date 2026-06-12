@@ -78,6 +78,10 @@
 - `03_mcauley_farcry3_slides.pdf`
 - `03_mcauley_farcry3_notes.pdf`
 
+中文费曼笔记：
+
+- `feynman_notes/03_material_calibration.md`
+
 只看：
 
 - Far Cry 3 里材质校准、artist-facing workflow 相关部分。
