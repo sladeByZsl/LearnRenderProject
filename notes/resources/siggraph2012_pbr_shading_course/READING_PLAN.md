@@ -36,6 +36,10 @@
 
 - `01_hill_importance_slides.pdf`
 
+中文费曼笔记：
+
+- `feynman_notes/01_why_pbr_matters.md`
+
 只看：
 
 - 前半部分关于 physically based shading 重要性的页面。
