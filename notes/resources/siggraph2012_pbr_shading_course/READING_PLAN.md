@@ -103,6 +103,10 @@
 - `04_gotanda_beyond_blinn_slides.pdf`
 - `04_gotanda_beyond_blinn_notes.pdf`
 
+中文费曼笔记：
+
+- `feynman_notes/04_beyond_blinn.md`
+
 只看：
 
 - Blinn-Phong 的限制。
