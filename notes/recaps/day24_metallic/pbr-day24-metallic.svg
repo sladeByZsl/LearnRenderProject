@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="900" viewBox="0 0 1400 900">
+  <defs>
+    <style>
+      .bg { fill: #10131a; }
+      .title { fill: #f6f8fb; font: 700 42px "PingFang SC", "Microsoft YaHei", Arial, sans-serif; }
+      .sub { fill: #aeb8c8; font: 22px "PingFang SC", "Microsoft YaHei", Arial, sans-serif; }
+      .card { rx: 24; stroke-width: 3; }
+      .left { fill: #14231d; stroke: #36c981; }
+      .right { fill: #231c14; stroke: #f0aa45; }
+      .mid { fill: #171d29; stroke: #526079; }
+      .label { fill: #10131a; font: 700 18px "PingFang SC", "Microsoft YaHei", Arial, sans-serif; }
+      .h { fill: #ffffff; font: 700 28px "PingFang SC", "Microsoft YaHei", Arial, sans-serif; }
+      .body { fill: #dfe7f3; font: 21px "PingFang SC", "Microsoft YaHei", Arial, sans-serif; }
+      .small { fill: #aeb8c8; font: 18px "PingFang SC", "Microsoft YaHei", Arial, sans-serif; }
+      .line { stroke: #657185; stroke-width: 5; stroke-linecap: round; }
+      .arrow { fill: #657185; }
+      .sphere1 { fill: url(#plasticGrad); }
+      .sphere2 { fill: url(#metalGrad); }
+    </style>
+    <radialGradient id="plasticGrad" cx="35%" cy="28%" r="68%">
+      <stop offset="0%" stop-color="#ffe1d8"/>
+      <stop offset="24%" stop-color="#f0524d"/>
+      <stop offset="100%" stop-color="#6e1f22"/>
+    </radialGradient>
+    <radialGradient id="metalGrad" cx="32%" cy="25%" r="70%">
+      <stop offset="0%" stop-color="#fff2b8"/>
+      <stop offset="22%" stop-color="#f7c14a"/>
+      <stop offset="55%" stop-color="#9f6b18"/>
+      <stop offset="100%" stop-color="#33230f"/>
+    </radialGradient>
+  </defs>
+
+  <rect class="bg" width="1400" height="900"/>
+  <text x="70" y="82" class="title">Day 24：Metallic / 金属度</text>
+  <text x="70" y="124" class="sub">关键判断：金属不是“更亮的塑料”，而是反射方式变了。</text>
+
+  <g transform="translate(70,180)">
+    <rect class="card left" width="560" height="410"/>
+    <rect x="32" y="30" width="130" height="34" rx="17" fill="#36c981"/>
+    <text x="60" y="54" class="label">Metallic = 0</text>
+    <text x="32" y="108" class="h">非金属：塑料 / 木头 / 石头</text>
+    <circle class="sphere1" cx="138" cy="235" r="86"/>
+    <text x="260" y="180" class="body">Diffuse 明显</text>
+    <text x="260" y="218" class="small">主体颜色主要来自 Albedo</text>
+    <text x="260" y="270" class="body">Specular 较弱</text>
+    <text x="260" y="308" class="small">高光通常偏白，不太带本色</text>
+  </g>
+
+  <g transform="translate(770,180)">
+    <rect class="card right" width="560" height="410"/>
+    <rect x="32" y="30" width="130" height="34" rx="17" fill="#f0aa45"/>
+    <text x="60" y="54" class="label">Metallic = 1</text>
+    <text x="32" y="108" class="h">金属：金 / 铜 / 铁</text>
+    <circle class="sphere2" cx="138" cy="235" r="86"/>
+    <text x="260" y="180" class="body">Diffuse 很弱</text>
+    <text x="260" y="218" class="small">金属不靠普通漫反射表现本色</text>
+    <text x="260" y="270" class="body">Specular 很强</text>
+    <text x="260" y="308" class="small">反射会带金属自己的颜色</text>
+  </g>
+
+  <line x1="636" y1="386" x2="762" y2="386" class="line"/>
+  <polygon points="776,386 752,372 752,400" class="arrow"/>
+
+  <g transform="translate(170,655)">
+    <rect class="card mid" width="1060" height="165"/>
+    <text x="34" y="52" class="h">今天只观察一个变量：Metallic</text>
+    <text x="34" y="92" class="body">固定 Base Color、灯光、环境、Smoothness，只把 Metallic 从 0 调到 1。</text>
+    <text x="34" y="132" class="small">你要看的不是“变亮了没”，而是 diffuse 是否变弱、specular 是否变强且带材质颜色。</text>
+  </g>
+</svg>

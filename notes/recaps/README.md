@@ -88,3 +88,4 @@
 - [Day 01：Hello Triangle 复盘资产](day01_hello_triangle/README.md)
 - [Day 02：Vertex Data / NDC 复盘资产](day02_vertex_data/README.md)
 - [Day 03：VBO / RenderDoc 复盘资产](day03_vbo/README.md)
+- [Day 24：PBR Metallic 解释图](day24_metallic/README.md)
