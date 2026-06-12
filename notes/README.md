@@ -9,6 +9,7 @@
 - [OpenGL 整体学习路线图](roadmap/README.md)
 - [PBR 学习资源路线](pbr_resources.md)
 - [PBR 一页速查表](pbr_cheatsheet.md)
+- [SIGGRAPH 2012 PBR Shading Course 资料](resources/siggraph2012_pbr_shading_course/README.md)
 
 ## 旧笔记索引
 
