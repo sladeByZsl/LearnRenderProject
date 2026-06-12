@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="900" viewBox="0 0 1400 900">
+  <defs>
+    <style>
+      .bg { fill: #10131a; }
+      .title { fill: #f6f8fb; font: 700 42px "PingFang SC", "Microsoft YaHei", Arial, sans-serif; }
+      .sub { fill: #aeb8c8; font: 22px "PingFang SC", "Microsoft YaHei", Arial, sans-serif; }
+      .card { rx: 24; stroke-width: 3; }
+      .old { fill: #241b1b; stroke: #f06b6b; }
+      .new { fill: #14231d; stroke: #36c981; }
+      .mid { fill: #171d29; stroke: #526079; }
+      .chipOld { fill: #f06b6b; }
+      .chipNew { fill: #36c981; }
+      .label { fill: #10131a; font: 700 18px "PingFang SC", "Microsoft YaHei", Arial, sans-serif; }
+      .h { fill: #ffffff; font: 700 28px "PingFang SC", "Microsoft YaHei", Arial, sans-serif; }
+      .body { fill: #dfe7f3; font: 21px "PingFang SC", "Microsoft YaHei", Arial, sans-serif; }
+      .small { fill: #aeb8c8; font: 18px "PingFang SC", "Microsoft YaHei", Arial, sans-serif; }
+      .line { stroke: #657185; stroke-width: 5; stroke-linecap: round; }
+      .arrow { fill: #657185; }
+    </style>
+  </defs>
+
+  <rect class="bg" width="1400" height="900"/>
+  <text x="70" y="82" class="title">Day 22：PBR 到底解决什么问题</text>
+  <text x="70" y="124" class="sub">关键判断：PBR 不是“更亮”，而是让材质在不同光照下更稳定、更可解释。</text>
+
+  <g transform="translate(70,185)">
+    <rect class="card old" width="560" height="385"/>
+    <rect class="chipOld" x="32" y="30" width="126" height="34" rx="17"/>
+    <text x="61" y="54" class="label">传统调法</text>
+    <text x="32" y="108" class="h">像是在“凭感觉调高光”</text>
+    <text x="42" y="160" class="body">调亮一点</text>
+    <text x="42" y="202" class="body">高光拉大一点</text>
+    <text x="42" y="244" class="body">换个灯光可能就不像了</text>
+    <text x="42" y="306" class="small">问题：参数不稳定，材质依赖当前场景。</text>
+  </g>
+
+  <g transform="translate(770,185)">
+    <rect class="card new" width="560" height="385"/>
+    <rect class="chipNew" x="32" y="30" width="126" height="34" rx="17"/>
+    <text x="62" y="54" class="label">PBR</text>
+    <text x="32" y="108" class="h">用稳定参数描述材质</text>
+    <text x="42" y="160" class="body">Albedo：本色</text>
+    <text x="42" y="202" class="body">Metallic：金属度</text>
+    <text x="42" y="244" class="body">Roughness：粗糙度</text>
+    <text x="42" y="286" class="body">AO：环境遮蔽</text>
+    <text x="42" y="338" class="small">目标：换灯光、换环境后仍然合理。</text>
+  </g>
+
+  <line x1="636" y1="377" x2="762" y2="377" class="line"/>
+  <polygon points="776,377 752,363 752,391" class="arrow"/>
+
+  <g transform="translate(150,650)">
+    <rect class="card mid" width="1100" height="155"/>
+    <text x="34" y="54" class="h">一句话</text>
+    <text x="34" y="96" class="body">PBR 是一套材质和光照的约束规则：不要只让当前画面好看，要让材质在不同环境里都更像它自己。</text>
+  </g>
+</svg>
+

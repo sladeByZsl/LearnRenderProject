@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="900" viewBox="0 0 1400 900">
+  <defs>
+    <style>
+      .bg { fill: #10131a; }
+      .title { fill: #f6f8fb; font: 700 42px "PingFang SC", "Microsoft YaHei", Arial, sans-serif; }
+      .sub { fill: #aeb8c8; font: 22px "PingFang SC", "Microsoft YaHei", Arial, sans-serif; }
+      .card { rx: 24; stroke-width: 3; }
+      .input { fill: #172521; stroke: #47d6a3; }
+      .process { fill: #202131; stroke: #8f7cff; }
+      .output { fill: #2a2115; stroke: #f3a742; }
+      .warn { fill: #241b1b; stroke: #f06b6b; }
+      .chip { fill: #47d6a3; }
+      .chip2 { fill: #8f7cff; }
+      .chip3 { fill: #f3a742; }
+      .label { fill: #10131a; font: 700 18px "PingFang SC", "Microsoft YaHei", Arial, sans-serif; }
+      .h { fill: #ffffff; font: 700 27px "PingFang SC", "Microsoft YaHei", Arial, sans-serif; }
+      .body { fill: #dfe7f3; font: 21px "PingFang SC", "Microsoft YaHei", Arial, sans-serif; }
+      .small { fill: #aeb8c8; font: 18px "PingFang SC", "Microsoft YaHei", Arial, sans-serif; }
+      .line { stroke: #657185; stroke-width: 5; stroke-linecap: round; }
+      .arrow { fill: #657185; }
+      .swatch { stroke: #fff; stroke-opacity: .25; stroke-width: 2; }
+    </style>
+  </defs>
+
+  <rect class="bg" width="1400" height="900"/>
+  <text x="70" y="82" class="title">Day 23：Albedo / Base Color</text>
+  <text x="70" y="124" class="sub">关键判断：Albedo 是输入的“本色”，Final Color 是光照后的输出。</text>
+
+  <g transform="translate(70,185)">
+    <rect class="card input" width="350" height="330"/>
+    <rect class="chip" x="30" y="28" width="110" height="34" rx="17"/>
+    <text x="56" y="52" class="label">输入</text>
+    <text x="30" y="106" class="h">Albedo</text>
+    <rect class="swatch" x="36" y="145" width="72" height="72" rx="12" fill="#d84b4b"/>
+    <rect class="swatch" x="126" y="145" width="72" height="72" rx="12" fill="#4b78d8"/>
+    <rect class="swatch" x="216" y="145" width="72" height="72" rx="12" fill="#9d9d9d"/>
+    <text x="30" y="260" class="body">材质自己的颜色</text>
+    <text x="30" y="296" class="small">不包含高光、阴影、环境色</text>
+  </g>
+
+  <g transform="translate(525,185)">
+    <rect class="card process" width="350" height="330"/>
+    <rect class="chip2" x="30" y="28" width="110" height="34" rx="17"/>
+    <text x="56" y="52" class="label">计算</text>
+    <text x="30" y="106" class="h">Lighting</text>
+    <text x="34" y="160" class="body">灯光</text>
+    <text x="34" y="202" class="body">阴影</text>
+    <text x="34" y="244" class="body">反射</text>
+    <text x="34" y="286" class="body">环境光</text>
+  </g>
+
+  <g transform="translate(980,185)">
+    <rect class="card output" width="350" height="330"/>
+    <rect class="chip3" x="30" y="28" width="110" height="34" rx="17"/>
+    <text x="56" y="52" class="label">输出</text>
+    <text x="30" y="106" class="h">Final Color</text>
+    <text x="34" y="164" class="body">屏幕最终颜色</text>
+    <text x="34" y="208" class="small">不是单纯的 Albedo</text>
+    <text x="34" y="252" class="small">会随光照和环境变化</text>
+  </g>
+
+  <line x1="424" y1="350" x2="520" y2="350" class="line"/>
+  <polygon points="534,350 510,336 510,364" class="arrow"/>
+  <line x1="879" y1="350" x2="975" y2="350" class="line"/>
+  <polygon points="989,350 965,336 965,364" class="arrow"/>
+
+  <g transform="translate(150,635)">
+    <rect class="card warn" width="1100" height="165"/>
+    <text x="34" y="54" class="h">常见错误</text>
+    <text x="34" y="96" class="body">把阴影、高光、环境色提前画进 Albedo 贴图。</text>
+    <text x="34" y="134" class="small">后果：PBR 再计算光照时会重复叠加，材质容易发脏、发假。</text>
+  </g>
+</svg>
