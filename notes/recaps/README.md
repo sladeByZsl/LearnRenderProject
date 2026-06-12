@@ -91,3 +91,4 @@
 - [Day 22：PBR Intro 解释图](day22_pbr_intro/README.md)
 - [Day 23：PBR Albedo 解释图](day23_albedo/README.md)
 - [Day 24：PBR Metallic 解释图](day24_metallic/README.md)
+- [Day 25：PBR Roughness 解释图](day25_roughness/README.md)

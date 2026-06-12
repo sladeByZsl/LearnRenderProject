@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="900" viewBox="0 0 1400 900">
+  <defs>
+    <style>
+      .bg { fill: #10131a; }
+      .title { fill: #f6f8fb; font: 700 42px "PingFang SC", "Microsoft YaHei", Arial, sans-serif; }
+      .sub { fill: #aeb8c8; font: 22px "PingFang SC", "Microsoft YaHei", Arial, sans-serif; }
+      .card { rx: 24; stroke-width: 3; }
+      .smooth { fill: #142231; stroke: #4ea4ff; }
+      .rough { fill: #2a2115; stroke: #f3a742; }
+      .mid { fill: #171d29; stroke: #526079; }
+      .chip1 { fill: #4ea4ff; }
+      .chip2 { fill: #f3a742; }
+      .label { fill: #10131a; font: 700 18px "PingFang SC", "Microsoft YaHei", Arial, sans-serif; }
+      .h { fill: #ffffff; font: 700 28px "PingFang SC", "Microsoft YaHei", Arial, sans-serif; }
+      .body { fill: #dfe7f3; font: 21px "PingFang SC", "Microsoft YaHei", Arial, sans-serif; }
+      .small { fill: #aeb8c8; font: 18px "PingFang SC", "Microsoft YaHei", Arial, sans-serif; }
+      .line { stroke: #657185; stroke-width: 5; stroke-linecap: round; }
+      .arrow { fill: #657185; }
+      .sphereSmooth { fill: url(#smoothGrad); }
+      .sphereRough { fill: url(#roughGrad); }
+      .ray { stroke: #f6f8fb; stroke-width: 3; stroke-linecap: round; opacity: .75; }
+      .ray2 { stroke: #f3a742; stroke-width: 3; stroke-linecap: round; opacity: .6; }
+    </style>
+    <radialGradient id="smoothGrad" cx="34%" cy="24%" r="70%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="10%" stop-color="#c7e7ff"/>
+      <stop offset="34%" stop-color="#3b8eea"/>
+      <stop offset="100%" stop-color="#15345c"/>
+    </radialGradient>
+    <radialGradient id="roughGrad" cx="42%" cy="30%" r="72%">
+      <stop offset="0%" stop-color="#f9d28a"/>
+      <stop offset="36%" stop-color="#a86e2c"/>
+      <stop offset="100%" stop-color="#3a2413"/>
+    </radialGradient>
+  </defs>
+
+  <rect class="bg" width="1400" height="900"/>
+  <text x="70" y="82" class="title">Day 25：Roughness / 粗糙度</text>
+  <text x="70" y="124" class="sub">关键判断：Roughness 改变光怎么散开，不是直接改变本色。</text>
+
+  <g transform="translate(70,185)">
+    <rect class="card smooth" width="560" height="405"/>
+    <rect class="chip1" x="32" y="30" width="145" height="34" rx="17"/>
+    <text x="56" y="54" class="label">Roughness 低</text>
+    <text x="32" y="108" class="h">光滑表面</text>
+    <circle class="sphereSmooth" cx="145" cy="240" r="88"/>
+    <line class="ray" x1="290" y1="185" x2="405" y2="150"/>
+    <line class="ray" x1="292" y1="215" x2="420" y2="208"/>
+    <line class="ray" x1="290" y1="245" x2="405" y2="268"/>
+    <text x="300" y="320" class="body">高光小、亮、集中</text>
+    <text x="300" y="360" class="small">反射更清楚，像镜面</text>
+  </g>
+
+  <g transform="translate(770,185)">
+    <rect class="card rough" width="560" height="405"/>
+    <rect class="chip2" x="32" y="30" width="145" height="34" rx="17"/>
+    <text x="56" y="54" class="label">Roughness 高</text>
+    <text x="32" y="108" class="h">粗糙表面</text>
+    <circle class="sphereRough" cx="145" cy="240" r="88"/>
+    <line class="ray2" x1="290" y1="210" x2="420" y2="130"/>
+    <line class="ray2" x1="290" y1="225" x2="425" y2="190"/>
+    <line class="ray2" x1="290" y1="240" x2="425" y2="250"/>
+    <line class="ray2" x1="290" y1="255" x2="420" y2="315"/>
+    <text x="300" y="320" class="body">高光宽、散、变糊</text>
+    <text x="300" y="360" class="small">反射更模糊，像磨砂</text>
+  </g>
+
+  <line x1="636" y1="388" x2="762" y2="388" class="line"/>
+  <polygon points="776,388 752,374 752,402" class="arrow"/>
+
+  <g transform="translate(165,655)">
+    <rect class="card mid" width="1070" height="165"/>
+    <text x="34" y="54" class="h">Unity 对照</text>
+    <text x="34" y="96" class="body">Unity 常用 Smoothness：越高越光滑。很多资料说的 Roughness 与它方向相反。</text>
+    <text x="34" y="134" class="small">先记：Smoothness ~= 1 - Roughness。观察时固定 Metallic 和 Base Color，只改 Smoothness。</text>
+  </g>
+</svg>
