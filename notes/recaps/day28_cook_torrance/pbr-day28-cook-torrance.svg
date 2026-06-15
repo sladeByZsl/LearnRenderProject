@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="900" viewBox="0 0 1400 900">
+  <defs>
+    <style>
+      .bg { fill: #11151d; }
+      .title { fill: #f7f9fc; font: 700 42px "PingFang SC", "Microsoft YaHei", Arial, sans-serif; }
+      .sub { fill: #aeb8c8; font: 22px "PingFang SC", "Microsoft YaHei", Arial, sans-serif; }
+      .card { fill: #17202b; stroke-width: 3; rx: 22; }
+      .f { stroke: #64b5ff; }
+      .d { stroke: #f3a742; }
+      .g { stroke: #59d185; }
+      .h { fill: #ffffff; font: 700 30px "PingFang SC", "Microsoft YaHei", Arial, sans-serif; }
+      .body { fill: #dfe7f3; font: 22px "PingFang SC", "Microsoft YaHei", Arial, sans-serif; }
+      .small { fill: #aeb8c8; font: 18px "PingFang SC", "Microsoft YaHei", Arial, sans-serif; }
+      .letter { font: 800 72px Arial, sans-serif; }
+      .blue { fill: #64b5ff; }
+      .orange { fill: #f3a742; }
+      .green { fill: #59d185; }
+      .line { stroke: #657185; stroke-width: 4; stroke-linecap: round; }
+      .surface { stroke: #dfe7f3; stroke-width: 4; fill: none; }
+      .ray { stroke: #ffd166; stroke-width: 5; stroke-linecap: round; }
+      .eye { fill: #64b5ff; }
+      .panel { fill: #17202b; stroke: #526079; stroke-width: 3; rx: 22; }
+    </style>
+  </defs>
+  <rect class="bg" width="1400" height="900"/>
+  <text x="70" y="82" class="title">Day 28：Cook-Torrance / F-D-G 三件套</text>
+  <text x="70" y="124" class="sub">关键判断：先理解结构，不急着推公式。</text>
+
+  <g transform="translate(70,180)">
+    <rect class="card f" width="380" height="420"/>
+    <text class="letter blue" x="40" y="100">F</text>
+    <text class="h" x="120" y="92">Fresnel</text>
+    <text class="body" x="40" y="160">管视角</text>
+    <text class="small" x="40" y="200">越擦边看，反射越强</text>
+    <path class="surface" d="M70 310 C150 250, 230 250, 310 310"/>
+    <circle class="eye" cx="305" cy="235" r="18"/>
+    <line class="ray" x1="190" y1="280" x2="305" y2="235"/>
+    <text class="small" x="40" y="370">例：水面斜着看更亮</text>
+  </g>
+
+  <g transform="translate(510,180)">
+    <rect class="card d" width="380" height="420"/>
+    <text class="letter orange" x="40" y="100">D</text>
+    <text class="h" x="120" y="92">Distribution</text>
+    <text class="body" x="40" y="160">管高光形状</text>
+    <text class="small" x="40" y="200">有多少小平面朝向正确</text>
+    <line class="line" x1="70" y1="315" x2="125" y2="270"/>
+    <line class="line" x1="135" y1="315" x2="190" y2="280"/>
+    <line class="line" x1="200" y1="315" x2="250" y2="250"/>
+    <line class="line" x1="265" y1="315" x2="320" y2="285"/>
+    <text class="small" x="40" y="370">roughness 主要影响这里</text>
+  </g>
+
+  <g transform="translate(950,180)">
+    <rect class="card g" width="380" height="420"/>
+    <text class="letter green" x="40" y="100">G</text>
+    <text class="h" x="120" y="92">Geometry</text>
+    <text class="body" x="40" y="160">管遮挡</text>
+    <text class="small" x="40" y="200">微表面之间会互相挡光</text>
+    <path class="surface" d="M65 315 L115 260 L165 315 L215 255 L265 315 L315 270"/>
+    <line class="ray" x1="85" y1="230" x2="145" y2="300"/>
+    <line class="ray" x1="230" y1="230" x2="250" y2="298"/>
+    <text class="small" x="40" y="370">粗糙表面会损失部分反射</text>
+  </g>
+
+  <g transform="translate(165,680)">
+    <rect class="panel" width="1070" height="145"/>
+    <text class="h" x="34" y="55">30 秒记忆</text>
+    <text class="body" x="34" y="98">F 看角度，D 看小平面方向，G 看小平面遮挡。</text>
+    <text class="small" x="34" y="126">今天不背公式，只把 Cook-Torrance 当成三个问题。</text>
+  </g>
+</svg>
+

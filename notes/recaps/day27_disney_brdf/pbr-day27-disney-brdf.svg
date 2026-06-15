@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="900" viewBox="0 0 1400 900">
+  <defs>
+    <style>
+      .bg { fill: #10131a; }
+      .title { fill: #f7f9fc; font: 700 42px "PingFang SC", "Microsoft YaHei", Arial, sans-serif; }
+      .sub { fill: #aeb8c8; font: 22px "PingFang SC", "Microsoft YaHei", Arial, sans-serif; }
+      .center { fill: #17202b; stroke: #7bc7ff; stroke-width: 4; rx: 28; }
+      .node { fill: #1d2532; stroke: #526079; stroke-width: 3; rx: 20; }
+      .node2 { fill: #13251f; stroke: #4fd18b; stroke-width: 3; rx: 20; }
+      .node3 { fill: #2a2115; stroke: #f3a742; stroke-width: 3; rx: 20; }
+      .h { fill: #ffffff; font: 700 28px "PingFang SC", "Microsoft YaHei", Arial, sans-serif; }
+      .body { fill: #dfe7f3; font: 21px "PingFang SC", "Microsoft YaHei", Arial, sans-serif; }
+      .small { fill: #aeb8c8; font: 18px "PingFang SC", "Microsoft YaHei", Arial, sans-serif; }
+      .line { stroke: #657185; stroke-width: 4; stroke-linecap: round; }
+      .chip { fill: #7bc7ff; }
+      .chipText { fill: #10131a; font: 700 18px "PingFang SC", "Microsoft YaHei", Arial, sans-serif; }
+    </style>
+  </defs>
+  <rect class="bg" width="1400" height="900"/>
+  <text x="70" y="82" class="title">Day 27：Disney BRDF / 参数总览</text>
+  <text x="70" y="124" class="sub">关键判断：把复杂反射整理成美术能稳定使用的参数。</text>
+
+  <rect class="center" x="500" y="265" width="400" height="220"/>
+  <rect class="chip" x="610" y="296" width="180" height="34" rx="17"/>
+  <text class="chipText" x="637" y="320">Disney BRDF</text>
+  <text class="h" x="565" y="375">材质参数面板</text>
+  <text class="body" x="550" y="420">少量参数</text>
+  <text class="small" x="550" y="452">直觉强、可复用、适合生产</text>
+
+  <line class="line" x1="500" y1="330" x2="315" y2="250"/>
+  <line class="line" x1="500" y1="435" x2="315" y2="560"/>
+  <line class="line" x1="900" y1="330" x2="1085" y2="250"/>
+  <line class="line" x1="900" y1="435" x2="1085" y2="560"/>
+
+  <rect class="node" x="95" y="175" width="300" height="145"/>
+  <text class="h" x="130" y="230">Base Color</text>
+  <text class="small" x="130" y="270">物体本色</text>
+
+  <rect class="node2" x="95" y="515" width="300" height="145"/>
+  <text class="h" x="130" y="570">Metallic</text>
+  <text class="small" x="130" y="610">金属 / 非金属分工</text>
+
+  <rect class="node3" x="1005" y="175" width="300" height="145"/>
+  <text class="h" x="1040" y="230">Roughness</text>
+  <text class="small" x="1040" y="270">高光宽窄与反射清晰度</text>
+
+  <rect class="node" x="1005" y="515" width="300" height="145"/>
+  <text class="h" x="1040" y="570">Clearcoat</text>
+  <text class="small" x="1040" y="610">额外一层清漆反射</text>
+
+  <g transform="translate(190,725)">
+    <rect class="center" width="1020" height="100"/>
+    <text class="body" x="34" y="43">先记：Disney BRDF 的价值是“参数设计”，不是让你第一天推完公式。</text>
+    <text class="small" x="34" y="73">Unity Lit / Standard 的材质面板，可以按这个思路去理解。</text>
+  </g>
+</svg>
+
