@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="900" viewBox="0 0 1400 900">
+  <defs>
+    <style>
+      .bg { fill: #10131a; }
+      .title { fill: #f7f9fc; font: 700 42px "PingFang SC", "Microsoft YaHei", Arial, sans-serif; }
+      .sub { fill: #aeb8c8; font: 22px "PingFang SC", "Microsoft YaHei", Arial, sans-serif; }
+      .sphere { fill: #16202d; stroke: #607086; stroke-width: 3; }
+      .grid { fill: none; stroke: #607086; stroke-width: 2; opacity: .55; }
+      .axis { stroke: #dfe7f3; stroke-width: 4; stroke-linecap: round; }
+      .axisText { fill: #dfe7f3; font: 700 22px Arial, sans-serif; }
+      .radius { stroke: #ffd166; stroke-width: 5; stroke-linecap: round; }
+      .patch { fill: #ff6b6b; opacity: .78; stroke: #fff0f0; stroke-width: 3; }
+      .edgeA { stroke: #64b5ff; stroke-width: 6; stroke-linecap: round; }
+      .edgeB { stroke: #59d185; stroke-width: 6; stroke-linecap: round; }
+      .angle { fill: none; stroke: #f3a742; stroke-width: 4; stroke-linecap: round; }
+      .phi { fill: none; stroke: #b886ff; stroke-width: 4; stroke-linecap: round; }
+      .label { fill: #f7f9fc; font: 700 26px "PingFang SC", "Microsoft YaHei", Arial, sans-serif; }
+      .small { fill: #aeb8c8; font: 20px "PingFang SC", "Microsoft YaHei", Arial, sans-serif; }
+      .formula { fill: #ffffff; font: 700 34px "PingFang SC", "Microsoft YaHei", Arial, sans-serif; }
+      .card { fill: #17202b; stroke: #526079; stroke-width: 3; rx: 22; }
+      .note { fill: #dfe7f3; font: 22px "PingFang SC", "Microsoft YaHei", Arial, sans-serif; }
+      .arrowHead { fill: #dfe7f3; }
+      .blue { fill: #64b5ff; }
+      .green { fill: #59d185; }
+      .orange { fill: #f3a742; }
+      .purple { fill: #b886ff; }
+      .red { fill: #ff8585; }
+    </style>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" class="arrowHead"/>
+    </marker>
+  </defs>
+
+  <rect class="bg" width="1400" height="900"/>
+  <text x="70" y="82" class="title">立体角：球面上一小块“方向面积”</text>
+  <text x="70" y="124" class="sub">从球心看过去，一小块球面占了多大视野，这个大小就是立体角。</text>
+
+  <g transform="translate(120,165)">
+    <circle class="sphere" cx="430" cy="330" r="245"/>
+    <ellipse class="grid" cx="430" cy="330" rx="245" ry="72"/>
+    <ellipse class="grid" cx="430" cy="260" rx="205" ry="55"/>
+    <ellipse class="grid" cx="430" cy="400" rx="205" ry="55"/>
+    <ellipse class="grid" cx="430" cy="330" rx="72" ry="245"/>
+    <ellipse class="grid" cx="430" cy="330" rx="155" ry="245"/>
+
+    <line class="axis" x1="430" y1="330" x2="430" y2="75" marker-end="url(#arrow)"/>
+    <text class="axisText" x="445" y="90">z</text>
+    <line class="axis" x1="430" y1="330" x2="690" y2="330" marker-end="url(#arrow)"/>
+    <text class="axisText" x="688" y="357">x</text>
+    <line class="axis" x1="430" y1="330" x2="250" y2="510" marker-end="url(#arrow)"/>
+    <text class="axisText" x="228" y="533">y</text>
+
+    <line class="radius" x1="430" y1="330" x2="585" y2="190"/>
+    <text class="label orange" x="500" y="245">r</text>
+
+    <path class="angle" d="M430 165 A165 165 0 0 1 545 212"/>
+    <text class="label orange" x="482" y="182">θ</text>
+    <path class="phi" d="M505 330 A75 35 0 0 1 585 350"/>
+    <text class="label purple" x="550" y="384">φ</text>
+
+    <path class="patch" d="M575 172 C615 160, 650 175, 660 207 C625 225, 588 215, 560 195 Z"/>
+    <line class="edgeA" x1="562" y1="198" x2="576" y2="173"/>
+    <line class="edgeB" x1="575" y1="173" x2="618" y2="164"/>
+    <text class="label blue" x="490" y="163">r dθ</text>
+    <text class="label green" x="626" y="154">r sinθ dφ</text>
+    <text class="label red" x="668" y="207">dA</text>
+
+    <line class="axis" x1="585" y1="190" x2="735" y2="110" opacity=".7" marker-end="url(#arrow)"/>
+    <text class="label" x="746" y="112">方向范围</text>
+  </g>
+
+  <g transform="translate(845,210)">
+    <rect class="card" width="465" height="460"/>
+    <text class="formula" x="40" y="70">Ω = A / r²</text>
+    <text class="note" x="40" y="124">A：球面上截出来的面积</text>
+    <text class="note" x="40" y="164">r：球半径</text>
+    <text class="note" x="40" y="218">除以 r² 后，结果只表示</text>
+    <text class="note" x="40" y="254">“方向范围”，不受球大小影响。</text>
+
+    <line x1="40" y1="300" x2="425" y2="300" stroke="#526079" stroke-width="3"/>
+
+    <text class="formula" x="40" y="360">dA = r² sinθ dθ dφ</text>
+    <text class="formula" x="40" y="415">dω = sinθ dθ dφ</text>
+  </g>
+
+  <g transform="translate(175,745)">
+    <rect class="card" width="1050" height="95"/>
+    <text class="note" x="34" y="42">30 秒记忆：普通角度量 2D 扇形张开多大；立体角量 3D 锥形视野张开多大。</text>
+    <text class="small" x="34" y="72">sinθ 来自纬线半径：越靠近球顶，一圈越小；越靠近赤道，一圈越大。</text>
+  </g>
+</svg>

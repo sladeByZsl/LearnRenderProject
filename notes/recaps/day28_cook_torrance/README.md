@@ -18,6 +18,10 @@ G：Geometry，微表面之间互相遮挡，决定反射损失。
 
 ![Day 28 Cook Torrance](pbr-day28-cook-torrance.png)
 
+## 立体角解释图
+
+![Solid Angle Diagram](solid-angle-diagram.png)
+
 ## 学习资料
 
 - LearnOpenGL PBR Theory：[PBR/Theory](https://learnopengl.com/PBR/Theory)
