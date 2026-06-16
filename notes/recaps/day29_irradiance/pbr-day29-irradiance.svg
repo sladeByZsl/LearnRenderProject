@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="900" viewBox="0 0 1400 900">
+  <defs>
+    <style>
+      .bg { fill: #10131a; }
+      .title { fill: #f7f9fc; font: 700 42px "PingFang SC", "Microsoft YaHei", Arial, sans-serif; }
+      .sub { fill: #aeb8c8; font: 22px "PingFang SC", "Microsoft YaHei", Arial, sans-serif; }
+      .panel { fill: #17202b; stroke: #526079; stroke-width: 3; rx: 22; }
+      .surface { fill: #2f3948; }
+      .normal { stroke: #dfe7f3; stroke-width: 5; stroke-linecap: round; }
+      .hemisphere { fill: none; stroke: #607086; stroke-width: 4; }
+      .grid { fill: none; stroke: #607086; stroke-width: 2; opacity: .45; }
+      .ray { stroke: #ffd166; stroke-width: 5; stroke-linecap: round; marker-end: url(#arrowGold); }
+      .ray2 { stroke: #64b5ff; stroke-width: 5; stroke-linecap: round; marker-end: url(#arrowBlue); }
+      .ray3 { stroke: #59d185; stroke-width: 5; stroke-linecap: round; marker-end: url(#arrowGreen); }
+      .point { fill: #ff6b6b; }
+      .h { fill: #ffffff; font: 700 30px "PingFang SC", "Microsoft YaHei", Arial, sans-serif; }
+      .body { fill: #dfe7f3; font: 22px "PingFang SC", "Microsoft YaHei", Arial, sans-serif; }
+      .small { fill: #aeb8c8; font: 18px "PingFang SC", "Microsoft YaHei", Arial, sans-serif; }
+      .formula { fill: #ffffff; font: 700 34px "PingFang SC", "Microsoft YaHei", Arial, sans-serif; }
+      .chip { fill: #ffd166; }
+      .chipText { fill: #10131a; font: 700 18px "PingFang SC", "Microsoft YaHei", Arial, sans-serif; }
+    </style>
+    <marker id="arrowGold" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#ffd166"/>
+    </marker>
+    <marker id="arrowBlue" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#64b5ff"/>
+    </marker>
+    <marker id="arrowGreen" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#59d185"/>
+    </marker>
+  </defs>
+
+  <rect class="bg" width="1400" height="900"/>
+  <text x="70" y="82" class="title">Day 29：Irradiance / 辐照度</text>
+  <text x="70" y="124" class="sub">关键判断：一个表面点从上方半球所有方向收到多少光。</text>
+
+  <g transform="translate(80,170)">
+    <rect class="panel" width="740" height="500"/>
+    <path class="hemisphere" d="M120 350 A250 250 0 0 1 620 350"/>
+    <path class="grid" d="M190 350 A180 180 0 0 1 550 350"/>
+    <path class="grid" d="M275 350 A95 95 0 0 1 465 350"/>
+    <line class="surface" x1="110" y1="350" x2="630" y2="350" stroke="#2f3948" stroke-width="34" stroke-linecap="round"/>
+    <circle class="point" cx="370" cy="350" r="12"/>
+    <line class="normal" x1="370" y1="350" x2="370" y2="115"/>
+    <text class="small" x="386" y="132">normal</text>
+
+    <line class="ray" x1="210" y1="150" x2="350" y2="335"/>
+    <line class="ray2" x1="520" y1="130" x2="388" y2="334"/>
+    <line class="ray3" x1="370" y1="85" x2="370" y2="326"/>
+    <line class="ray" x1="135" y1="305" x2="344" y2="347"/>
+    <line class="ray2" x1="605" y1="300" x2="395" y2="347"/>
+
+    <text class="h" x="42" y="58">半球方向的光加起来</text>
+    <text class="body" x="42" y="428">每一条方向贡献一点点</text>
+    <text class="small" x="42" y="462">方向范围用 dω 描述；斜着来的光还要乘 cosθ。</text>
+  </g>
+
+  <g transform="translate(870,190)">
+    <rect class="panel" width="450" height="455"/>
+    <rect class="chip" x="36" y="34" width="155" height="34" rx="17"/>
+    <text class="chipText" x="62" y="58">先记直觉</text>
+    <text class="h" x="36" y="120">Radiance</text>
+    <text class="body" x="36" y="160">某一个方向来的光</text>
+    <text class="h" x="36" y="245">Irradiance</text>
+    <text class="body" x="36" y="285">很多方向收到的光总和</text>
+    <line x1="36" y1="330" x2="414" y2="330" stroke="#526079" stroke-width="3"/>
+    <text class="formula" x="36" y="392">E ≈ ∑ Lᵢ cosθ Δω</text>
+    <text class="small" x="36" y="426">今天不背公式，只看结构。</text>
+  </g>
+
+  <g transform="translate(170,720)">
+    <rect class="panel" width="1060" height="105"/>
+    <text class="body" x="34" y="45">30 秒记忆：Irradiance = 表面点从半球方向收到的光总量。</text>
+    <text class="small" x="34" y="75">它是 diffuse IBL 的入口：环境不是一盏灯，而是一整个半球的光。</text>
+  </g>
+</svg>
+

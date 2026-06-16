@@ -95,3 +95,4 @@
 - [Day 26：PBR Energy Conservation 解释图](day26_energy_conservation/README.md)
 - [Day 27：Disney BRDF 参数总览解释图](day27_disney_brdf/README.md)
 - [Day 28：Cook-Torrance F-D-G 解释图](day28_cook_torrance/README.md)
+- [Day 29：Irradiance / 辐照度解释图](day29_irradiance/README.md)
