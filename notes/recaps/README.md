@@ -96,3 +96,4 @@
 - [Day 27：Disney BRDF 参数总览解释图](day27_disney_brdf/README.md)
 - [Day 28：Cook-Torrance F-D-G 解释图](day28_cook_torrance/README.md)
 - [Day 29：Irradiance / 辐照度解释图](day29_irradiance/README.md)
+- [Day 30：Cosine Weight / cosθ 投影项解释图](day30_cosine_weight/README.md)
