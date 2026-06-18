@@ -97,3 +97,4 @@
 - [Day 28：Cook-Torrance F-D-G 解释图](day28_cook_torrance/README.md)
 - [Day 29：Irradiance / 辐照度解释图](day29_irradiance/README.md)
 - [Day 30：Cosine Weight / cosθ 投影项解释图](day30_cosine_weight/README.md)
+- [Day 31：Irradiance Map / 漫反射环境光预计算解释图](day31_irradiance_map/README.md)

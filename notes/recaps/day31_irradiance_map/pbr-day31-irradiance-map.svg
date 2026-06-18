@@ -1,0 +1,103 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="900" viewBox="0 0 1400 900">
+  <defs>
+    <style>
+      .bg { fill: #10131a; }
+      .title { fill: #f7f9fc; font: 700 42px "PingFang SC", "Microsoft YaHei", Arial, sans-serif; }
+      .sub { fill: #aeb8c8; font: 22px "PingFang SC", "Microsoft YaHei", Arial, sans-serif; }
+      .panel { fill: #17202b; stroke: #526079; stroke-width: 3; rx: 22; }
+      .source { fill: #182436; stroke: #64b5ff; stroke-width: 3; rx: 22; }
+      .process { fill: #2a2115; stroke: #f3a742; stroke-width: 3; rx: 22; }
+      .result { fill: #10251f; stroke: #59d185; stroke-width: 3; rx: 22; }
+      .h { fill: #ffffff; font: 700 28px "PingFang SC", "Microsoft YaHei", Arial, sans-serif; }
+      .body { fill: #dfe7f3; font: 21px "PingFang SC", "Microsoft YaHei", Arial, sans-serif; }
+      .small { fill: #aeb8c8; font: 18px "PingFang SC", "Microsoft YaHei", Arial, sans-serif; }
+      .chip { fill: #ffd166; }
+      .chipText { fill: #10131a; font: 700 18px "PingFang SC", "Microsoft YaHei", Arial, sans-serif; }
+      .arrow { stroke: #dfe7f3; stroke-width: 5; stroke-linecap: round; marker-end: url(#arrowHead); }
+      .cubeFace { stroke: #dfe7f3; stroke-width: 2; }
+      .ray { stroke: #ffd166; stroke-width: 4; stroke-linecap: round; marker-end: url(#arrowGold); }
+      .normal { stroke: #64b5ff; stroke-width: 5; stroke-linecap: round; }
+      .surface { stroke: #dfe7f3; stroke-width: 8; stroke-linecap: round; }
+      .formula { fill: #ffffff; font: 700 32px "PingFang SC", "Microsoft YaHei", Arial, sans-serif; }
+    </style>
+    <marker id="arrowHead" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#dfe7f3"/>
+    </marker>
+    <marker id="arrowGold" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#ffd166"/>
+    </marker>
+    <linearGradient id="envGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#64b5ff"/>
+      <stop offset="38%" stop-color="#273e68"/>
+      <stop offset="62%" stop-color="#f3a742"/>
+      <stop offset="100%" stop-color="#1f2c3c"/>
+    </linearGradient>
+    <linearGradient id="blurGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#6aa6c8"/>
+      <stop offset="55%" stop-color="#556f65"/>
+      <stop offset="100%" stop-color="#9a7440"/>
+    </linearGradient>
+  </defs>
+
+  <rect class="bg" width="1400" height="900"/>
+  <text x="70" y="82" class="title">Day 31：Irradiance Map / 漫反射环境光预计算</text>
+  <text x="70" y="124" class="sub">关键判断：把半球很多方向的 diffuse 环境光提前算好，运行时按法线查表。</text>
+
+  <g transform="translate(70,185)">
+    <rect class="source" width="345" height="390"/>
+    <rect class="chip" x="28" y="28" width="145" height="34" rx="17"/>
+    <text class="chipText" x="55" y="52">输入</text>
+    <text class="h" x="28" y="105">Environment Map</text>
+    <text class="small" x="28" y="140">天空盒 / HDRI / Probe</text>
+    <g transform="translate(75,235)">
+      <rect class="cubeFace" x="0" y="0" width="70" height="70" fill="url(#envGrad)"/>
+      <rect class="cubeFace" x="74" y="0" width="70" height="70" fill="#263d66"/>
+      <rect class="cubeFace" x="148" y="0" width="70" height="70" fill="#c88936"/>
+      <rect class="cubeFace" x="74" y="-74" width="70" height="70" fill="#6aa6ff"/>
+      <rect class="cubeFace" x="74" y="74" width="70" height="70" fill="#1f2c3c"/>
+      <rect class="cubeFace" x="222" y="0" width="70" height="70" fill="#5b7f5f"/>
+    </g>
+  </g>
+
+  <line class="arrow" x1="435" y1="380" x2="530" y2="380"/>
+
+  <g transform="translate(545,185)">
+    <rect class="process" width="310" height="390"/>
+    <rect class="chip" x="28" y="28" width="145" height="34" rx="17"/>
+    <text class="chipText" x="55" y="52">预计算</text>
+    <text class="h" x="28" y="105">Convolution</text>
+    <text class="small" x="28" y="140">半球采样 + cosθ 加权</text>
+    <path d="M75 262 A85 85 0 0 1 245 262" fill="none" stroke="#607086" stroke-width="4"/>
+    <line class="surface" x1="64" y1="262" x2="256" y2="262"/>
+    <line class="normal" x1="160" y1="262" x2="160" y2="150"/>
+    <line class="ray" x1="90" y1="160" x2="150" y2="250"/>
+    <line class="ray" x1="230" y1="165" x2="170" y2="250"/>
+    <line class="ray" x1="160" y1="135" x2="160" y2="246"/>
+    <text class="formula" x="38" y="340">Σ Li cosθ Δω</text>
+  </g>
+
+  <line class="arrow" x1="875" y1="380" x2="970" y2="380"/>
+
+  <g transform="translate(985,185)">
+    <rect class="result" width="345" height="390"/>
+    <rect class="chip" x="28" y="28" width="145" height="34" rx="17"/>
+    <text class="chipText" x="55" y="52">输出</text>
+    <text class="h" x="28" y="105">Irradiance Map</text>
+    <text class="small" x="28" y="140">模糊的 diffuse 环境光</text>
+    <g transform="translate(75,235)">
+      <rect class="cubeFace" x="0" y="0" width="70" height="70" fill="url(#blurGrad)"/>
+      <rect class="cubeFace" x="74" y="0" width="70" height="70" fill="#4f6670"/>
+      <rect class="cubeFace" x="148" y="0" width="70" height="70" fill="#8b7352"/>
+      <rect class="cubeFace" x="74" y="-74" width="70" height="70" fill="#7693a2"/>
+      <rect class="cubeFace" x="74" y="74" width="70" height="70" fill="#394d50"/>
+      <rect class="cubeFace" x="222" y="0" width="70" height="70" fill="#66785b"/>
+    </g>
+  </g>
+
+  <g transform="translate(165,680)">
+    <rect class="panel" width="1070" height="145"/>
+    <text class="h" x="34" y="55">30 秒记忆</text>
+    <text class="body" x="34" y="98">Irradiance Map = diffuse 环境光的查表结果。</text>
+    <text class="small" x="34" y="126">它模糊，是因为 diffuse 把半球方向的光加权平均了，不保留清晰倒影。</text>
+  </g>
+</svg>
