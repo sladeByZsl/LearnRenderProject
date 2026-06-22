@@ -4,17 +4,46 @@
 
 ## 当前状态
 
-- 当前阶段：PBR-first 加速路线。
-- 当前任务：直接进入 PBR 原理，从材质参数和能量直觉开始。
-- 当前原则：按计划继续推进；每天先简短总结上一天，如果上一天可能没做就直接说明，然后继续给当天新任务。
+- 当前阶段：PBR 复习周。
+- 当前任务：本周不讲新内容，只复习 Day 22-31 的 PBR 核心概念。
+- 当前原则：每天选一个已经学过的 PBR 概念做回顾、费曼解释、Unity 观察和 Q&A 补全；不继续推进新术语。
 
 ## 每日固定流程
 
-1. 看当天学习包，只聚焦 1 个核心概念。
-2. 运行当天 demo 的 `./run.sh`。
-3. 改一个最小可见点，确认结果变化。
-4. 写 3-5 句话学习笔记。
+1. 先复述一个已经学过的 PBR 概念。
+2. 对照已有 recap 图片或 SIGGRAPH / LearnOpenGL 小节查漏。
+3. 在 Unity 里做一个最小观察，不要求新 demo。
+4. 写 3-5 句话复习笔记。
 5. 有问题就用 Q&A 形式补到对应 README。
+
+## 本周：PBR 复习周
+
+本周不推进新内容。目标是把已经出现过的概念说顺，而不是继续堆术语。
+
+复习范围：
+
+```text
+Day 22：PBR 解决什么问题
+Day 23：Albedo / Base Color
+Day 24：Metallic
+Day 25：Roughness
+Day 26：Energy Conservation
+Day 27：Disney BRDF 参数设计
+Day 28：Cook-Torrance / F-D-G / 立体角
+Day 29：Irradiance
+Day 30：cosθ 投影项
+Day 31：Irradiance Map
+```
+
+本周最小目标：
+
+```text
+能用自己的话解释：
+1. PBR 为什么让材质更稳定
+2. 金属和非金属的光照分工
+3. roughness 为什么影响高光和反射清晰度
+4. diffuse IBL 为什么是半球环境光的加权累加
+```
 
 ## 整体路线
 
