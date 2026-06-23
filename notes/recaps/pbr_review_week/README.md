@@ -18,6 +18,8 @@
 
 ### Day R1：PBR 总体问题
 
+今日文件：[R1：PBR 为什么让材质更稳定](r1_pbr_stability/README.md)
+
 复习：
 
 - Day 22：PBR Intro
