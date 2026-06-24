@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="900" viewBox="0 0 1400 900">
+  <defs>
+    <style>
+      .bg { fill: #10131a; }
+      .title { fill: #f7f9fc; font: 700 42px "PingFang SC", "Microsoft YaHei", Arial, sans-serif; }
+      .sub { fill: #aeb8c8; font: 22px "PingFang SC", "Microsoft YaHei", Arial, sans-serif; }
+      .panel { fill: #17202b; stroke: #526079; stroke-width: 3; rx: 22; }
+      .card1 { fill: #182436; stroke: #64b5ff; stroke-width: 3; rx: 22; }
+      .card2 { fill: #10251f; stroke: #59d185; stroke-width: 3; rx: 22; }
+      .card3 { fill: #2a2115; stroke: #f3a742; stroke-width: 3; rx: 22; }
+      .chip { fill: #ffd166; }
+      .chipText { fill: #10131a; font: 700 18px "PingFang SC", "Microsoft YaHei", Arial, sans-serif; }
+      .h { fill: #ffffff; font: 700 30px "PingFang SC", "Microsoft YaHei", Arial, sans-serif; }
+      .body { fill: #dfe7f3; font: 22px "PingFang SC", "Microsoft YaHei", Arial, sans-serif; }
+      .small { fill: #aeb8c8; font: 18px "PingFang SC", "Microsoft YaHei", Arial, sans-serif; }
+      .sphere { stroke: #dfe7f3; stroke-width: 3; }
+      .base { fill: url(#baseSphere); }
+      .metal { fill: url(#metalSphere); }
+      .rough { fill: url(#roughSphere); }
+      .line { stroke: #657185; stroke-width: 4; stroke-linecap: round; }
+      .ray { stroke: #ffd166; stroke-width: 4; stroke-linecap: round; opacity: .8; }
+    </style>
+    <radialGradient id="baseSphere" cx="35%" cy="28%" r="75%">
+      <stop offset="0%" stop-color="#ffd6b1"/>
+      <stop offset="35%" stop-color="#c56a37"/>
+      <stop offset="100%" stop-color="#4a2015"/>
+    </radialGradient>
+    <radialGradient id="metalSphere" cx="35%" cy="28%" r="75%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="12%" stop-color="#dbe4ee"/>
+      <stop offset="45%" stop-color="#8793a1"/>
+      <stop offset="100%" stop-color="#2c3542"/>
+    </radialGradient>
+    <radialGradient id="roughSphere" cx="42%" cy="32%" r="78%">
+      <stop offset="0%" stop-color="#ffe2aa"/>
+      <stop offset="45%" stop-color="#a07335"/>
+      <stop offset="100%" stop-color="#382614"/>
+    </radialGradient>
+  </defs>
+
+  <rect class="bg" width="1400" height="900"/>
+  <text x="70" y="82" class="title">PBR 复习周 R2：材质参数分工</text>
+  <text x="70" y="124" class="sub">复习目标：Albedo 管本色，Metallic 管分工，Roughness 管反射分布。</text>
+
+  <g transform="translate(70,185)">
+    <rect class="card1" width="380" height="410"/>
+    <rect class="chip" x="32" y="30" width="145" height="34" rx="17"/>
+    <text class="chipText" x="62" y="54">Albedo</text>
+    <text class="h" x="32" y="112">物体本色</text>
+    <circle class="sphere base" cx="190" cy="220" r="72"/>
+    <text class="body" x="32" y="325">不画明显高光</text>
+    <text class="small" x="32" y="360">不画明显阴影；不要替灯光做事</text>
+  </g>
+
+  <g transform="translate(510,185)">
+    <rect class="card2" width="380" height="410"/>
+    <rect class="chip" x="32" y="30" width="145" height="34" rx="17"/>
+    <text class="chipText" x="62" y="54">Metallic</text>
+    <text class="h" x="32" y="112">金属 / 非金属</text>
+    <circle class="sphere metal" cx="190" cy="220" r="72"/>
+    <text class="body" x="32" y="325">改变光照分工</text>
+    <text class="small" x="32" y="360">不是“更亮”按钮</text>
+  </g>
+
+  <g transform="translate(950,185)">
+    <rect class="card3" width="380" height="410"/>
+    <rect class="chip" x="32" y="30" width="145" height="34" rx="17"/>
+    <text class="chipText" x="62" y="54">Roughness</text>
+    <text class="h" x="32" y="112">反射分布</text>
+    <circle class="sphere rough" cx="150" cy="220" r="58"/>
+    <line class="ray" x1="245" y1="175" x2="320" y2="140"/>
+    <line class="ray" x1="245" y1="205" x2="330" y2="205"/>
+    <line class="ray" x1="245" y1="235" x2="320" y2="280"/>
+    <text class="body" x="32" y="325">高光宽窄、反射清晰度</text>
+    <text class="small" x="32" y="360">不是直接改本色亮度</text>
+  </g>
+
+  <g transform="translate(170,675)">
+    <rect class="panel" width="1060" height="145"/>
+    <text class="h" x="34" y="55">30 秒复习</text>
+    <text class="body" x="34" y="98">参数职责要分开：本色、金属分工、粗糙反射。</text>
+    <text class="small" x="34" y="126">今天不要推进新内容，只检查自己有没有把参数当成“调好看”的万能旋钮。</text>
+  </g>
+</svg>
+

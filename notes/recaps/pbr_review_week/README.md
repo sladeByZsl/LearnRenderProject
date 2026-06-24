@@ -38,6 +38,8 @@ Unity 观察：
 
 ### Day R2：材质参数直觉
 
+今日文件：[R2：Albedo / Metallic / Roughness](r2_material_parameters/README.md)
+
 复习：
 
 - Day 23：Albedo
