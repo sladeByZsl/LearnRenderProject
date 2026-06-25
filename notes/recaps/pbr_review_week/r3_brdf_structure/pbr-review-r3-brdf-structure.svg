@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="900" viewBox="0 0 1400 900">
+  <defs>
+    <style>
+      .bg { fill: #10131a; }
+      .title { fill: #f7f9fc; font: 700 42px "PingFang SC", "Microsoft YaHei", Arial, sans-serif; }
+      .sub { fill: #aeb8c8; font: 22px "PingFang SC", "Microsoft YaHei", Arial, sans-serif; }
+      .panel { fill: #17202b; stroke: #526079; stroke-width: 3; rx: 22; }
+      .center { fill: #182436; stroke: #64b5ff; stroke-width: 3; rx: 22; }
+      .f { fill: #17202b; stroke: #64b5ff; stroke-width: 3; rx: 22; }
+      .d { fill: #2a2115; stroke: #f3a742; stroke-width: 3; rx: 22; }
+      .g { fill: #10251f; stroke: #59d185; stroke-width: 3; rx: 22; }
+      .chip { fill: #ffd166; }
+      .chipText { fill: #10131a; font: 700 18px "PingFang SC", "Microsoft YaHei", Arial, sans-serif; }
+      .h { fill: #ffffff; font: 700 30px "PingFang SC", "Microsoft YaHei", Arial, sans-serif; }
+      .body { fill: #dfe7f3; font: 22px "PingFang SC", "Microsoft YaHei", Arial, sans-serif; }
+      .small { fill: #aeb8c8; font: 18px "PingFang SC", "Microsoft YaHei", Arial, sans-serif; }
+      .letter { font: 800 60px Arial, sans-serif; }
+      .blue { fill: #64b5ff; }
+      .orange { fill: #f3a742; }
+      .green { fill: #59d185; }
+      .line { stroke: #657185; stroke-width: 4; stroke-linecap: round; }
+      .arrow { stroke: #dfe7f3; stroke-width: 5; stroke-linecap: round; marker-end: url(#arrowHead); }
+    </style>
+    <marker id="arrowHead" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#dfe7f3"/>
+    </marker>
+  </defs>
+
+  <rect class="bg" width="1400" height="900"/>
+  <text x="70" y="82" class="title">PBR 复习周 R3：BRDF 结构</text>
+  <text x="70" y="124" class="sub">复习目标：Disney 看参数设计，Cook-Torrance 看 F / D / G 三个问题。</text>
+
+  <g transform="translate(475,175)">
+    <rect class="center" width="450" height="180"/>
+    <rect class="chip" x="135" y="30" width="180" height="34" rx="17"/>
+    <text class="chipText" x="164" y="54">Disney BRDF</text>
+    <text class="h" x="72" y="108">把复杂材质变成参数面板</text>
+    <text class="small" x="72" y="145">价值：直觉强、可复用、适合生产</text>
+  </g>
+
+  <line class="arrow" x1="700" y1="370" x2="700" y2="435"/>
+
+  <g transform="translate(70,455)">
+    <rect class="f" width="380" height="260"/>
+    <text class="letter blue" x="34" y="82">F</text>
+    <text class="h" x="110" y="76">Fresnel</text>
+    <text class="body" x="34" y="135">看视角</text>
+    <text class="small" x="34" y="178">越擦边看，反射越强</text>
+    <text class="small" x="34" y="216">Unity 观察：移动相机看边缘</text>
+  </g>
+
+  <g transform="translate(510,455)">
+    <rect class="d" width="380" height="260"/>
+    <text class="letter orange" x="34" y="82">D</text>
+    <text class="h" x="110" y="76">Distribution</text>
+    <text class="body" x="34" y="135">看微表面方向分布</text>
+    <text class="small" x="34" y="178">roughness 主要影响这里</text>
+    <line class="line" x1="60" y1="220" x2="115" y2="185"/>
+    <line class="line" x1="135" y1="220" x2="190" y2="170"/>
+    <line class="line" x1="215" y1="220" x2="275" y2="195"/>
+  </g>
+
+  <g transform="translate(950,455)">
+    <rect class="g" width="380" height="260"/>
+    <text class="letter green" x="34" y="82">G</text>
+    <text class="h" x="110" y="76">Geometry</text>
+    <text class="body" x="34" y="135">看微表面遮挡</text>
+    <text class="small" x="34" y="178">粗糙表面会损失部分反射</text>
+    <path d="M60 222 L115 170 L170 222 L230 165 L292 222" fill="none" stroke="#dfe7f3" stroke-width="5" stroke-linecap="round"/>
+  </g>
+
+  <g transform="translate(185,765)">
+    <rect class="panel" width="1030" height="90"/>
+    <text class="body" x="34" y="38">30 秒复习：Disney 是参数设计；Cook-Torrance 是 specular 结构。</text>
+    <text class="small" x="34" y="67">F 看视角，D 看微表面方向，G 看微表面遮挡。本周不背公式。</text>
+  </g>
+</svg>
+

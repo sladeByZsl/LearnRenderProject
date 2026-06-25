@@ -60,6 +60,8 @@ Unity 观察：
 
 ### Day R3：BRDF 结构
 
+今日文件：[R3：BRDF 结构](r3_brdf_structure/README.md)
+
 复习：
 
 - Day 27：Disney BRDF
