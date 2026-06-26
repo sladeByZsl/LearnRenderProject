@@ -81,6 +81,8 @@ Unity 观察：
 
 ### Day R4：半球积分直觉
 
+今日文件：[R4：半球积分直觉](r4_hemisphere_integral/README.md)
+
 复习：
 
 - Day 28：立体角

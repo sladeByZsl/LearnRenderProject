@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="900" viewBox="0 0 1400 900">
+  <defs>
+    <style>
+      .bg { fill: #10131a; }
+      .title { fill: #f7f9fc; font: 700 42px "PingFang SC", "Microsoft YaHei", Arial, sans-serif; }
+      .sub { fill: #aeb8c8; font: 22px "PingFang SC", "Microsoft YaHei", Arial, sans-serif; }
+      .panel { fill: #17202b; stroke: #526079; stroke-width: 3; rx: 22; }
+      .card { fill: #182436; stroke: #64b5ff; stroke-width: 3; rx: 22; }
+      .card2 { fill: #2a2115; stroke: #f3a742; stroke-width: 3; rx: 22; }
+      .card3 { fill: #10251f; stroke: #59d185; stroke-width: 3; rx: 22; }
+      .h { fill: #ffffff; font: 700 30px "PingFang SC", "Microsoft YaHei", Arial, sans-serif; }
+      .body { fill: #dfe7f3; font: 22px "PingFang SC", "Microsoft YaHei", Arial, sans-serif; }
+      .small { fill: #aeb8c8; font: 18px "PingFang SC", "Microsoft YaHei", Arial, sans-serif; }
+      .chip { fill: #ffd166; }
+      .chipText { fill: #10131a; font: 700 18px "PingFang SC", "Microsoft YaHei", Arial, sans-serif; }
+      .hemisphere { fill: none; stroke: #607086; stroke-width: 4; }
+      .grid { fill: none; stroke: #607086; stroke-width: 2; opacity: .45; }
+      .surface { stroke: #dfe7f3; stroke-width: 8; stroke-linecap: round; }
+      .normal { stroke: #64b5ff; stroke-width: 5; stroke-linecap: round; }
+      .ray { stroke: #ffd166; stroke-width: 5; stroke-linecap: round; marker-end: url(#arrowGold); }
+      .ray2 { stroke: #59d185; stroke-width: 5; stroke-linecap: round; marker-end: url(#arrowGreen); }
+      .point { fill: #ff6b6b; }
+      .arrow { stroke: #dfe7f3; stroke-width: 5; stroke-linecap: round; marker-end: url(#arrowHead); }
+      .formula { fill: #ffffff; font: 700 30px "PingFang SC", "Microsoft YaHei", Arial, sans-serif; }
+    </style>
+    <marker id="arrowHead" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#dfe7f3"/>
+    </marker>
+    <marker id="arrowGold" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#ffd166"/>
+    </marker>
+    <marker id="arrowGreen" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#59d185"/>
+    </marker>
+  </defs>
+
+  <rect class="bg" width="1400" height="900"/>
+  <text x="70" y="82" class="title">PBR 复习周 R4：半球积分直觉</text>
+  <text x="70" y="124" class="sub">复习目标：半球方向、立体角 dω、cosθ 投影项，各管一件事。</text>
+
+  <g transform="translate(70,180)">
+    <rect class="panel" width="620" height="430"/>
+    <path class="hemisphere" d="M110 300 A210 210 0 0 1 530 300"/>
+    <path class="grid" d="M160 300 A160 160 0 0 1 480 300"/>
+    <path class="grid" d="M235 300 A85 85 0 0 1 405 300"/>
+    <line class="surface" x1="95" y1="300" x2="545" y2="300"/>
+    <line class="normal" x1="320" y1="300" x2="320" y2="95"/>
+    <circle class="point" cx="320" cy="300" r="11"/>
+    <line class="ray" x1="165" y1="155" x2="305" y2="288"/>
+    <line class="ray2" x1="475" y1="160" x2="335" y2="288"/>
+    <line class="ray" x1="320" y1="100" x2="320" y2="282"/>
+    <text class="h" x="34" y="58">从上方半球收光</text>
+    <text class="small" x="34" y="390">每个方向贡献一点，最后累加成 irradiance。</text>
+  </g>
+
+  <g transform="translate(750,180)">
+    <rect class="card" width="260" height="180"/>
+    <rect class="chip" x="28" y="28" width="120" height="34" rx="17"/>
+    <text class="chipText" x="58" y="52">dω</text>
+    <text class="h" x="28" y="105">方向范围</text>
+    <text class="small" x="28" y="145">一小块 3D 视野</text>
+  </g>
+
+  <g transform="translate(1060,180)">
+    <rect class="card2" width="260" height="180"/>
+    <rect class="chip" x="28" y="28" width="120" height="34" rx="17"/>
+    <text class="chipText" x="52" y="52">cosθ</text>
+    <text class="h" x="28" y="105">投影效率</text>
+    <text class="small" x="28" y="145">越斜贡献越小</text>
+  </g>
+
+  <line class="arrow" x1="890" y1="395" x2="890" y2="465"/>
+  <line class="arrow" x1="1190" y1="395" x2="1190" y2="465"/>
+
+  <g transform="translate(750,485)">
+    <rect class="card3" width="570" height="125"/>
+    <text class="formula" x="34" y="52">方向贡献 ≈ Li × cosθ × dω</text>
+    <text class="small" x="34" y="88">今天不推公式，只记：方向光强、角度衰减、方向范围三件事相乘。</text>
+  </g>
+
+  <g transform="translate(170,690)">
+    <rect class="panel" width="1060" height="145"/>
+    <text class="h" x="34" y="55">30 秒复习</text>
+    <text class="body" x="34" y="98">半球积分 = 把半球上很多方向的小贡献加起来。</text>
+    <text class="small" x="34" y="126">dω 管方向范围，cosθ 管斜射衰减，irradiance 是最后收到的光总量。</text>
+  </g>
+</svg>
+
