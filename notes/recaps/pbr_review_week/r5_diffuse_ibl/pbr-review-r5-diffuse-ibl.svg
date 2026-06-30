@@ -1,0 +1,103 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="900" viewBox="0 0 1400 900">
+  <defs>
+    <style>
+      .bg { fill: #10131a; }
+      .title { fill: #f7f9fc; font: 700 42px "PingFang SC", "Microsoft YaHei", Arial, sans-serif; }
+      .sub { fill: #aeb8c8; font: 22px "PingFang SC", "Microsoft YaHei", Arial, sans-serif; }
+      .panel { fill: #17202b; stroke: #526079; stroke-width: 3; rx: 22; }
+      .input { fill: #182436; stroke: #64b5ff; stroke-width: 3; rx: 22; }
+      .process { fill: #2a2115; stroke: #f3a742; stroke-width: 3; rx: 22; }
+      .output { fill: #10251f; stroke: #59d185; stroke-width: 3; rx: 22; }
+      .chip { fill: #ffd166; }
+      .chipText { fill: #10131a; font: 700 18px "PingFang SC", "Microsoft YaHei", Arial, sans-serif; }
+      .h { fill: #ffffff; font: 700 28px "PingFang SC", "Microsoft YaHei", Arial, sans-serif; }
+      .body { fill: #dfe7f3; font: 21px "PingFang SC", "Microsoft YaHei", Arial, sans-serif; }
+      .small { fill: #aeb8c8; font: 18px "PingFang SC", "Microsoft YaHei", Arial, sans-serif; }
+      .arrow { stroke: #dfe7f3; stroke-width: 5; stroke-linecap: round; marker-end: url(#arrowHead); }
+      .ray { stroke: #ffd166; stroke-width: 4; stroke-linecap: round; marker-end: url(#arrowGold); }
+      .normal { stroke: #64b5ff; stroke-width: 5; stroke-linecap: round; }
+      .surface { stroke: #dfe7f3; stroke-width: 8; stroke-linecap: round; }
+      .hemi { fill: none; stroke: #607086; stroke-width: 4; }
+      .cubeFace { stroke: #dfe7f3; stroke-width: 2; }
+      .formula { fill: #ffffff; font: 700 28px "PingFang SC", "Microsoft YaHei", Arial, sans-serif; }
+    </style>
+    <marker id="arrowHead" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#dfe7f3"/>
+    </marker>
+    <marker id="arrowGold" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#ffd166"/>
+    </marker>
+    <linearGradient id="envGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#64b5ff"/>
+      <stop offset="40%" stop-color="#304977"/>
+      <stop offset="65%" stop-color="#f3a742"/>
+      <stop offset="100%" stop-color="#4e6b57"/>
+    </linearGradient>
+    <linearGradient id="irrGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#7195a6"/>
+      <stop offset="55%" stop-color="#647469"/>
+      <stop offset="100%" stop-color="#9a7a4c"/>
+    </linearGradient>
+  </defs>
+
+  <rect class="bg" width="1400" height="900"/>
+  <text x="70" y="82" class="title">PBR 复习周 R5：Diffuse IBL</text>
+  <text x="70" y="124" class="sub">复习目标：环境光来自半球很多方向；Irradiance Map 把 diffuse 环境光提前算好。</text>
+
+  <g transform="translate(70,190)">
+    <rect class="input" width="345" height="365"/>
+    <rect class="chip" x="28" y="28" width="140" height="34" rx="17"/>
+    <text class="chipText" x="58" y="52">环境</text>
+    <text class="h" x="28" y="105">Environment</text>
+    <text class="small" x="28" y="140">Skybox / Probe</text>
+    <g transform="translate(76,220)">
+      <rect class="cubeFace" x="0" y="0" width="70" height="70" fill="url(#envGrad)"/>
+      <rect class="cubeFace" x="74" y="0" width="70" height="70" fill="#263d66"/>
+      <rect class="cubeFace" x="148" y="0" width="70" height="70" fill="#c88936"/>
+      <rect class="cubeFace" x="74" y="-74" width="70" height="70" fill="#6aa6ff"/>
+      <rect class="cubeFace" x="74" y="74" width="70" height="70" fill="#1f2c3c"/>
+    </g>
+  </g>
+
+  <line class="arrow" x1="435" y1="375" x2="525" y2="375"/>
+
+  <g transform="translate(545,190)">
+    <rect class="process" width="310" height="365"/>
+    <rect class="chip" x="28" y="28" width="140" height="34" rx="17"/>
+    <text class="chipText" x="55" y="52">累加</text>
+    <text class="h" x="28" y="105">Hemisphere</text>
+    <text class="small" x="28" y="140">半球方向 + cosθ</text>
+    <path class="hemi" d="M62 250 A100 100 0 0 1 262 250"/>
+    <line class="surface" x1="52" y1="250" x2="272" y2="250"/>
+    <line class="normal" x1="162" y1="250" x2="162" y2="125"/>
+    <line class="ray" x1="85" y1="150" x2="150" y2="238"/>
+    <line class="ray" x1="240" y1="150" x2="175" y2="238"/>
+    <line class="ray" x1="162" y1="110" x2="162" y2="232"/>
+    <text class="formula" x="42" y="318">Σ Li cosθ Δω</text>
+  </g>
+
+  <line class="arrow" x1="875" y1="375" x2="965" y2="375"/>
+
+  <g transform="translate(985,190)">
+    <rect class="output" width="345" height="365"/>
+    <rect class="chip" x="28" y="28" width="140" height="34" rx="17"/>
+    <text class="chipText" x="58" y="52">查表</text>
+    <text class="h" x="28" y="105">Irradiance Map</text>
+    <text class="small" x="28" y="140">模糊 diffuse 环境光</text>
+    <g transform="translate(76,220)">
+      <rect class="cubeFace" x="0" y="0" width="70" height="70" fill="url(#irrGrad)"/>
+      <rect class="cubeFace" x="74" y="0" width="70" height="70" fill="#53676d"/>
+      <rect class="cubeFace" x="148" y="0" width="70" height="70" fill="#8e7859"/>
+      <rect class="cubeFace" x="74" y="-74" width="70" height="70" fill="#7f98a5"/>
+      <rect class="cubeFace" x="74" y="74" width="70" height="70" fill="#3e5151"/>
+    </g>
+  </g>
+
+  <g transform="translate(170,680)">
+    <rect class="panel" width="1060" height="145"/>
+    <text class="h" x="34" y="55">30 秒复习</text>
+    <text class="body" x="34" y="98">Diffuse IBL = 半球环境光的柔和照明。</text>
+    <text class="small" x="34" y="126">Irradiance Map 模糊，是因为 diffuse 把很多方向的光混合起来，不保留清晰倒影。</text>
+  </g>
+</svg>
+

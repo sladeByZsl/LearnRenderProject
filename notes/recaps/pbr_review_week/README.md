@@ -103,6 +103,8 @@ Unity 观察：
 
 ### Day R5：Diffuse IBL
 
+今日文件：[R5：Diffuse IBL / Irradiance Map](r5_diffuse_ibl/README.md)
+
 复习：
 
 - Day 29：Irradiance
@@ -132,6 +134,23 @@ Unity 观察：
 4. BRDF 结构：F / D / G
 5. IBL 初印象：irradiance / irradiance map
 ```
+
+## 公众号轻量提纲
+
+标题：
+
+```text
+Unity 开发者如何理解 PBR 的第一层
+```
+
+结构：
+
+1. 为什么要学 PBR：不是自动真实，而是材质稳定。
+2. 三个最容易先记住的参数：albedo、metallic、roughness。
+3. 光照分工：diffuse / specular 和能量守恒。
+4. BRDF 第一层结构：Disney 参数设计，Cook-Torrance 的 F / D / G。
+5. IBL 初印象：环境光不是一盏灯，而是一整个半球的贡献。
+6. 本周留下的问题：哪些地方还需要在 Unity 里用材质球矩阵继续观察。
 
 ## 复习检查题
 
